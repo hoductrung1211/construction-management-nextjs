@@ -38,7 +38,7 @@ export default function EnhancedTableToolbar({
             </div>
 
             <div className="flex gap-3">
-                <Button variant="contained" endIcon={<CreateIcon />}>
+                <Button className="bg-primary" variant="contained" endIcon={<CreateIcon />}>
                     Create
                 </Button>
             </div>

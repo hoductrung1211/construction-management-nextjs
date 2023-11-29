@@ -189,7 +189,7 @@ export default function RecruitmentTable() {
     // FOOT FOOT FOOT FOOT FOOT
 
     return (
-        <main className="h-full flex flex-col rounded-lg overflow-hidden bg-default">
+        <main className="h-full flex flex-col rounded-lg bg-default">
             <EnhancedTableToolbar numSelected={selected.length} />
             <TableContainer sx={{ maxHeight: 520 }}>
                 <Table stickyHeader aria-label="sticky table" className="h-full">

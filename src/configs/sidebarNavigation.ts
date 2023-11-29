@@ -1,55 +1,59 @@
-export interface INavigation {
-    id?: number,
-    text: string,
-    icon?: string,
-    children?: INavigation[],
-    href?: string,
-    onClick?: () => void
+import { INavProps } from "@/layouts/NavGroup";
+
+export const enum Navigation {
+    ConstructionSites,
+    CostEstimates,
+    Plans,
+    Diaries,
+    UserProfile,
+    Settings,
+    Logout
 }
 
-export const managerNavigations: INavigation[] = [
+export const constructionNavList : INavProps[] = [
     {
-        text: "Construction",
-        children: [
-            {
-                id: 1,
-                text: "Construction Sites",
-                icon: "screwdriver-wrench",
-                // href: "/construction-sites"
-            },
-            {
-                id: 2,
-                text: "Plans",
-                icon: "calendar-days",
-            },
-            {
-                id: 3,
-                text: "Diaries",
-                icon: "book",
-            }, 
-        ]
-    }, 
+        id: Navigation.ConstructionSites,
+        icon: "helmet-safety",
+        text: "Construction Sites",
+        href: "/construction-sites"
+    },
     {
-        text: "User",
-        children: [
-            {
-                id: 7,
-                text: "Profile",
-                icon: "circle-user",
-                href: "/profile",
-            },
-            {
-                id: 8,
-                text: "Change password",
-                icon: "key",
-                href: "/change-password",
-            },
-            {
-                id: 9,
-                text: "Log out",
-                icon: "right-from-bracket",
-                href: "/"
-            },
-        ]
+        id: Navigation.CostEstimates,
+        icon: "calculator",
+        text: "Cost Estimates",
+        href: "/cost-estimates"
+    },
+    {
+        id: Navigation.Plans,
+        icon: "chart-gantt",
+        text: "Plans",
+        href: "/plans"
+    },
+    {
+        id: Navigation.Diaries,
+        icon: "clipboard",
+        text: "Construction Diaries",
+        href: "/diaries"
+    },
+];
+
+export const userNavList: INavProps[] = [
+    {
+        id: Navigation.UserProfile,
+        icon: "user",
+        text: "User Profile",
+        href: "/profile"
+    },
+    {
+        id: Navigation.Settings,
+        icon: "gear",
+        text: "Settings",
+        href: "/settings"
+    },
+    {
+        id: Navigation.Logout,
+        icon: "right-from-bracket",
+        text: "Log out",
+        href: "/"
     },
 ]

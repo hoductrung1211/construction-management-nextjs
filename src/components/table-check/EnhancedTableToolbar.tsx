@@ -1,4 +1,4 @@
-import { Button, IconButton, Toolbar, Tooltip, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import VerifiedIcon from '@mui/icons-material/Verified';
 import NotInterestedIcon from '@mui/icons-material/NotInterested';
 
@@ -20,21 +20,19 @@ export default function EnhancedTableToolbar({
             )}
 
             {numSelected > 0 ? (
-                <div className="flex gap-3">
-                    {/* <Tooltip title="Verify">
-                        <IconButton>
-                            <VerifiedIcon />
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Reject">
-                        <IconButton>
-                            <NotInterestedIcon />
-                        </IconButton>
-                    </Tooltip> */}
-                    <Button variant="contained" color="success" endIcon={<VerifiedIcon />}>
+                <div className="flex gap-3"> 
+                    <Button
+                        className="bg-success"
+                        variant="contained"
+                        color="success"
+                        endIcon={<VerifiedIcon />}>
                         Approve
                     </Button>
-                    <Button variant="contained" color="warning" endIcon={<NotInterestedIcon />}>
+                    <Button
+                        className="bg-error"
+                        variant="contained"
+                        color="error"
+                        endIcon={<NotInterestedIcon />}>
                         Reject
                     </Button>
                 </div>

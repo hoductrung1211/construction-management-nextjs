@@ -1,4 +1,4 @@
-import { Order } from "@/utils/functions/mui";
+import { Order } from "@/utils/functions/sort";
 import { Box, Checkbox, TableCell, TableHead, TableRow, TableSortLabel } from "@mui/material";
 import { visuallyHidden } from '@mui/utils';
 
