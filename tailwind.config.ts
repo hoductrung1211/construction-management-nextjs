@@ -40,6 +40,11 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       colors: {
+        'color-btn-send': '#487EB0',
+        'color-btn-save':'#1ABC9C',
+        'background-workitem': 'F2F2F7',
+        'text-color':'#8E8E93',
+        'background-color': '#F2F2F7',
         'primary': '#487EB0',
         'dark': '#202124',
         'dark-light': '#6E6E73',
