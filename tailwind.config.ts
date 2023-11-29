@@ -33,22 +33,25 @@ const config: Config = {
         '200': '50rem',
         '220': '55rem',
         '240': '60rem',
-      },
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-      },
+      }, 
       colors: {
         'primary': '#487EB0',
+        'secondary': '#77A8D5',
+        'success': '#1abc9c',
+        'info': '#3498db',
+        'warning': '#F1C40F',
+        'error': '#E74C3C',
+
         'dark': '#202124',
-        'dark-light': '#6E6E73',
-        'concrete': '#95A5A6',
-        'greensea': '#16A085',
-        'pomegranate': '#C0392B',
-        'belizehole': '#2980B9',
-        'grey': '#f0f0f0',
-        'default': '#FAFAFC'
+        'subdued': '#F5F5F5',
+        'content': '#F9FAFB',
+
+        'apple-gray': '#8E8E93',
+        'apple-gray-2': '#AEAEB2',
+        'apple-gray-3': '#C7C7CC',
+        'apple-gray-4': '#D1D1D6',
+        'apple-gray-5': '#E5E5EA',
+        'apple-gray-6': '#F2F2F7',
       },
       backdropBlur: {
         'xs': '2px'

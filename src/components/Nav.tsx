@@ -3,7 +3,7 @@ import Icon from "./Icon";
 import { useRouter } from "next/navigation";
 import useActiveNav from "../hooks/useActiveNav";
 
-const navBaseClass = " py-1 rounded-md text-start font-semibold text-opacity-90 hover:text-opacity-100 text-dark-light hover:bg-slate-200 "
+const navBaseClass = " py-1 rounded-md text-start font-semibold text-opacity-90 hover:text-opacity-100 hover:bg-slate-200 "
 
 export function NavGroup({
     text,

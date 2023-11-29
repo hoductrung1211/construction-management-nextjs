@@ -1,34 +1,39 @@
 'use client';
-import { createTheme } from "@mui/material";
-import { ThemeProvider } from "@emotion/react"
+import { ThemeProvider, createTheme } from "@mui/material";
 
 export const theme = createTheme({
   palette: {
     primary: {
       main: "#487EB0",
+      dark: "#487EB0",
       contrastText: '#fff',
     },
     secondary: {
       main: "#77A8D5",
+      dark: "#77A8D5",
       contrastText: "#fff"
     },
     success: {
       main: "#1abc9c", 
+      dark: "#1abc9c",
       contrastText: "#fff"
     },
     info: {
       main: "#3498db", 
+      dark: "#3498db",
       contrastText: "#fff"
     },
     warning: {
       main: "#F1C40F", 
+      dark: "#F1C40F",
       contrastText: "#fff"
     },
     error: {
       main: "#E74C3C", 
+      dark: "#E74C3C",
       contrastText: "#fff"
     }
-},
+  },
 typography: {
     "fontSize": 14,
     "fontWeightRegular": 400,

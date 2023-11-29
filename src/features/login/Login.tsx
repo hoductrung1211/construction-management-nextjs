@@ -1,5 +1,5 @@
 'use client';
-import Logo from "@/components/Logo";
+import Logo from "@/components/logo/Logo";
 import Image from "next/image";
 import loginImgSrc from "./assets//login_02.png";
 import userImgSrc from "./assets/login_01.png";
@@ -16,7 +16,7 @@ export default function Login() {
     return (
       <div className="grid place-items-center h-screen ">
           <div className="container flex rounded-lg overflow-hidden shadow-md">
-              <section className="w-8/12 p-5 flex flex-col bg-grey">
+              <section className="w-8/12 p-5 flex flex-col bg-apple-gray-6">
                   <span className="">
                       <Logo />
                   </span>
