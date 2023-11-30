@@ -1,18 +1,18 @@
-interface IIconProps {
-    id: string | number;
-    name: string;
+import { DetailedHTMLProps, HTMLAttributes } from "react";
+
+interface IIconProps extends DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement> {
+    id?: string;
+    name?: string;
     size?: 'lg' | 'xl' | '2xl' | '3xl' | '';
-    className?: string;
 }
 
 export default function Icon({
-    id,
     name,
     size = '',
-    className
+    ...props
 }: IIconProps) {
     return (
-        <span className={className}>
+        <span {...props}>
             <i className={`fa-solid fa-${name} fa-${size}`}></i>
         </span>
     )

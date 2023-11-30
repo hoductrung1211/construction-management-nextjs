@@ -1,9 +1,35 @@
-import PopupSelect from "@/components/plan/PopupSelect";
-import Login from "@/features/login/Login";
-import Create from "@/features/plan/Create";
+'use client';
+import { Navigation } from "@/configs/sidebarNavigation";
+import CreatePlan from "@/features/plan/create/CreatePlan";
+import useLoadingAnimation from "@/hooks/useLoadingAnimation";
+import PageContainer from "@/layouts/PageContainer";
+import { useEffect } from "react";
 
 export default function Home() {
+  const setLoading = useLoadingAnimation();
+
+  useEffect(() => {
+    setLoading(true);
+    
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
+
   return (
-    <PopupSelect/>
-  )
+    <PageContainer
+      activeNav={Navigation.ConstructionSites}
+      breadcrumbs={[
+        {
+          text: "Home",
+          href: "./"
+        },
+        {
+          text: "Construction Sites"
+        }, 
+      ]}
+    >
+      <CreatePlan />
+    </PageContainer>
+  );
 }

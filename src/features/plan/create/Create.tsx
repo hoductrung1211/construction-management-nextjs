@@ -1,5 +1,4 @@
 "use client";
-
 import PlanDetail from "@/components/plan/PlanDetail";
 import ListWorkItem_Task from "@/components/plan/ListWorkItem_Task";
 import {
@@ -7,75 +6,13 @@ import {
   InputLabel,
   MenuItem,
   Button,
-  Checkbox,
   FormControl,
-  FormControlLabel,
-  TextField,
   SelectChangeEvent,
 } from "@mui/material";
 import Icon from "@/components/Icon";
 import { useState } from "react";
 
 export default function Create() {
-    const listcSites = [
-        {
-            id: '#BHX0001',
-            cSiteName: 'Bách Hóa Xanh Lã Xuân Oai',
-            lscEstiamte:[
-                {
-                    id: '#CE0001',
-                    cEName: 'DT Bách Hóa Xanh 22/10/2023'
-                },
-                {
-                    id: '#CE0002',
-                    cEName: 'DT Bách Hóa Xanh 23/10/2023'
-                }
-            ]
-        },
-        {
-            id: '#TGDD0001',
-            cSiteName: 'Thế Giới Di Động Lê Văn Việt',
-            lscEstiamte:[
-                {
-                    id: '#CE0003',
-                    cEName: 'DT Thế Giới Di Động 25/10/2023'
-                },
-                {
-                    id: '#CE0004',
-                    cEName: 'DT Thế Giới Di Động 26/10/2023'
-                }
-            ]
-        },
-        {
-            id: '#DMX0001',
-            cSiteName: 'Điện Máy Xanh Phú Hữu',
-            lscEstiamte:[
-                {
-                    id: '#CE0005',
-                    cEName: 'DT Điện Máy Xanh 02/11/2023'
-                },
-                {
-                    id: '#CE0006',
-                    cEName: 'DT Điện Máy Xanh 03/11/2023'
-                }
-            ]
-        },
-        {
-            id: '#AVK0001',
-            cSiteName: 'AVAKids Lê Văn Việt',
-            lscEstiamte:[
-                {
-                    id: '#CE0007',
-                    cEName: 'DT AVAKids 06/11/2023'
-                },
-                {
-                    id: '#CE0008',
-                    cEName: 'DT AVAKids 07/11/2023'
-                }
-            ]
-        }
-    ]
-
     const [selectedConstructionSite, setSelectedConstructionSite] = useState('');
 
     const handleConstructionSiteChange = (event : SelectChangeEvent) => {
@@ -84,8 +21,7 @@ export default function Create() {
     };
 
   return (
-
-    <div className="container-fluid bg-background-color">
+    <div className="container bg-background-color">
       <div>
         <div className="ml-10 py-4 font-semibold text-lg ">
           Thông tin kế hoạch
@@ -106,7 +42,7 @@ export default function Create() {
                 >
                     {listcSites.map((item,idx)=>(
                             <MenuItem key={idx} value={item.id}>{item.id} + {item.cSiteName}</MenuItem>
-                        )''
+                      ) 
                     )}
                 </Select>
               </FormControl>
@@ -157,3 +93,62 @@ export default function Create() {
     </div>
   );
 }
+
+const listcSites = [
+  {
+      id: '#BHX0001',
+      cSiteName: 'Bách Hóa Xanh Lã Xuân Oai',
+      lscEstiamte:[
+          {
+              id: '#CE0001',
+              cEName: 'DT Bách Hóa Xanh 22/10/2023'
+          },
+          {
+              id: '#CE0002',
+              cEName: 'DT Bách Hóa Xanh 23/10/2023'
+          }
+      ]
+  },
+  {
+      id: '#TGDD0001',
+      cSiteName: 'Thế Giới Di Động Lê Văn Việt',
+      lscEstiamte:[
+          {
+              id: '#CE0003',
+              cEName: 'DT Thế Giới Di Động 25/10/2023'
+          },
+          {
+              id: '#CE0004',
+              cEName: 'DT Thế Giới Di Động 26/10/2023'
+          }
+      ]
+  },
+  {
+      id: '#DMX0001',
+      cSiteName: 'Điện Máy Xanh Phú Hữu',
+      lscEstiamte:[
+          {
+              id: '#CE0005',
+              cEName: 'DT Điện Máy Xanh 02/11/2023'
+          },
+          {
+              id: '#CE0006',
+              cEName: 'DT Điện Máy Xanh 03/11/2023'
+          }
+      ]
+  },
+  {
+      id: '#AVK0001',
+      cSiteName: 'AVAKids Lê Văn Việt',
+      lscEstiamte:[
+          {
+              id: '#CE0007',
+              cEName: 'DT AVAKids 06/11/2023'
+          },
+          {
+              id: '#CE0008',
+              cEName: 'DT AVAKids 07/11/2023'
+          }
+      ]
+  }
+]
