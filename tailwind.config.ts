@@ -51,6 +51,8 @@ const config: Config = {
         'subdued': '#F5F5F5',
         'content': '#F9FAFB',
 
+        'concrete': '#95a5a6',
+
         'apple-gray': '#8E8E93',
         'apple-gray-2': '#AEAEB2',
         'apple-gray-3': '#C7C7CC',
