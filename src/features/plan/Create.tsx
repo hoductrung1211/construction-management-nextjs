@@ -106,7 +106,7 @@ export default function Create() {
                 >
                     {listcSites.map((item,idx)=>(
                             <MenuItem key={idx} value={item.id}>{item.id} + {item.cSiteName}</MenuItem>
-                        )''
+                        )
                     )}
                 </Select>
               </FormControl>

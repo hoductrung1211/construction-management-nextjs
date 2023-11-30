@@ -1,40 +1,18 @@
 "use client";
-import * as React from 'react';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function CustomTabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
+import * as React from "react";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import ListLabors from "./ListLabors";
+import { CustomTabPanel } from "../TabPanel";
+import ListProducts from "./ListProducts";
+import ListDiarys from "./ListDiarys";
 
 function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
@@ -46,23 +24,42 @@ export default function PopupSelect() {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Nhân công" {...a11yProps(0)} />
-          <Tab label="Vật tư" {...a11yProps(1)} />
-          <Tab label="Nhật ký" {...a11yProps(2)} />
-        </Tabs>
+    <div>
+      <div className=" mt-4 py-3 bg-background-color w-full rounded-t-lg">
+        <div className="flex ml-5">
+          <div className=" flex-col pr-5">
+            <p className="font-semibold  text-center">Hạng mục</p>
+            <p className="font-thin text-center text-text-color">#WI0323</p>
+          </div>
+          <div className=" flex-col px-5 border-x-2 border-text-color">
+            <p className="font-semibold text-center">Công việc</p>
+            <p className="font-thin text-center text-text-color">#TSK0213</p>
+          </div>
+          <p className="font-semibold pl-5 my-auto">200<span>m3</span></p>
+        </div>
+      </div>
+      <Box sx={{ width: "100%" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+          >
+            <Tab label="Nhân công" {...a11yProps(0)} />
+            <Tab label="Vật tư" {...a11yProps(1)} />
+            <Tab label="Nhật ký" {...a11yProps(2)} />
+          </Tabs>
+        </Box>
+        <CustomTabPanel value={value} index={0}>
+          <ListLabors />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={1}>
+          <ListProducts />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={2}>
+          <ListDiarys/>
+        </CustomTabPanel>
       </Box>
-      <CustomTabPanel value={value} index={0}>
-        Nhân công
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        Vật tư
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        Nhật ký
-      </CustomTabPanel>
-    </Box>
+    </div>
   );
 }
