@@ -1,5 +1,5 @@
 interface IIconProps {
-    id: string | number;
+    id?: string | number;
     name: string;
     size?: 'lg' | 'xl' | '2xl' | '3xl' | '';
     className?: string;

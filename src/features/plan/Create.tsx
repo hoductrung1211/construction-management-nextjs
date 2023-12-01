@@ -14,77 +14,90 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import Icon from "@/components/Icon";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import APIConstructionSite from "@/apis/constructionSite";
+import ConstructionSite from "@/models/ConstructionSite";
+import APICostEstimate from "@/apis/costEstimate";
+import CostEstimate from "@/models/CostEstimate";
 
 export default function Create() {
-    const listcSites = [
-        {
-            id: '#BHX0001',
-            cSiteName: 'Bách Hóa Xanh Lã Xuân Oai',
-            lscEstiamte:[
-                {
-                    id: '#CE0001',
-                    cEName: 'DT Bách Hóa Xanh 22/10/2023'
-                },
-                {
-                    id: '#CE0002',
-                    cEName: 'DT Bách Hóa Xanh 23/10/2023'
-                }
-            ]
-        },
-        {
-            id: '#TGDD0001',
-            cSiteName: 'Thế Giới Di Động Lê Văn Việt',
-            lscEstiamte:[
-                {
-                    id: '#CE0003',
-                    cEName: 'DT Thế Giới Di Động 25/10/2023'
-                },
-                {
-                    id: '#CE0004',
-                    cEName: 'DT Thế Giới Di Động 26/10/2023'
-                }
-            ]
-        },
-        {
-            id: '#DMX0001',
-            cSiteName: 'Điện Máy Xanh Phú Hữu',
-            lscEstiamte:[
-                {
-                    id: '#CE0005',
-                    cEName: 'DT Điện Máy Xanh 02/11/2023'
-                },
-                {
-                    id: '#CE0006',
-                    cEName: 'DT Điện Máy Xanh 03/11/2023'
-                }
-            ]
-        },
-        {
-            id: '#AVK0001',
-            cSiteName: 'AVAKids Lê Văn Việt',
-            lscEstiamte:[
-                {
-                    id: '#CE0007',
-                    cEName: 'DT AVAKids 06/11/2023'
-                },
-                {
-                    id: '#CE0008',
-                    cEName: 'DT AVAKids 07/11/2023'
-                }
-            ]
-        }
-    ]
+  const [listConstructions, setListConstructions] = React.useState<
+    ConstructionSite[]
+  >([]);
 
-    const [selectedConstructionSite, setSelectedConstructionSite] = useState('');
+  const [construction, setConstruction] = React.useState<ConstructionSite>();
 
-    const handleConstructionSiteChange = (event : SelectChangeEvent) => {
-        const selectedSite = event.target.value;
-        setSelectedConstructionSite(selectedSite);
-    };
+  const [costEstimate, setCostEstimate] = React.useState<CostEstimate>();
+
+  const [costestimates, setCostestimates] = useState<CostEstimate[]>([]);
+
+  async function getListConstructionSite() {
+    const api: ConstructionSite[] = await APIConstructionSite.getListActive();
+    setListConstructions(api);
+  }
+
+  async function getConstruction(idConstruction: Number) {
+    return await APIConstructionSite.getById(idConstruction);
+  }
+
+  async function getListCostEstimate(idConstruction: Number) {
+    const api: CostEstimate[] = await APICostEstimate.getListCodeAndName(
+      idConstruction
+    );
+    setCostestimates(api);
+  }
+
+  async function getCostEstimate(idCostEstimate: Number) {
+    return await APICostEstimate.getById(idCostEstimate);
+  }
+  // React.useEffect(() => {
+  //   getListConstructionSite();
+  // }, []);
+
+  // async function fetchData() {
+  //   try {
+  //     await getListConstructionSite();
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // }
+
+  const [selectedConstructionSite, setSelectedConstructionSite] = useState("");
+
+  const handleConstructionSiteChange = (event: SelectChangeEvent) => {
+    const selectedSite = event.target.value;
+    setSelectedConstructionSite(selectedSite);
+    getListCostEstimate(Number(selectedSite));
+  };
+
+  const [selectedCostEstimate, setSelectedCostEstimate] = useState("");
+
+  const handleCostEstimateChange = (event: SelectChangeEvent) => {
+    const selectedCE = event.target.value;
+    setSelectedCostEstimate(selectedCE);
+  };
+
+  async function save() {
+    setConstruction(await getConstruction(Number(selectedCostEstimate)));
+    setCostEstimate(await getCostEstimate(Number(selectedCostEstimate)));
+  }
+  const [csList, setCsList] = useState<ConstructionSite[]>([]);
+
+  useEffect(() => {
+    getListConstructionSite();
+  }, []);
+  console.log(costestimates);
+  // async function fetchCsList() {
+  //   try {
+  //     const { data } = await getAllConstructionSite();
+  //     console.log(data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 
   return (
-
     <div className="container-fluid bg-background-color">
       <div>
         <div className="ml-10 py-4 font-semibold text-lg ">
@@ -104,16 +117,20 @@ export default function Create() {
                   value={selectedConstructionSite}
                   onChange={handleConstructionSiteChange}
                 >
-                    {listcSites.map((item,idx)=>(
-                            <MenuItem key={idx} value={item.id}>{item.id} + {item.cSiteName}</MenuItem>
-                        )''
-                    )}
+                  {listConstructions.length > 0 &&
+                    listConstructions.map((item, idx) => (
+                      <MenuItem key={idx} value={item.constructionsiteid}>
+                        {item.constructionsitecode} -{" "}
+                        {item.constructionsitename}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
               <p className="italic text-text-color my-2  text-sm">
                 Lưu ý: Danh sách công trình có dự toán đã duyệt
               </p>
             </div>
+
             <div>
               <FormControl size="small">
                 <InputLabel id="label-costestimate-plan">
@@ -123,10 +140,15 @@ export default function Create() {
                   className="w-52"
                   labelId="label-costestimate-plan"
                   label="Chọn dự toán"
+                  value={selectedCostEstimate}
+                  onChange={handleCostEstimateChange}
                 >
-                  <MenuItem value="">DT-2312</MenuItem>
-                  <MenuItem value="">DT-3452</MenuItem>
-                  <MenuItem value="">DT3456</MenuItem>
+                  {costestimates.length > 0 &&
+                    costestimates.map((item, idx) => (
+                      <MenuItem key={idx} value={item.costestimateid}>
+                        {item.costestimatecode} - {item.costestimatename}
+                      </MenuItem>
+                    ))}
                 </Select>
               </FormControl>
               <p className="italic text-text-color my-2  text-sm">
@@ -134,19 +156,28 @@ export default function Create() {
               </p>
             </div>
           </div>
-          <PlanDetail />
+          <PlanDetail cSite={construction} cEstimate={costEstimate} />
         </div>
       </div>
       <ListWorkItem_Task />
       <div className="flex justify-end p-3">
         <div>
-          <Button className=" bg-color-btn-save  hover:bg-color-btn-save mr-2" variant="contained" size="small">
+          <Button
+            className=" bg-color-btn-save  hover:bg-color-btn-save mr-2"
+            variant="contained"
+            size="small"
+            onClick={() => save()}
+          >
             <span className="mx-2">
               <Icon name="floppy-disk" size="lg" />
             </span>
             Lưu
           </Button>
-          <Button className=" bg-color-btn-send hover:bg-color-btn-send ml-2" variant="contained" size="small">
+          <Button
+            className=" bg-color-btn-send hover:bg-color-btn-send ml-2"
+            variant="contained"
+            size="small"
+          >
             <span className="mx-2">
               <Icon name="paper-plane" size="lg" />
             </span>
