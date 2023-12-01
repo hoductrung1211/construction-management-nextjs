@@ -26,6 +26,7 @@ export default function NavGroup({
             {
                 navList.map(nav => (
                     <Link
+                        key={nav.id}
                         className={(nav.id == activeNav ? primaryColor : " text-slate-600 hover:bg-apple-gray-6 ") + " h-12 px-3 flex items-center gap-3 text-sm font-semibold rounded-md "}
                         href={nav.href}
                     >

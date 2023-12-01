@@ -92,14 +92,12 @@ export default function WorkItem({
             </header>
             {
                 isShow && tasks.map((task, idx) => (
-                    <div className="">
-                        <Task
-                            key={task.taskCode}
-                            task={task}
-                            orderIndex={idx + 1}
-                            onChangeTask={handleChangeTask}
-                        />
-                    </div>
+                    <Task
+                        key={task.taskCode}
+                        task={task}
+                        orderIndex={idx + 1}
+                        onChangeTask={handleChangeTask}
+                    />
                 ))
             }
         </section>

@@ -1,7 +1,6 @@
 import IconButton from "@/components/IconButton";
 import WorkItem, { IWorkItem } from "./WorkItem";
 import { useState } from "react";
-import Link from "next/link";
 
 export default function WorkItemSection() {
     const [workItems, setWorkItems] = useState(initWorkItems);
@@ -10,7 +9,7 @@ export default function WorkItemSection() {
     const totalOfSelectedTasks = selectedWorkItems.reduce((res, wi) => {
         return res + wi.tasks.filter(t => t.isSelected).length;
     }, 0);
-    const totalOfTasks = selectedWorkItems.reduce((res, wi) => {
+    const totalOfTasks = workItems.reduce((res, wi) => {
         return res + wi.tasks.length;
     }, 0);
 
@@ -30,14 +29,14 @@ export default function WorkItemSection() {
         <section className="flex gap-5">
             <div className="flex-grow pb-6 flex flex-col bg-white rounded-md ">
                 <header className="h-12 px-10 text-apple-gray bg-white flex gap-10 items-center rounded-t-md">
-                    <div>
+                    <p className="w-80">
                         <span className="font-semibold">Total Number Of Work Items</span>
                         {' '}{selectedWorkItems.length}/{workItems.length}
-                    </div>
-                    <div>
+                    </p>
+                    <p className="w-80">
                         <span className="font-semibold">Total Number Of Tasks</span>
                         {' '}{totalOfSelectedTasks}/{totalOfTasks}
-                    </div>
+                    </p>
                 </header>
                 {workItems.map(wi => (
                     <WorkItem

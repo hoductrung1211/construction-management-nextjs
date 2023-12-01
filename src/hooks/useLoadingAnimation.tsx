@@ -33,7 +33,7 @@ export const LoadingAnimationProvider = ({
 }
 
 function Progressing({
-    icon = "fan"
+    icon = "gear"
 }: {
     icon?: string
 }) {

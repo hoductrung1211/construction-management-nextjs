@@ -3,7 +3,7 @@ import PlanOverviewSection from "./PlanOverviewSection";
 import WorkItemSection from "./WorkItemSection";
 import { SelectChangeEvent } from "@mui/material";
 import { useState } from "react";
-import SelectCESection from "./SelectSection";
+import SelectCESection from "./SelectCESection";
 
 export default function CreatePlan({
 
@@ -49,7 +49,9 @@ export default function CreatePlan({
                 />
             </PlanOverviewSection>
 
-            <WorkItemSection />
+            <WorkItemSection
+            
+            />
         </main>
     )
 }

@@ -6,7 +6,7 @@ export default function PlanOverviewSection({
   ceInfo,
   children,
 }: {
-    csInfo: ICSDetailProps,
+  csInfo: ICSDetailProps,
   ceInfo: ICEDetailProps,
   children?: React.ReactNode
 }) {
