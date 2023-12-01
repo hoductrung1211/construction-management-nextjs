@@ -1,5 +1,6 @@
 import CostEstimate from "@/models/CostEstimate";
 import request from "./request";
+import CostEstimateTask from "@/models/CostEstimateTask";
 
 // interface ICostEstimateOveview {}
 
@@ -13,6 +14,10 @@ const APICostEstimate = {
       `/costestimate/getcodeandname/${idCostEstimate}`
     ),
   getById: (id: Number) => request.get<CostEstimate>(`/costestimate/${id}`),
+  getListCostEstimateTasks: (idCostestimate: Number) =>
+    request.get<CostEstimateTask[]>(
+      `/costestimatetask/getlistbycostestimateid/${idCostestimate}`
+    ),
 };
 
 export default APICostEstimate;

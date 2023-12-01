@@ -20,6 +20,7 @@ import APIConstructionSite from "@/apis/constructionSite";
 import ConstructionSite from "@/models/ConstructionSite";
 import APICostEstimate from "@/apis/costEstimate";
 import CostEstimate from "@/models/CostEstimate";
+import CostEstimateTask from "@/models/CostEstimateTask";
 
 export default function Create() {
   const [listConstructions, setListConstructions] = React.useState<
@@ -32,6 +33,10 @@ export default function Create() {
 
   const [costestimates, setCostestimates] = useState<CostEstimate[]>([]);
 
+  const [costestimateTasks, setCostestimatesTasks] = useState<
+    CostEstimateTask[]
+  >([]);
+
   async function getListConstructionSite() {
     const api: ConstructionSite[] = await APIConstructionSite.getListActive();
     setListConstructions(api);
@@ -41,13 +46,18 @@ export default function Create() {
     return await APIConstructionSite.getById(idConstruction);
   }
 
-  async function getListCostEstimate(idConstruction: Number) {
+  async function getListCostEstimate(idCostEstimate: Number) {
     const api: CostEstimate[] = await APICostEstimate.getListCodeAndName(
-      idConstruction
+      idCostEstimate
     );
     setCostestimates(api);
   }
 
+  async function getListCostestimateTasks(idCostEstimate: Number) {
+    const api: CostEstimateTask[] =
+      await APICostEstimate.getListCostEstimateTasks(idCostEstimate);
+    setCostestimatesTasks(api);
+  }
   async function getCostEstimate(idCostEstimate: Number) {
     return await APICostEstimate.getById(idCostEstimate);
   }
@@ -81,13 +91,14 @@ export default function Create() {
   async function save() {
     setConstruction(await getConstruction(Number(selectedCostEstimate)));
     setCostEstimate(await getCostEstimate(Number(selectedCostEstimate)));
+    await getListCostestimateTasks(Number(selectedCostEstimate));
   }
   const [csList, setCsList] = useState<ConstructionSite[]>([]);
 
   useEffect(() => {
     getListConstructionSite();
   }, []);
-  console.log(costestimates);
+  // console.log(costestimates);
   // async function fetchCsList() {
   //   try {
   //     const { data } = await getAllConstructionSite();
@@ -159,7 +170,7 @@ export default function Create() {
           <PlanDetail cSite={construction} cEstimate={costEstimate} />
         </div>
       </div>
-      <ListWorkItem_Task />
+      <ListWorkItem_Task cEstimateTask={costestimateTasks} />
       <div className="flex justify-end p-3">
         <div>
           <Button
