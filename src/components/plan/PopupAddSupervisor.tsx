@@ -1,62 +1,72 @@
-"use client";
-import { Box, TextField } from "@mui/material";
+import { Avatar, FormControl, TextField } from "@mui/material";
 import Icon from "../Icon";
-import ListLabors from "./ListLabors";
+import IconButton from "../IconButton";
+import { listLabors } from "@/features/plan/create/WorkItem";
 
-export default function PopupAddSupervisor() {
-  const listLabors = [
-    {
-      id: "#EL0001",
-      firstName: "Diễm Quỳnh",
-      lastName: "Hà",
-    },
-    {
-      id: "#EL0002",
-      firstName: "Hồ Hoàng Vy",
-      lastName: "Chu",
-    },
-    {
-      id: "#EL0003",
-      firstName: "Thị Vân Khánh",
-      lastName: "Nguyễn",
-    },
-  ];
-  return (
-    <div>
-      <div className=" bg-[#F9FAFB] mx-3 flex justify-between items-center">
-        <div>
-          <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-            <Icon
-              name="magnifying-glass"
-              size="xl"
-              className="text-text-color"
-            />
-            <TextField
-              id="input-with-sx"
-              className="text-text-color ml-3 w-60"
-              label="Tìm người giám sát"
-              variant="standard"
-            />
-          </Box>
+export default function PopupAddSupervisor({
+    selectedSupervisorCode: selectedSupervisionCode,
+    onChangeSupervisor: onChangeSupervision,
+}: {
+    selectedSupervisorCode: string | null;
+    onChangeSupervisor: (eeCode: string | null) => void;
+}) {
+    const filteredListLabors : {
+        id: string;
+        firstName: string;
+        lastName: string;
+    }[] = [];
+    const selectedSupervision = listLabors.find(labor => labor.id == selectedSupervisionCode);
+
+    const onUnselectSupervisor = () => {
+        onChangeSupervision(null);
+    }
+
+    return (
+        <div className="min-w-[800px] h-[520px] flex flex-col bg-white rounded-lg overflow-hidden">
+            <header className="flex-shrink-0 h-16 px-6 flex gap-6 items-center border-b  ">
+                <Icon className="text-apple-gray" name="magnifying-glass" size="xl" />
+                <FormControl fullWidth>
+                    <TextField
+                        className=""
+                        variant="standard"
+                        placeholder="Nhập ID Nhân viên hoặc tên Nhân viên..."
+                    />
+                </FormControl>
+            </header>
+            {selectedSupervision &&
+                <section className="flex-shrink-0 h-36 p-5 pt-2 flex flex-col justify-between border-b">
+                    <div className="flex justify-between items-center">
+                        <p className="font-semibold">Người giám sát đã chọn</p>
+                        <IconButton onClick={onUnselectSupervisor} name="user-xmark" tooltip="Bỏ chọn người giám sát" />
+                    </div>
+                    <div className="grid grid-cols-3 items-center justify-items-start rounded-md">
+                        <Avatar>{selectedSupervision.lastName?.[0]}</Avatar>
+                        <span>{selectedSupervision.id}</span>
+                        <span>{selectedSupervision.firstName + " " + selectedSupervision.lastName}</span>
+                    </div>
+                </section>
+            }
+            <main className="relative flex-grow p-2 flex flex-col gap-2 overflow-auto ">
+            { filteredListLabors.length ? 
+                filteredListLabors.map(labor => (
+                    <button
+                        key={labor.id}
+                        className="flex-shrink-0 h-20 px-3 grid grid-cols-3 items-center justify-items-start hover:bg-apple-gray-6 cursor-pointer rounded-md"
+                        onClick={() => {
+                            onChangeSupervision(labor.id)
+                        }}
+                    >
+                        <Avatar>{labor.lastName?.[0]}</Avatar>
+                        <span>{labor.id}</span>
+                        <span>{labor.firstName + " " + labor.lastName}</span>
+                    </button>) 
+                ) :
+                <p className="absolute top-1/2 left-1/2 -translate-x-1/2  -translate-y-1/2 text-apple-gray">Không có kết quả tìm kiếm phù hợp</p>
+            }  
+            </main>
+            <footer className="flex-shrink-0 h-10 border-t ">
+
+            </footer>
         </div>
-        <div>
-          <span className=" w-2">
-            <Icon size="lg" className="text-text-color" name="xmark" />
-          </span>
-        </div>
-      </div>
-      <div className="list-labor bg-white mx-3 mt-3">
-        {listLabors.map((item, idx) => (
-        <div key={idx} className=" flex justify-between my-2 items-center">
-          <p className=" w-3">{idx}</p>
-          <p className=" w-14">{item.id}</p>
-          <p className=" w-64">
-            {item.lastName} {item.firstName}
-          </p>
-        </div>
-      ))}
-          
-        </div>
-    </div>
-  );
+    )
 }

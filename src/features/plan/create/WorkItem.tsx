@@ -1,15 +1,18 @@
 import Icon from "@/components/Icon";
 import Task, { ITask } from "./Task"; 
 import { Checkbox } from "@mui/material";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import IconButton from "@/components/IconButton";
+import useModal from "@/hooks/useModal"; 
+// import PopupAddSupervisor from "@/legacy/plan/PopupAddSupervisor";
+import PopupAddSupervisor from "@/components/plan/PopupAddSupervisor";
 
 export interface IWorkItem {
     isSelected: boolean;
     orderIndex: number;
     workItemName: string;
     workItemCode: string;
-    supervision: string;
+    supervisorCode: string | null,
     tasks: ITask[]
 }
 
@@ -23,13 +26,21 @@ export default function WorkItem({
     const {
         isSelected,
         orderIndex,
-        supervision,
+        supervisorCode,
         tasks,
         workItemCode,
         workItemName,
     } = workItem;
+    
+    console.log("supervisorCode", supervisorCode);
+
+    const supervisor = listLabors.find(ee => ee.id == supervisorCode)
 
     const [isShow, setIsShow] = useState(true);
+    const {
+        setModal,
+        setIsOpenModal,
+    } = useModal();
 
     function handleChangeIsSelected(e: ChangeEvent<HTMLInputElement>) {
         const checked = e.target.checked;
@@ -84,11 +95,38 @@ export default function WorkItem({
                     </p>
                     <span className="text-apple-gray">#{workItemCode}</span>
                 </div>
-                <div className="flex gap-3 items-center ">
-                    <Icon name="user" />
-                    {supervision}
-                </div>
-                <IconButton className="ml-auto " name="user-plus" />
+                <section className="flex items-center gap-2 ml-auto">
+                    <div className="flex gap-3 items-center ">
+                        {supervisor ?
+                            <p className="flex gap-2">
+                                <span className="font-bold">{supervisor.firstName + " " + supervisor.lastName}</span>
+                                {supervisor.id}
+                            </p> :
+                            <span>Chưa chọn người giám sát</span>    
+                        }
+                    </div>
+                    <IconButton
+                        className=""
+                        name="user-plus"
+                        tooltip="Thêm người giám sát"
+                        onClick={() => {
+                            setModal({
+                                children:
+                                    <PopupAddSupervisor
+                                        selectedSupervisorCode={supervisorCode}
+                                        onChangeSupervisor={(eeCode: string | null) => {
+                                            onWorkItemChange({
+                                                ...workItem,
+                                                supervisorCode: eeCode
+                                            });
+
+                                            setIsOpenModal(false);
+                                        }}
+                                    />
+                            });
+                        }}
+                    />
+                </section>
             </header>
             {
                 isShow && tasks.map((task, idx) => (
@@ -103,3 +141,59 @@ export default function WorkItem({
         </section>
     )
 }
+
+export const listLabors = [
+    {
+      id: "#EL0001",
+      firstName: "Diễm Quỳnh",
+      lastName: "Hà",
+    },
+    {
+      id: "#EL0002",
+      firstName: "Hồ Hoàng Vy",
+      lastName: "Chu",
+    },
+    {
+      id: "#EL0003",
+      firstName: "Thị Vân Khánh",
+      lastName: "Nguyễn",
+    },
+    {
+        id: "#EL0004",
+        firstName: "Phuong Nam",
+        lastName: "Dang",
+      },
+      {
+        id: "#EL0005",
+        firstName: "Truong Son",
+        lastName: "Dinh",
+      },
+      {
+        id: "#EL0006",
+        firstName: "Van B",
+        lastName: "Nguyễn",
+    },
+    {
+        id: "#EL0007",
+        firstName: "Van A",
+        lastName: "Nguyen",
+      },
+      {
+        id: "#EL0008",
+        firstName: "Nho Hoc",
+        lastName: "Le",
+      },
+      {
+        id: "#EL0009",
+        firstName: "Duc Trung",
+        lastName: "Ho",
+      },
+];
+
+// function Popup() {
+//     return (
+//         <div className="bg-white w-[800px] h-[400px] rounded-md overflow-hidden">
+//             <PopupAddSupervisor />
+//         </div>
+//     )
+// }

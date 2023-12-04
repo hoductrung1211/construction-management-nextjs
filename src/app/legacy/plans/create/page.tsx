@@ -1,7 +1,7 @@
 'use client';
 import { Navigation } from "@/configs/sidebarNavigation";
-import CreatePlan from "@/features/plan/create/CreatePlan";
 import PageContainer from "@/layouts/PageContainer";
+import Create from "@/legacy/plan/Create";
 
 export default function Home() { 
   return (
@@ -9,20 +9,15 @@ export default function Home() {
       activeNav={Navigation.ConstructionSites}
       breadcrumbs={[
         {
-          text: "Trang chủ",
+          text: "Home",
           href:""
         },
         {
-          text: "Công trình",
-          href:""
-        },
-        {
-          text: "Tạo kế hoạch",
-          href:""
+          text: "Create",
         }
       ]}
     >
-      <CreatePlan />
+      <Create />
     </PageContainer>
   )
 }

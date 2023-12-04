@@ -11,15 +11,17 @@ import {
 export interface SelectCESectionProps {
   selectedCS: string;
   selectedCE: string;
-  handleCSChange: (event: SelectChangeEvent) => void;
-  handleCEChange: (event: SelectChangeEvent) => void;
+  handleChangeCS: (event: SelectChangeEvent) => void;
+  handleChangeCE: (event: SelectChangeEvent) => void;
+  handleLoadPlanInfo: () => void;
 }
 
 export default function SelectCESection({
   selectedCS,
   selectedCE,
-  handleCSChange,
-  handleCEChange,
+  handleChangeCS,
+  handleChangeCE,
+  handleLoadPlanInfo
 }: SelectCESectionProps) {
   const costEstimateList = contructionSiteList.find(cs => cs.id == selectedCS)?.lscEstiamte
     ?? [];
@@ -34,7 +36,7 @@ export default function SelectCESection({
           labelId="label-construction-site-plan"
           label="Chọn công trình"
           value={selectedCS}
-          onChange={handleCSChange}
+          onChange={handleChangeCS}
         >
           {contructionSiteList.map((item, idx) => (
             <MenuItem key={idx} value={item.id}>
@@ -52,7 +54,7 @@ export default function SelectCESection({
           labelId="label-costestimate-plan"
           label="Chọn dự toán"
           value={selectedCE}
-          onChange={handleCEChange}
+          onChange={handleChangeCE}
         >
           {
             costEstimateList.map(ce => (
@@ -64,7 +66,7 @@ export default function SelectCESection({
           Lưu ý: Danh sách dự toán của công trình đã được duyệt
         </FormHelperText>
       </FormControl>
-      <Button variant="outlined">Load</Button>
+      <Button variant="outlined" onClick={handleLoadPlanInfo}>Load</Button>
     </section>
   );
 }
