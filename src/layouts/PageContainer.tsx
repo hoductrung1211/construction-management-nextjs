@@ -64,7 +64,7 @@ export default function PageContainer({
         >
             {
                 breadcrumbs?.slice(0, breadcrumbs.length - 1).map(breadcrumb => (
-                    <Link href={breadcrumb.href ?? ""}>{breadcrumb.text}</Link>
+                    <Link key={breadcrumb.text} href={breadcrumb.href ?? ""}>{breadcrumb.text}</Link>
                 ))
             }
             {

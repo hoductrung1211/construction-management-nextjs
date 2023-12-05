@@ -46,12 +46,12 @@ export default function Sidebar({
                     </div>
                 </section>
                 <NavGroup
-                    title="Construction"
+                    title="Công trình"
                     activeNav={activeNav}
                     navList={constructionNavList}
                 />
                 <NavGroup
-                    title="User"
+                    title="Người dùng"
                     activeNav={activeNav}
                     navList={userNavList}
                 />

@@ -65,13 +65,15 @@ export default function Task({
                     checked={isSelected}
                     onChange={handleChangeIsSelected}
                 />
-                <div className="w-6 text-end">{orderIndex}</div>
+                <div className="w-6 text-apple-gray text-end">{orderIndex}</div>
             </div>
             <div className="flex w-120 gap-3 ">
                 <span className="font-semibold">
                     {taskName}
                 </span>
-                #{taskCode}
+                <span className="text-apple-gray">
+                    #{taskCode}
+                </span>
             </div>
             <DatePicker
                 label="Ngày bắt đầu"
@@ -89,7 +91,7 @@ export default function Task({
                 onChange={handleChangeEndDate}
             />
             <div className="w-24 text-end">
-                {duration} Days
+                {duration} ngày
             </div>
             <IconButton name="up-right-from-square" />
         </div>

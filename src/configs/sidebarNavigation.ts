@@ -14,25 +14,25 @@ export const constructionNavList : INavProps[] = [
     {
         id: Navigation.ConstructionSites,
         icon: "helmet-safety",
-        text: "Construction Sites",
+        text: "Công trình",
         href: "/construction-sites"
     },
     {
         id: Navigation.CostEstimates,
         icon: "calculator",
-        text: "Cost Estimates",
+        text: "Dự toán",
         href: "/cost-estimates"
     },
     {
         id: Navigation.Plans,
         icon: "chart-gantt",
-        text: "Plans",
+        text: "Kế hoạch",
         href: "/plans"
     },
     {
         id: Navigation.Diaries,
         icon: "clipboard",
-        text: "Construction Diaries",
+        text: "Nhật ký công trình",
         href: "/diaries"
     },
 ];
@@ -41,19 +41,19 @@ export const userNavList: INavProps[] = [
     {
         id: Navigation.UserProfile,
         icon: "user",
-        text: "User Profile",
+        text: "Hồ sơ cá nhân",
         href: "/profile"
     },
     {
         id: Navigation.Settings,
         icon: "gear",
-        text: "Settings",
+        text: "Cài đặt",
         href: "/settings"
     },
     {
         id: Navigation.Logout,
         icon: "right-from-bracket",
-        text: "Log out",
+        text: "Đăng xuất",
         href: "/"
     },
 ]

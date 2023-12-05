@@ -8,17 +8,21 @@ import PageContainer from "@/layouts/PageContainer";
 import ListDiaryTab from "@/features/diary/list/ListDiaryTab";
 
 export default function Home() { 
-
   return (
     <PageContainer
       activeNav={Navigation.ConstructionSites}
       breadcrumbs={[
         {
-          text: "Home",
+          text: "Trang chủ",
           href:""
         },
         {
-          text: "Create",
+          text: "Công trình",
+          href:""
+        },
+        {
+          text: "Tạo kế hoạch",
+          href:""
         }
       ]}
     >

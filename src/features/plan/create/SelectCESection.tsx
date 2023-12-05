@@ -11,16 +11,21 @@ import {
 export interface SelectCESectionProps {
   selectedCS: string;
   selectedCE: string;
-  handleCSChange: (event: SelectChangeEvent) => void;
-  handleCEChange: (event: SelectChangeEvent) => void;
+  handleChangeCS: (event: SelectChangeEvent) => void;
+  handleChangeCE: (event: SelectChangeEvent) => void;
+  handleLoadPlanInfo: () => void;
 }
 
 export default function SelectCESection({
   selectedCS,
   selectedCE,
-  handleCSChange,
-  handleCEChange,
+  handleChangeCS,
+  handleChangeCE,
+  handleLoadPlanInfo
 }: SelectCESectionProps) {
+  const costEstimateList = contructionSiteList.find(cs => cs.id == selectedCS)?.lscEstiamte
+    ?? [];
+
   return (
     <section className="flex gap-10">
       <FormControl className="w-[300px]" size="small">
@@ -31,9 +36,9 @@ export default function SelectCESection({
           labelId="label-construction-site-plan"
           label="Chọn công trình"
           value={selectedCS}
-          onChange={handleCSChange}
+          onChange={handleChangeCS}
         >
-          {listcSites.map((item, idx) => (
+          {contructionSiteList.map((item, idx) => (
             <MenuItem key={idx} value={item.id}>
               {item.id} + {item.cSiteName}
             </MenuItem>
@@ -49,22 +54,24 @@ export default function SelectCESection({
           labelId="label-costestimate-plan"
           label="Chọn dự toán"
           value={selectedCE}
-          onChange={handleCEChange}
+          onChange={handleChangeCE}
         >
-          <MenuItem value="1">DT-2312</MenuItem>
-          <MenuItem value="2">DT-3452</MenuItem>
-          <MenuItem value="3">DT3456</MenuItem>
+          {
+            costEstimateList.map(ce => (
+              <MenuItem value={ce.id}>{ce.id}</MenuItem>
+            ))
+          } 
         </Select>
         <FormHelperText>
           Lưu ý: Danh sách dự toán của công trình đã được duyệt
         </FormHelperText>
       </FormControl>
-      <Button variant="outlined">Load</Button>
+      <Button variant="outlined" onClick={handleLoadPlanInfo}>Load</Button>
     </section>
   );
 }
 
-const listcSites = [
+const contructionSiteList = [
   {
     id: "#BHX0001",
     cSiteName: "Bách Hóa Xanh Lã Xuân Oai",

@@ -1,6 +1,5 @@
 import Logo from "@/components/logo/Logo";
-import Nav, { NavGroup } from "../../components/Nav";
-import { INavigation } from "../../configs/sidebarNavigation";
+import Nav, { NavGroup } from "../../components/Nav"; 
 
 export default function Sidebar({
     children

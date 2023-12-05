@@ -40,28 +40,28 @@ export default function Page() {
     return (
         <main>
             {workItems.map(workItem => (
-                <div className="px-3 flex justify-between bg-apple-gray-3">
-                <section className="h-10 items-center flex">
-                    <span className="w-8">
-                        <Icon name="angle-right" />
-                    </span>
-                    <span className="w-8 text-primary">
-                        {
-                            workItem.isChecked ? <Icon name="square-check" /> : <Icon name="square" />       
-                        }
-                    </span>
-                    <p className="w-48">{workItem.workItemName}</p>
-                    <p className="w-28">#{workItem.workItemId}</p>
-                    <p className="w-48 flex items-center gap-2">
-                        <Icon name="user" />
-                        {workItem.supervision}
-                    </p>
-                    <p>{workItem.NumberOfTask}</p>
-                </section>
-                <section>
-                    <Icon name="user-plus" />
-                </section>
-            </div>
+                <div key={workItem.workItemId} className="px-3 flex justify-between bg-apple-gray-3">
+                    <section className="h-10 items-center flex">
+                        <span className="w-8">
+                            <Icon name="angle-right" />
+                        </span>
+                        <span className="w-8 text-primary">
+                            {
+                                workItem.isChecked ? <Icon name="square-check" /> : <Icon name="square" />       
+                            }
+                        </span>
+                        <p className="w-48">{workItem.workItemName}</p>
+                        <p className="w-28">#{workItem.workItemId}</p>
+                        <p className="w-48 flex items-center gap-2">
+                            <Icon name="user" />
+                            {workItem.supervision}
+                        </p>
+                        <p>{workItem.NumberOfTask}</p>
+                    </section>
+                    <section>
+                        <Icon name="user-plus" />
+                    </section>
+                </div>
             ))}
         </main>
     )
