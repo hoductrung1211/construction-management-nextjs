@@ -3,7 +3,7 @@ import QuantityUnit from "./QuantityUnit";
 
 export default interface Task {
   taskid?: string;
+  taskcode: string;
   taskname: string;
-  mdWorkItem: WorkItem;
   mdQuantityUnit: QuantityUnit;
 }
