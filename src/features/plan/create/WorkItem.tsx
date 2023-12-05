@@ -92,7 +92,7 @@ export default function WorkItem({
             </header>
             {
                 isShow && tasks.map((task, idx) => (
-                    <div className="">
+                    <div key={idx} className="">
                         <Task
                             key={task.taskCode}
                             task={task}

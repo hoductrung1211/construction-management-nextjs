@@ -34,10 +34,10 @@ export default function ConstructionSiteDetail({
                 {address}
             </FieldValue>
             <FieldValue label="Ngày dự kiến bắt đầu">
-                {startDate.toDateString()}
+                {/* {startDate.toDateString()} */}
             </FieldValue>
             <FieldValue label="Ngày dự kiến kết thúc">
-                {endDate.toDateString()}
+                {/* {endDate.toDateString()} */}
             </FieldValue>
             <FieldValue label="Thương hiệu công ty">
                 {brand}
@@ -46,7 +46,7 @@ export default function ConstructionSiteDetail({
                 {creator}
             </FieldValue>
             <FieldValue label="Thời gian tạo">
-                {createdTime.toLocaleTimeString()}
+                {createdTime.toLocaleTimeString("en-US")}
             </FieldValue>
         </div>
     )

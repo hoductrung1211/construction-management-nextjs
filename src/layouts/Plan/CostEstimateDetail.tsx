@@ -30,13 +30,13 @@ export default function CostEstimateDetail({
                 {creator}
             </FieldValue>
             <FieldValue label="Thời gian tạo">
-                {createdTime.toLocaleTimeString()}
+                {createdTime.toLocaleTimeString("en-US")}
             </FieldValue>
             <FieldValue label="Tổng số hạng mục">
                 {totalWorkItems}
             </FieldValue> 
             <FieldValue label="Tổng chi phí">
-              <span className="font-bold text-lg text-orange-500">{totalCost.toLocaleString()} VND</span>
+              <span className="font-bold text-lg text-orange-500">{totalCost.toLocaleString("en-Us")} VND</span>
             </FieldValue> 
         </div>
     )

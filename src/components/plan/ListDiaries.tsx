@@ -8,7 +8,7 @@ import {
   TextField,
 } from "@mui/material";
 import Icon from "../Icon";
-export default function ListDiarys() {
+export default function ListDiaries() {
   const listDiarys = [
     {
       id: "#DR0001",

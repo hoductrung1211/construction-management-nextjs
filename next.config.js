@@ -2,7 +2,10 @@
 const nextConfig = {
     images: {
         remotePatterns: [
-            
+        {    protocol: 'https',
+            hostname: 'www.procore.com',
+            port: '',
+            pathname: '/*/**',}
         ]
     }
 }

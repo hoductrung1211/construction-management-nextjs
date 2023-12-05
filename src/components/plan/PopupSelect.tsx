@@ -2,12 +2,11 @@
 import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import ListLabors from "./ListLabors";
 import { CustomTabPanel } from "../TabPanel";
 import ListProducts from "./ListProducts";
-import ListDiarys from "./ListDiarys";
+import ListDiaries from "./ListDiaries";
 
 function a11yProps(index: number) {
   return {
@@ -57,7 +56,7 @@ export default function PopupSelect() {
           <ListProducts />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          <ListDiarys/>
+          <ListDiaries/>
         </CustomTabPanel>
       </Box>
     </div>

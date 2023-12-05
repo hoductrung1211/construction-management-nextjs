@@ -11,7 +11,8 @@ import { isAxiosError } from "axios";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
-    localStorage.clear();
+    if (localStorage != undefined)
+        localStorage.clear();
 
     return (
       <div className="grid place-items-center h-screen ">
