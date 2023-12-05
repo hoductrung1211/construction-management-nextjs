@@ -193,42 +193,44 @@ export default function ListWorkItem_Task({
               id={"listTask" + idx}
               className="hidden mx-4 bg-white  rounded-lg"
             >
-              {/* {workItem.task.map((taskItem, key) => ( */}
-              <div
-                key={idx}
-                className="flex justify-between items-center py-1 my-2 ml-20"
-              >
-                <Checkbox defaultChecked />
-                <p className="w-fit">{task?.mdTask.taskid}</p>
-                <p className="w-fit">
-                  {task.mdTask.taskid}-{task?.mdTask.taskname}
-                </p>
-                <LocalizationProvider
-                  dateAdapter={AdapterDayjs}
-                  adapterLocale="de"
-                >
-                  <DatePicker
-                    label="Ngày bắt đầu"
-                    slotProps={{ textField: { size: "small" } }}
-                  />
-                </LocalizationProvider>
-                <LocalizationProvider
-                  dateAdapter={AdapterDayjs}
-                  adapterLocale="de"
-                >
-                  <DatePicker
-                    label="Ngày kết thúc"
-                    slotProps={{ textField: { size: "small" } }}
-                  />
-                </LocalizationProvider>
+              {task?.cmsCostestimateWorkitem.mdWorkItem.mdTasks.map(
+                (taskItem, key) => (
+                  <div
+                    key={idx}
+                    className="flex justify-between items-center py-1 my-2 ml-20"
+                  >
+                    <Checkbox defaultChecked />
+                    <p className="w-fit">{taskItem?.taskid}</p>
+                    <p className="w-fit">
+                      {taskItem.taskcode}-{taskItem?.taskname}
+                    </p>
+                    <LocalizationProvider
+                      dateAdapter={AdapterDayjs}
+                      adapterLocale="de"
+                    >
+                      <DatePicker
+                        label="Ngày bắt đầu"
+                        slotProps={{ textField: { size: "small" } }}
+                      />
+                    </LocalizationProvider>
+                    <LocalizationProvider
+                      dateAdapter={AdapterDayjs}
+                      adapterLocale="de"
+                    >
+                      <DatePicker
+                        label="Ngày kết thúc"
+                        slotProps={{ textField: { size: "small" } }}
+                      />
+                    </LocalizationProvider>
 
-                <p className="w-fit">Thời gian kéo dài</p>
-                <p className="w-fit">Công việc tiên quyết</p>
-                <span className="text-text-color mr-6">
-                  <Icon name="arrow-up-right-from-square" />
-                </span>
-              </div>
-              {/* ))} */}
+                    <p className="w-fit">Thời gian kéo dài</p>
+                    <p className="w-fit">Công việc tiên quyết</p>
+                    <span className="text-text-color mr-6">
+                      <Icon name="arrow-up-right-from-square" />
+                    </span>
+                  </div>
+                )
+              )}
             </div>
           </div>
         ))}
