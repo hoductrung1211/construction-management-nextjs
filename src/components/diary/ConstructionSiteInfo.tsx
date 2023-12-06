@@ -7,6 +7,7 @@ import {
   MenuItem,
   OutlinedInput,
   Select,
+  SelectChangeEvent,
   TextField,
 } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
@@ -17,49 +18,46 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { DatePicker } from "@mui/x-date-pickers";
+import SelectTWSection from "@/features/diary/create/SelectTWSection";
+import { useState } from "react";
+import useAlert from "@/hooks/useAlert";
 
 export default function ConstructionSiteInfo() {
+  const [selectedCS, setSelectedCS] = useState("");
+  const [selectedTaskWI, setSelectedTaskWI] = useState("");
+
+  const handleCSChange = (event: SelectChangeEvent) => {
+    setSelectedCS(event.target.value);
+  };
+  const handleChangetaskWI = (event: SelectChangeEvent) => {
+    setSelectedTaskWI(event.target.value);
+  };
+
+  const setAlert = useAlert();
   return (
     <div className="container-fluid bg-background-color">
       <p className="ml-10 py-4 font-semibold text-lg ">
         Thông tin nhật ký công trình
       </p>
       <div className="bg-white rounded-lg py-5 mx-3">
-        <div className="grid grid-cols-3 mx-8 mb-5 gap-20">
-          <FormControl size="small">
-            <InputLabel id="label-construction-site-plan">
-              Chọn hạng mục-công việc
-            </InputLabel>
-            <Select
-              className="w-72"
-              labelId="label-construction-site-plan"
-              label="Chọn hạng mục-công việc"
-            >
-              <MenuItem value="">DT-2312</MenuItem>
-              <MenuItem value="">DT-3452</MenuItem>
-              <MenuItem value="">DT3456</MenuItem>
-            </Select>
-          </FormControl>
-
-          <FormControl size="small">
-            <InputLabel id="label-costestimate-plan">Chọn dự toán</InputLabel>
-            <Select
-              className="w-72"
-              labelId="label-costestimate-plan"
-              label="Chọn dự toán"
-            >
-              <MenuItem value="">DT-2312</MenuItem>
-              <MenuItem value="">DT-3452</MenuItem>
-              <MenuItem value="">DT3456</MenuItem>
-            </Select>
-          </FormControl>
-          <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
-            <DatePicker
-              label="Ngày xem"
-              slotProps={{ textField: { className: "w-72", size: "small" } }}
-            />
-          </LocalizationProvider>
-        </div>
+        <SelectTWSection
+          selectedCS={selectedCS}
+          selectedTaskWI={selectedTaskWI}
+          handleChangeCS={handleCSChange}
+          handleChangetaskWI={handleChangetaskWI}
+          
+          // handleLoadAmountOfPlan={() => {
+          //   if (selectedTaskWI && selectedCS) {
+          //     setSelectedCS(initCSInfo);
+          //     setSelectedTaskWI(initCEInfo);
+          //   } else {
+          //     setAlert({
+          //       message: "Vui lòng chọn đầy đủ các trường thông tin",
+          //       severity: "error",
+          //     });
+          //   }
+          // }}
+        />
         <div className=" rounded-lg bg-[#F9FAFB] flex mx-6 gap-10">
           <div className="flex-col flex w-180 gap-8 mx-2">
             <div className="flex-col">
@@ -79,15 +77,16 @@ export default function ConstructionSiteInfo() {
                     <MenuItem value="">Âm u</MenuItem>
                   </Select>
                 </FormControl>
-                <TextField 
+                <TextField
                   className="w-72"
-                  size = "small"
-                  id="outlined-temperature" 
+                  size="small"
+                  id="outlined-temperature"
                   label="Nhiệt độ"
                   variant="outlined"
                   InputProps={{
                     endAdornment: <div style={{ marginLeft: 5 }}>&deg;C</div>,
-                  }} />
+                  }}
+                />
               </div>
             </div>
             <div className="flex-col">
@@ -135,7 +134,7 @@ export default function ConstructionSiteInfo() {
                 <p>100</p>
                 <p>140</p>
                 <TextField
-                className=" w-24"
+                  className=" w-24"
                   size="small"
                   id="outlined-basic"
                   variant="outlined"
@@ -151,3 +150,25 @@ export default function ConstructionSiteInfo() {
     </div>
   );
 }
+
+interface ICSInfo {
+  csId: string;
+  csName: string;
+  address: string;
+  brand: string;
+  creator: string;
+  createdTime: Date;
+  endDate: Date;
+  startDate: Date;
+}
+
+const initCSInfo = {
+  csId: "",
+  csName: "",
+  address: "",
+  brand: "",
+  creator: "",
+  createdTime: new Date(2024, 11, 20),
+  endDate: new Date(2024, 11, 20),
+  startDate: new Date(2024, 11, 20),
+};
