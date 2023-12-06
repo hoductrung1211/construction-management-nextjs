@@ -21,6 +21,7 @@ import ConstructionSite from "@/models/ConstructionSite";
 import APICostEstimate from "@/apis/costEstimate";
 import CostEstimate from "@/models/CostEstimate";
 import CostEstimateTask from "@/models/CostEstimateTask";
+import CostestimateWorkitem from "@/models/CostEstimateWorkitem";
 
 export default function Create() {
   const [listConstructions, setListConstructions] = React.useState<
@@ -33,8 +34,8 @@ export default function Create() {
 
   const [costestimates, setCostestimates] = useState<CostEstimate[]>([]);
 
-  const [costestimateTasks, setCostestimatesTasks] = useState<
-    CostEstimateTask[]
+  const [costestimateWorkitems, setCostestimateWorkitems] = useState<
+    CostestimateWorkitem[]
   >([]);
 
   async function getListConstructionSite() {
@@ -54,9 +55,9 @@ export default function Create() {
   }
 
   async function getListCostestimateTasks(idCostEstimate: Number) {
-    const api: CostEstimateTask[] =
+    const api: CostestimateWorkitem[] =
       await APICostEstimate.getListCostEstimateTasks(idCostEstimate);
-    setCostestimatesTasks(api);
+    setCostestimateWorkitems(api);
   }
   async function getCostEstimate(idCostEstimate: Number) {
     return await APICostEstimate.getById(idCostEstimate);
@@ -170,7 +171,7 @@ export default function Create() {
           <PlanDetail cSite={construction} cEstimate={costEstimate} />
         </div>
       </div>
-      <ListWorkItem_Task cEstimateTask={costestimateTasks} />
+      <ListWorkItem_Task cEstimateWorkitem={costestimateWorkitems} />
       <div className="flex justify-end p-3">
         <div>
           <Button

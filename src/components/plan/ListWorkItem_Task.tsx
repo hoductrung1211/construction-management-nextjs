@@ -7,15 +7,15 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "dayjs/locale/de";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import CostEstimateTask from "@/models/CostEstimateTask";
+import CostestimateWorkitem from "@/models/CostEstimateWorkitem";
 interface propsListWorkItem_Task {
-  cEstimateTask?: CostEstimateTask[];
+  cEstimateWorkitem?: CostestimateWorkitem[];
 }
 export default function ListWorkItem_Task({
-  cEstimateTask,
+  cEstimateWorkitem,
 }: propsListWorkItem_Task) {
   const [flagShowTask, setFlagShowTask] = useState(true);
-  console.log(cEstimateTask);
+  console.log(cEstimateWorkitem);
 
   const workItems = [
     {
@@ -152,7 +152,7 @@ export default function ListWorkItem_Task({
         </div>
       </div>
       <main>
-        {cEstimateTask?.map((task, idx) => (
+        {cEstimateWorkitem?.map((workItem, idx) => (
           <div key={idx} className="flex flex-col">
             <div className="px-3 flex justify-between bg-gray3">
               <section className="h-10 items-center flex">
@@ -166,13 +166,11 @@ export default function ListWorkItem_Task({
                   />
                 </span>
                 <span className="w-5 font-semibold">
-                  {task?.costestimatetaskid}
+                  {workItem?.workitemid}
                 </span>
-                <p className="w-48 font-semibold">
-                  {task?.cmsCostestimateWorkitem.mdWorkItem?.workitemname}
-                </p>
+                <p className="w-48 font-semibold">{workItem?.workitemname}</p>
                 <p className="w-28 text-text-color">
-                  #{task?.cmsCostestimateWorkitem.mdWorkItem?.workitemCode}
+                  #{workItem?.workitem_code}
                 </p>
                 <p className="w-48 flex items-center gap-2 text-text-color">
                   <Icon name="user" />
@@ -180,7 +178,7 @@ export default function ListWorkItem_Task({
                   Ahihi
                 </p>
                 <p className="text-text-color font-semibold">
-                  {task?.amountofwork.toString()}
+                  {workItem?.tasks.length}
                 </p>
               </section>
               <section className="flex items-center">
@@ -193,44 +191,42 @@ export default function ListWorkItem_Task({
               id={"listTask" + idx}
               className="hidden mx-4 bg-white  rounded-lg"
             >
-              {task?.cmsCostestimateWorkitem.mdWorkItem.mdTasks.map(
-                (taskItem, key) => (
-                  <div
-                    key={idx}
-                    className="flex justify-between items-center py-1 my-2 ml-20"
+              {workItem?.tasks.map((taskItem, key) => (
+                <div
+                  key={idx}
+                  className="flex justify-between items-center py-1 my-2 ml-20"
+                >
+                  <Checkbox defaultChecked />
+                  <p className="w-fit">{key + 1}</p>
+                  <p className="w-fit">
+                    {taskItem.taskcode}-{taskItem?.taskname}
+                  </p>
+                  <LocalizationProvider
+                    dateAdapter={AdapterDayjs}
+                    adapterLocale="de"
                   >
-                    <Checkbox defaultChecked />
-                    <p className="w-fit">{taskItem?.taskid}</p>
-                    <p className="w-fit">
-                      {taskItem.taskcode}-{taskItem?.taskname}
-                    </p>
-                    <LocalizationProvider
-                      dateAdapter={AdapterDayjs}
-                      adapterLocale="de"
-                    >
-                      <DatePicker
-                        label="Ngày bắt đầu"
-                        slotProps={{ textField: { size: "small" } }}
-                      />
-                    </LocalizationProvider>
-                    <LocalizationProvider
-                      dateAdapter={AdapterDayjs}
-                      adapterLocale="de"
-                    >
-                      <DatePicker
-                        label="Ngày kết thúc"
-                        slotProps={{ textField: { size: "small" } }}
-                      />
-                    </LocalizationProvider>
+                    <DatePicker
+                      label="Ngày bắt đầu"
+                      slotProps={{ textField: { size: "small" } }}
+                    />
+                  </LocalizationProvider>
+                  <LocalizationProvider
+                    dateAdapter={AdapterDayjs}
+                    adapterLocale="de"
+                  >
+                    <DatePicker
+                      label="Ngày kết thúc"
+                      slotProps={{ textField: { size: "small" } }}
+                    />
+                  </LocalizationProvider>
 
-                    <p className="w-fit">Thời gian kéo dài</p>
-                    <p className="w-fit">Công việc tiên quyết</p>
-                    <span className="text-text-color mr-6">
-                      <Icon name="arrow-up-right-from-square" />
-                    </span>
-                  </div>
-                )
-              )}
+                  <p className="w-fit">Thời gian kéo dài</p>
+                  <p className="w-fit">Công việc tiên quyết</p>
+                  <span className="text-text-color mr-6">
+                    <Icon name="arrow-up-right-from-square" />
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         ))}

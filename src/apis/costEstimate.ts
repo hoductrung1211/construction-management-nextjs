@@ -1,6 +1,6 @@
 import CostEstimate from "@/models/CostEstimate";
 import request from "./request";
-import CostEstimateTask from "@/models/CostEstimateTask";
+import CostestimateWorkitem from "@/models/CostEstimateWorkitem";
 
 // interface ICostEstimateOveview {}
 
@@ -15,7 +15,7 @@ const APICostEstimate = {
     ),
   getById: (id: Number) => request.get<CostEstimate>(`/costestimate/${id}`),
   getListCostEstimateTasks: (idCostestimate: Number) =>
-    request.get<CostEstimateTask[]>(
+    request.get<CostestimateWorkitem[]>(
       `/costestimatetask/getlistbycostestimateid/${idCostestimate}`
     ),
 };
