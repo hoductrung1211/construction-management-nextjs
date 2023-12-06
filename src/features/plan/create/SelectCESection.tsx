@@ -58,7 +58,7 @@ export default function SelectCESection({
         >
           {
             costEstimateList.map(ce => (
-              <MenuItem value={ce.id}>{ce.id}</MenuItem>
+              <MenuItem key={ce.id} value={ce.id}>{ce.id}</MenuItem>
             ))
           } 
         </Select>

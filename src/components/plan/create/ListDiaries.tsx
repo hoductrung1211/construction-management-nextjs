@@ -7,7 +7,7 @@ import {
   OutlinedInput,
   TextField,
 } from "@mui/material";
-import Icon from "../Icon";
+import Icon from "../../Icon";
 export default function ListDiaries() {
   const listDiarys = [
     {

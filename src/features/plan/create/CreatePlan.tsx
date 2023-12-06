@@ -6,6 +6,7 @@ import { useState } from "react";
 import SelectCESection from "./SelectCESection";
 import { Dayjs } from "dayjs";
 import useAlert from "@/hooks/useAlert";
+import useLoadingAnimation from "@/hooks/useLoadingAnimation";
 
 export default function CreatePlan({
 
@@ -19,6 +20,8 @@ export default function CreatePlan({
     const [approverCode, setApproverCode] = useState<string | null>(null);
     const [startDate, setStartDate] = useState<Dayjs | null>(null);
     const [endDate, setEndDate] = useState<Dayjs | null>(null);
+
+    const setLoadingAnimation = useLoadingAnimation();
 
     const setAlert = useAlert();
 
@@ -57,6 +60,10 @@ export default function CreatePlan({
                     handleChangeCE={handleCEChange}
                     handleLoadPlanInfo={() => {
                         if (selectedCE && selectedCS) {
+                            setLoadingAnimation(true);
+                            setTimeout(() => {
+                                setLoadingAnimation(false);
+                            }, 800)
                             setCSInfo(initCSInfo)
                             setCEInfo(initCEInfo)
                         }
@@ -70,7 +77,6 @@ export default function CreatePlan({
                     }}
                 />
             </PlanOverviewSection>
-
             {
                 (CEInfo && CSInfo) &&
                 <WorkItemSection
@@ -80,6 +86,7 @@ export default function CreatePlan({
         </main>
     )
 }
+
 
 interface ICSInfo {
     csId: string,

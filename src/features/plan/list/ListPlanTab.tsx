@@ -3,7 +3,7 @@ import { CustomTabPanel } from "@/components/TabPanel";
 import { Box, Tab, Tabs } from "@mui/material";
 import React from "react";
 import FilterPlan from "../../../components/FilterPlan_Diary";
-import ListPlan from "../../../components/plan/ListPlans";
+import ListPlan from "../../../components/plan/list/ListPlans";
 import PageNumber from "../../../components/PageNumber";
 
 function a11yProps(index: number) {

@@ -46,7 +46,7 @@ export default function ConstructionSiteDetail({
                 {creator}
             </FieldValue>
             <FieldValue label="Thời gian tạo">
-                {createdTime.toLocaleTimeString("en-US")}
+                {createdTime.toLocaleTimeString("en-gb")}
             </FieldValue>
         </div>
     )

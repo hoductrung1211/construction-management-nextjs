@@ -5,7 +5,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import IconButton from "@/components/IconButton";
 import useModal from "@/hooks/useModal"; 
 // import PopupAddSupervisor from "@/legacy/plan/PopupAddSupervisor";
-import PopupAddSupervisor from "@/components/plan/PopupAddSupervisor";
+import PopupAddSupervisor from "@/components/plan/create/PopupAddSupervisor";
 
 export interface IWorkItem {
     isSelected: boolean;

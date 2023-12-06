@@ -8,7 +8,8 @@ export interface ILabor{
     laborCode: string;
     lastName: string;
     firstName: string;
-    role: string
+    role: string,
+    shift: number
 }
 export default function Labors({
     labor
@@ -23,11 +24,12 @@ export default function Labors({
         laborCode,
         lastName,
         firstName,
-        role
+        role,
+        shift
     } = labor; 
     return(
         <div
-        className=" flex justify-between mx-9 my-2 items-center"
+        className=" bg-white flex justify-between mx-9 my-3 items-center"
       >
         <p className=" w-3">{no}</p>
         <p className=" w-14">{laborCode}</p>

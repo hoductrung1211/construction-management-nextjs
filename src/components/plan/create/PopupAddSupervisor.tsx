@@ -1,6 +1,6 @@
 import { Avatar, FormControl, TextField } from "@mui/material";
-import Icon from "../Icon";
-import IconButton from "../IconButton";
+import Icon from "../../Icon";
+import IconButton from "../../IconButton";
 import { listLabors } from "@/features/plan/create/WorkItem";
 
 export default function PopupAddSupervisor({
@@ -47,8 +47,8 @@ export default function PopupAddSupervisor({
                 </section>
             }
             <main className="relative flex-grow p-2 flex flex-col gap-2 overflow-auto ">
-            { filteredListLabors.length ? 
-                filteredListLabors.map(labor => (
+            { listLabors.length ? 
+                listLabors.map(labor => (
                     <button
                         key={labor.id}
                         className="flex-shrink-0 h-20 px-3 grid grid-cols-3 items-center justify-items-start hover:bg-apple-gray-6 cursor-pointer rounded-md"

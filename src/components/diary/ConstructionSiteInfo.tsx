@@ -46,17 +46,6 @@ export default function ConstructionSiteInfo() {
           handleChangeCS={handleCSChange}
           handleChangetaskWI={handleChangetaskWI}
           
-          // handleLoadAmountOfPlan={() => {
-          //   if (selectedTaskWI && selectedCS) {
-          //     setSelectedCS(initCSInfo);
-          //     setSelectedTaskWI(initCEInfo);
-          //   } else {
-          //     setAlert({
-          //       message: "Vui lòng chọn đầy đủ các trường thông tin",
-          //       severity: "error",
-          //     });
-          //   }
-          // }}
         />
         <div className=" rounded-lg bg-[#F9FAFB] flex mx-6 gap-10">
           <div className="flex-col flex w-180 gap-8 mx-2">

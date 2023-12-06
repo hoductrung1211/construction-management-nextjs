@@ -1,5 +1,5 @@
 'use client';
-import PopupSelect from "@/components/plan/PopupSelect";
+import PopupSelect from "@/components/plan/create/PopupSelect";
 
  
 export default function Page() {

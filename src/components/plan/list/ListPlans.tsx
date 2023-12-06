@@ -1,7 +1,7 @@
 "use client";
 
 import Icon from "@/components/Icon";
-import FilterPlan_Diary from "../FilterPlan_Diary";
+import FilterPlan_Diary from "../../FilterPlan_Diary";
 
 export default function ListPlan() {
   return (
