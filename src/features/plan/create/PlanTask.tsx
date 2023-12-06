@@ -1,36 +1,38 @@
 import IconButton from "@/components/IconButton";
+import PopupTaskInfo from "@/components/plan/create/PopupTaskInfo";
+import useModal from "@/hooks/useModal";
+import { IEmployee } from "@/models/Employee";
+import { ICreatePlanTask } from "@/models/Task";
 import { getDuration } from "@/utils/functions/getDuration";
 import { Checkbox } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { ChangeEvent, useState } from "react";
-
-export interface ITask {
-    isSelected: boolean;
-    taskCode: string;
-    taskName: string;
-    startDate: Date | null;
-    endDate: Date | null;
-}
-
+ 
 export default function Task({
     task,
     orderIndex,
     onChangeTask,
 }: {
-    task: ITask,
+    task: ICreatePlanTask,
     orderIndex: number;
-    onChangeTask: (newTask: ITask) => void;
+    onChangeTask: (newTask: ICreatePlanTask) => void;
 }) {
     const {
         isSelected,
         startDate,
         endDate,
         taskCode,
-        taskName
-    } = task; 
+        taskName,
+        labors,
+        products
+    } = task;
     const [currentStartDate, setCurrentStartDate] = useState<Dayjs | null>(null);
     const [currentEndDate, setCurrentEndDate] = useState<Dayjs | null>(null);
+
+    const {
+        setModal,
+    } = useModal();
 
     const duration = (endDate != null && startDate != null)
         ? (getDuration(startDate, endDate)) : 0;
@@ -59,7 +61,7 @@ export default function Task({
     }
 
     return (
-        <div className="h-16 pl-16 pr-2 flex justify-between items-center hover:bg-apple-gray-6 bg-white">
+        <div className="h-16 pl-16 pr-2 flex justify-between items-center hover:bg-content bg-white">
             <div className="flex gap-6 items-center">
                 <Checkbox
                     checked={isSelected}
@@ -80,11 +82,12 @@ export default function Task({
                 format="DD-MM-YYYY"
                 value={currentStartDate}
                 slotProps={{ textField: { size: "small" } }}
+                minDate={dayjs()}
                 maxDate={currentEndDate ?? undefined}
                 onChange={handleChangeStartDate}
             />
             <DatePicker
-                label="Ngày bắt đầu"
+                label="Ngày kết thúc"
                 format="DD-MM-YYYY"
                 slotProps={{ textField: { size: "small" } }}
                 minDate={currentStartDate ?? undefined}
@@ -93,7 +96,26 @@ export default function Task({
             <div className="w-24 text-end">
                 {duration} ngày
             </div>
-            <IconButton name="up-right-from-square" />
+            <IconButton
+                name="up-right-from-square"
+                onClick={() => {
+                    setModal({
+                        children:
+                            <PopupTaskInfo
+                                key={labors.toString()}
+                                labors={labors}
+                                products={products}
+                                onChangeLabors={(newLabors: IEmployee[]) => {
+                                    onChangeTask({
+                                        ...task,
+                                        labors: newLabors
+                                    });
+                                }}
+                                onChangeProducts={() => {}}
+                            />
+                    });
+                }}
+            />
         </div>
     )
 }

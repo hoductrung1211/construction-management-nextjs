@@ -1,30 +1,22 @@
 import FieldValue from "@/components/FieldValue";
-
-export interface ICEDetailProps {
-    ceId: string;
-    ceName: string;
-    creator: string;
-    createdTime: Date;
-    totalWorkItems: number;
-    totalCost: number;
-}
-
+import { ICostEstimate } from "@/models/CostEstimate";
+ 
 export default function CostEstimateDetail({
-    ceInfo: {
-        ceId,
-        ceName,
+    costEstimate: {
+        costEstimateCode,
+        costEstimateName,
         creator,
         createdTime,
         totalCost,
         totalWorkItems
     }
 }: {
-    ceInfo: ICEDetailProps
+    costEstimate: ICostEstimate
 }) {
     return (
         <div className="col-span-1 flex flex-col gap-4">
             <FieldValue label="Dự toán">
-              {ceId} {ceName} 
+              {costEstimateCode} {costEstimateName} 
             </FieldValue>
             <FieldValue label="Người tạo">
                 {creator}

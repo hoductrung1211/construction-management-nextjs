@@ -1,7 +1,7 @@
 import { Avatar, FormControl, TextField } from "@mui/material";
 import Icon from "../../Icon";
 import IconButton from "../../IconButton";
-import { listLabors } from "@/features/plan/create/WorkItem";
+import { listLabors } from "@/models/Employee";
 
 export default function PopupAddSupervisor({
     selectedSupervisorCode: selectedSupervisionCode,
@@ -15,14 +15,14 @@ export default function PopupAddSupervisor({
         firstName: string;
         lastName: string;
     }[] = [];
-    const selectedSupervision = listLabors.find(labor => labor.id == selectedSupervisionCode);
+    const selectedSupervision = listLabors.find(labor => labor.employeeCode == selectedSupervisionCode);
 
     const onUnselectSupervisor = () => {
         onChangeSupervision(null);
     }
 
     return (
-        <div className="min-w-[800px] h-[520px] flex flex-col bg-white rounded-lg overflow-hidden">
+        <div className="min-w-[800px] h-[520px] flex flex-col bg-white rounded-2xl overflow-hidden">
             <header className="flex-shrink-0 h-16 px-6 flex gap-6 items-center border-b  ">
                 <Icon className="text-apple-gray" name="magnifying-glass" size="xl" />
                 <FormControl fullWidth>
@@ -34,14 +34,14 @@ export default function PopupAddSupervisor({
                 </FormControl>
             </header>
             {selectedSupervision &&
-                <section className="flex-shrink-0 h-36 p-5 pt-2 flex flex-col justify-between border-b">
+                <section className="flex-shrink-0 h-36 p-5 pt-2 flex flex-col justify-between border-b-2 shadow-sm">
                     <div className="flex justify-between items-center">
                         <p className="font-semibold">Người giám sát đã chọn</p>
                         <IconButton onClick={onUnselectSupervisor} name="user-xmark" tooltip="Bỏ chọn người giám sát" />
                     </div>
                     <div className="grid grid-cols-3 items-center justify-items-start rounded-md">
-                        <Avatar>{selectedSupervision.lastName?.[0]}</Avatar>
-                        <span>{selectedSupervision.id}</span>
+                        <Avatar>{selectedSupervision.firstName?.[0]}</Avatar>
+                        <span>{selectedSupervision.employeeCode}</span>
                         <span>{selectedSupervision.firstName + " " + selectedSupervision.lastName}</span>
                     </div>
                 </section>
@@ -50,14 +50,14 @@ export default function PopupAddSupervisor({
             { listLabors.length ? 
                 listLabors.map(labor => (
                     <button
-                        key={labor.id}
+                        key={labor.employeeCode}
                         className="flex-shrink-0 h-20 px-3 grid grid-cols-3 items-center justify-items-start hover:bg-apple-gray-6 cursor-pointer rounded-md"
                         onClick={() => {
-                            onChangeSupervision(labor.id)
+                            onChangeSupervision(labor.employeeCode)
                         }}
                     >
                         <Avatar>{labor.lastName?.[0]}</Avatar>
-                        <span>{labor.id}</span>
+                        <span>{labor.employeeCode}</span>
                         <span>{labor.firstName + " " + labor.lastName}</span>
                     </button>) 
                 ) :
