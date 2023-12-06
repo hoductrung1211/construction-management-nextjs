@@ -1,21 +1,18 @@
-import IconButton from "@/components/IconButton";
-import ConstructionSiteDetail, {
-  ICSDetailProps,
-} from "@/components/plan/ConstructionSiteDetail";
-import CostEstimateDetail, {
-  ICEDetailProps,
-} from "@/components/plan/CostEstimateDetail";
-import PopupAddSupervisor from "@/components/plan/PopupAddSupervisor";
+import IconButton from "@/components/IconButton";  
+import PopupAddSupervisor from "@/components/plan/create/PopupAddSupervisor";
 import useModal from "@/hooks/useModal";
-import { listLabors } from "./WorkItem";
 import { DatePicker } from "@mui/x-date-pickers";
-import { SelectChangeEvent } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
 import { getDuration } from "@/utils/functions/getDuration";
+import { ICostEstimate } from "@/models/CostEstimate";
+import { IContructionSite } from "@/models/ConstructionSite";
+import ConstructionSiteDetail from "@/components/plan/create/ConstructionSiteDetail";
+import CostEstimateDetail from "@/components/plan/create/CostEstimateDetail";
+import { listLabors } from "@/models/Employee";
 
 export default function PlanOverviewSection({
-  csInfo,
-  ceInfo,
+  constructionSite,
+  costEstimate,
   approverCode,
   handleChangeApprover,
   startDate,
@@ -24,8 +21,8 @@ export default function PlanOverviewSection({
   handleChangeEndDate,
   children,
 }: {
-  csInfo: ICSDetailProps | null;
-  ceInfo: ICEDetailProps | null;
+  constructionSite: IContructionSite | null;
+  costEstimate: ICostEstimate | null;
   
   approverCode: string | null;
   handleChangeApprover: (employeeCode: string | null) => void;
@@ -40,9 +37,9 @@ export default function PlanOverviewSection({
 }) {
   const { setModal, setIsOpenModal } = useModal();
  
-  const approver = listLabors.find((ee) => ee.id == approverCode);
+  const approver = listLabors.find((ee) => ee.employeeCode == approverCode);
   const approverInfo = approver
-    ? approver.firstName + " " + approver.lastName  + " " +  approver.id
+    ? approver.firstName + " " + approver.lastName  + " " +  approver.employeeCode
     : "Chưa chọn người duyệt kế hoạch";
 
   const planDuration = (startDate != null && endDate != null) ?
@@ -60,12 +57,12 @@ export default function PlanOverviewSection({
       <div className="px-5 py-2 flex flex-col gap-5">
         {children}
         {
-          (csInfo && ceInfo)
+          (constructionSite && costEstimate)
           &&
           <section className="flex gap-5">
           <div className="w-2/3 p-5 grid grid-cols-2 bg-content border rounded-md">
-            <ConstructionSiteDetail csInfo={csInfo} />
-            <CostEstimateDetail ceInfo={ceInfo} />
+            <ConstructionSiteDetail constructionSite={constructionSite} />
+            <CostEstimateDetail costEstimate={costEstimate} />
           </div>
           <section className="w-1/3 p-5 flex flex-col gap-5 bg-content border rounded-md">
             <DatePicker
@@ -103,7 +100,6 @@ export default function PlanOverviewSection({
                       <PopupAddSupervisor
                         selectedSupervisorCode={approverCode}
                         onChangeSupervisor={(eeCode: string | null) => {
-
                           handleChangeApprover(eeCode);
                           setIsOpenModal(false);
                         }}

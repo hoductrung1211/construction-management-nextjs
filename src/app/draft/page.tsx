@@ -1,45 +1,26 @@
 'use client';
-import PopupSelect from "@/components/plan/PopupSelect";
+import PopupTaskInfo from '@/components/plan/create/PopupTaskInfo';
+import { IEmployee, IProduct } from '@/features/plan/create/PlanTask';
+import { useState } from 'react';
 
- 
-export default function Page() {
+export default function FreeSolo() {
+  const [labors, setLabors] = useState<IEmployee[]>([]);
+  const [products, setProducts] = useState<{product: IProduct, quantity: number}[]>([]);
+
   return (
-    // <PopupSelect />
-    <Container>
-      <div>hehe</div>
-    </Container>
+    <main className='h-screen grid place-items-center'>
+      <PopupTaskInfo
+        labors={labors}
+        products={products}
+
+        onChangeLabors={(newLabors: IEmployee[]) => {
+          setLabors(newLabors);
+          console.log(newLabors);
+        }}
+        onChangeProducts={(newProducts: { product: IProduct, quantity: number }[]) => {
+          
+        }}
+      />
+    </main>
   );
-}
-
-const obj = {
-  id: 1,
-  name: "ho duc trung"
-}
-
-function Container({
-  children
-}: {
-  children: React.ReactNode
-}) {
-  return (
-    <div>
-      <Person info={obj} />
-    </div>
-  )
-}
-
-function Person({
-  info
-}: {
-    info: {
-    id: number;
-    name: string;
-  }
-}) {
-  return (
-    <div>
-      Id: {info.id}
-      Name: {info.name}
-    </div>
-  )
 }

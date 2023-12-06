@@ -1,6 +1,6 @@
 "use client";
-import PlanDetail from "@/components/plan/PlanDetail";
-import ListWorkItem_Task from "@/components/plan/ListWorkItem_Task";
+import PlanDetail from "@/components/plan/create/PlanDetail";
+import ListWorkItem_Task from "@/components/plan/create/ListWorkItem_Task";
 import {
   Select,
   InputLabel,

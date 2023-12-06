@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Icon from "../Icon";
+import Icon from "../../Icon";
 import { Checkbox, FormControl } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";

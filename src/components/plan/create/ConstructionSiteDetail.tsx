@@ -1,34 +1,26 @@
 import FieldValue from "@/components/FieldValue";
-
-export interface ICSDetailProps {
-    csId: string;
-    csName: string;
-    address: string;
-    startDate: Date;
-    endDate: Date;
-    brand: string;
-    creator: string;
-    createdTime: Date;
-}
+import { IContructionSite } from "@/models/ConstructionSite";
 
 export default function ConstructionSiteDetail({
-    csInfo: {
-        csId,
-        csName,
+    constructionSite: {
+        constructionCode,
+        constructionName,
         address,
+        brand,
+
         startDate,
         endDate,
-        brand,
+        
         creator,
         createdTime
     }
 }: {
-    csInfo: ICSDetailProps
+    constructionSite: IContructionSite
 }) {
     return (
         <div className="col-span-1 flex flex-col gap-4">
             <FieldValue label="Công trình">
-                {csId} {csName}
+                {constructionCode} {constructionName}
             </FieldValue>
             <FieldValue label="Địa chỉ">
                 {address}

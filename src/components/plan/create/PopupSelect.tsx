@@ -2,10 +2,9 @@
 import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import ListLabors from "./ListLabors";
-import { CustomTabPanel } from "../TabPanel";
+import { CustomTabPanel } from "../../TabPanel";
 import ListProducts from "./ListProducts";
 import ListDiarys from "./ListDiarys";
 
