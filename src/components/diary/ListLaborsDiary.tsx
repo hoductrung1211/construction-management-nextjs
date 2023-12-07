@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Icon from "../Icon";
-import { ILabor } from "./Labors";
+import Labors, { ILabor } from "./Labors";
 
 export interface ILaborList {
   labors: ILabor[];
@@ -13,7 +13,6 @@ export default function ListLaborsDiary({ lslabor }: { lslabor: ILaborList }) {
   function handleChangeIsShow() {
     setIsShow(!isShow);
   }
-
   return (
     <div className=" mt-4 bg-background-color w-full rounded-t-lg">
       <header className="flex gap-20 mx-10 justify-between">
@@ -27,37 +26,14 @@ export default function ListLaborsDiary({ lslabor }: { lslabor: ILaborList }) {
             Nhân công<span className="ml-4 font-thin">3</span>
           </p>
         </div>
-        <div>
-          <Icon name="plus" size="lg" className="text-text-color" />
-        </div>
       </header>
-      {isShow &&
-        listLabors.map((labor, idx) => (
-          <p key={labor.id}>{labor.firstName}</p>
+      {
+        isShow && <div className="listLabors py-3 mx-3 bg-white">
+        {lslabor.labors.map((labor, idx) => (
+          <Labors key={labor.laborCode} labor={labor} />
         ))}
+      </div>
+      }
     </div>
   );
 }
-const listLabors = [
-  {
-    id: "#EL0001",
-    firstName: "Diễm Quỳnh",
-    lastName: "Hà",
-    role: "Công nhân",
-    shift: 8,
-  },
-  {
-    id: "#EL0002",
-    firstName: "Hồ Hoàng Vy",
-    lastName: "Chu",
-    role: "Công nhân",
-    shift: 4,
-  },
-  {
-    id: "#EL0003",
-    firstName: "Thị Vân Khánh",
-    lastName: "Nguyễn",
-    role: "Công nhân",
-    shift: 8,
-  },
-];

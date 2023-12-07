@@ -1,30 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import Icon from "../Icon"; 
+import Icon from "../Icon";
+import Products, { IProduct } from "./Products";
 
-export default function ListProductsDiary() {
-  const listProducts = [
-    {
-      id: "#PD0001",
-      pdName: "Xi măng",
-      pdUnit: "Bao",
-      pdAmount: 5,
-    },
-    {
-      id: "#PD0002",
-      pdName: "Cát",
-      pdUnit: "m3",
-      pdAmount: 100,
-    },
-    {
-      id: "#PD0003",
-      pdName: "Đá",
-      pdUnit: "m3",
-      pdAmount: 80,
-    },
-  ];
+export interface IProductList {
+  products: IProduct[];
+}
 
+export default function ListProductsDiary({ lsproduct}: { lsproduct: IProductList }) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (
@@ -51,36 +35,12 @@ export default function ListProductsDiary() {
             Vật tư<span className="ml-4 font-thin">3</span>
           </p>
         </div>
-        <div>
-          <Icon name="plus" size="lg" className="text-text-color" />
-        </div>
       </div>
-      <div className="listProducts py-3 mx-3 bg-white">
-        {isShow && listProducts.map((item, idx) => (
-          <div
-            key={idx}
-            className=" flex justify-between mx-9 my-2 items-center"
-          >
-            <p className=" w-3">{idx}</p>
-            <p className=" w-14">{item.id}</p>
-            <p className=" w-60">{item.pdName}</p>
-            <p className=" w-10">{item.pdUnit}</p>
-            <div className="w-20">
-              <input
-                type="number"
-                id="number-input"
-                aria-describedby="helper-text-explanation"
-                className="h-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required
-              />
-            </div>
-            <span className=" w-2 mr-2">
-              <Icon size="lg" className="text-text-color" name="xmark" />
-            </span>
-          </div>
+      {isShow && <div className="listProducts py-3 mx-3 bg-white">
+        {lsproduct.products.map((product, idx) => (
+          <Products key={idx} product={product}/>
         ))}
-      </div>
+      </div>}
     </div>
   );
 }
- 

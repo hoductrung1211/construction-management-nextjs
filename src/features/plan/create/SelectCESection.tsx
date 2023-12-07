@@ -61,7 +61,7 @@ export default function SelectCESection({
           onChange={handleChangeCE}
         >
           {costEstimateList.map((ce) => (
-            <MenuItem value={ce.costEstimateCode}>
+            <MenuItem key={ce.costEstimateCode} value={ce.costEstimateCode}>
               {ce.costEstimateCode}
             </MenuItem>
           ))}

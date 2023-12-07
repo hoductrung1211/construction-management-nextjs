@@ -37,7 +37,7 @@ export default function ConstructionSiteDetail({
                 {creator}
             </FieldValue>
             <FieldValue label="Thời gian tạo">
-                {getVNLocaleDateString(createdTime.toDateString())}
+                {createdTime.toLocaleTimeString("en-gb")}
             </FieldValue>
         </div>
     )

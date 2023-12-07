@@ -26,10 +26,10 @@ export default function PlanOverviewSection({
   
   approverCode: string | null;
   handleChangeApprover: (employeeCode: string | null) => void;
-  
+
   startDate: Dayjs | null;
   handleChangeStartDate: (value: Dayjs | null) => void;
-  
+
   endDate: Dayjs | null;
   handleChangeEndDate: (value: Dayjs | null) => void;
 
@@ -42,10 +42,11 @@ export default function PlanOverviewSection({
     ? approver.firstName + " " + approver.lastName  + " " +  approver.employeeid
     : "Chưa chọn người duyệt kế hoạch";
 
-  const planDuration = (startDate != null && endDate != null) ?
-    getDuration(startDate.toDate(), endDate.toDate()) :
-    0;
-  
+  const planDuration =
+    startDate != null && endDate != null
+      ? getDuration(startDate.toDate(), endDate.toDate())
+      : 0;
+
   return (
     <section
       className="flex flex-col gap-4 py-4 rounded-md bg-white"
@@ -58,8 +59,8 @@ export default function PlanOverviewSection({
         {children}
         {
           (constructionSite && costEstimate)
-          &&
-          <section className="flex gap-5">
+            &&
+            <section className="flex gap-5">
             <div className="w-2/3 p-5 grid grid-cols-2 bg-content border rounded-md">
               <ConstructionSiteDetail constructionSite={constructionSite} />
               <CostEstimateDetail costEstimate={costEstimate} />
@@ -109,6 +110,52 @@ export default function PlanOverviewSection({
                   }}
                 />
               </div>
+              <section className="w-1/3 p-5 flex flex-col gap-5 bg-content border rounded-md">
+                <DatePicker
+                  label="Ngày bắt đầu"
+                  format="DD-MM-YYYY"
+                  value={startDate}
+                  minDate={dayjs()}
+                  maxDate={endDate ?? undefined}
+                  onChange={handleChangeStartDate}
+                />
+
+                <DatePicker
+                  label="Ngày kết thúc"
+                  format="DD-MM-YYYY"
+                  value={endDate}
+                  minDate={startDate ?? undefined}
+                  onChange={handleChangeEndDate}
+                />
+
+                <p className="text-end">Kéo dài: {planDuration} ngày</p>
+
+                <div className="flex gap-2 items-center ">
+                  <p className="flex gap-2">
+                    <span className="font-bold">Người phê duyệt: </span>
+                    {approverInfo}
+                  </p>
+
+                  <IconButton
+                    className="ml-auto "
+                    name="user-plus"
+                    tooltip="Thêm người duyệt kế hoạch"
+                    onClick={() => {
+                      setModal({
+                        children: (
+                          <PopupAddSupervisor
+                            selectedSupervisorCode={approverCode}
+                            onChangeSupervisor={(eeCode: string | null) => {
+                              handleChangeApprover(eeCode);
+                              setIsOpenModal(false);
+                            }}
+                          />
+                        ),
+                      });
+                    }}
+                  />
+                </div>
+              </section>
             </section>
           </section>
         }
