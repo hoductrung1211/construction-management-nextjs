@@ -1,17 +1,21 @@
+import IConstructionState from "./ConstructionState";
+import IConstructionType from "./ConstructionType";
 import { IEmployee } from "./Employee";
 
 export default interface IConstructionSite {
-    constructionsiteid: string;
+    constructionsiteid: number;
     constructionsitecode: string;
     constructionsitename: string;
     address: string;
-    brand: string;
 
-    startdate: Date;
-    enddate: Date;
+    mdConstructionType: IConstructionType;
+
+    startdate: string;
+    enddate: string;
 
     mdEmployee: IEmployee; // creator
-    createddate: Date;
+    // createddate: string;
+    mdConstructionState: IConstructionState;
 }
 
 const example = {

@@ -1,4 +1,4 @@
 export default interface IConstructionState {
-    constructionstateid: string;
+    constructionstateid: number;
     constructionstatename: string;
 }

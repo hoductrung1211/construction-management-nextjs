@@ -1,8 +1,8 @@
 import IConstructionSite from "@/models/ConstructionSite";
-import axios from "./axios.config";
+import request from "./request";
 
 const constructionSiteAPI = {
-    getListActive: () => axios.get<IConstructionSite>("constructions")
+    getListActive: () => request.get<IConstructionSite[]>("constructions/active")
 };
 
 export default constructionSiteAPI;

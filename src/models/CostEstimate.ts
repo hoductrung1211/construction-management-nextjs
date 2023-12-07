@@ -1,11 +1,11 @@
 export default interface ICostEstimate {
-    costestimateid: string;
+    costestimateid: number;
     costestimatecode: string;
     costestimatename: string;
     
     // metadata
     // creator: string;
-    createddate: Date; // TODO: Fix this dateofcostestimate
+    // createddate: string; // TODO: Fix this dateofcostestimate
     status: string;
 
     // report

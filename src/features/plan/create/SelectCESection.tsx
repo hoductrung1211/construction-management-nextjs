@@ -1,4 +1,7 @@
-import { contructionSiteList } from "@/models/ConstructionSite";
+import constructionSiteAPI from "@/apis/constructionSite";
+import costEstimateAPI from "@/apis/costEstimate";
+import IConstructionSite from "@/models/ConstructionSite";
+import ICostEstimate from "@/models/CostEstimate";
 import {
   Button,
   FormControl,
@@ -8,25 +11,47 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
+import { useEffect, useState } from "react";
 
 export interface SelectCESectionProps {
-  selectedCS: string;
+  selectedCSId: string;
   selectedCE: string;
-  handleChangeCS: (event: SelectChangeEvent) => void;
-  handleChangeCE: (event: SelectChangeEvent) => void;
+  onChangeCS: (constructionSiteId: string) => void;
+  onChangeCE: (costEstimateId: string) => void;
   handleLoadPlanInfo: () => void;
 }
 
 export default function SelectCESection({
-  selectedCS,
+  selectedCSId,
   selectedCE,
-  handleChangeCS,
-  handleChangeCE,
+  onChangeCS,
+  onChangeCE,
   handleLoadPlanInfo,
 }: SelectCESectionProps) {
-  const costEstimateList =
-    contructionSiteList.find((cs) => cs.constructionCode == selectedCS)
-      ?.costEstimateList ?? [];
+  const [contructionSiteList, setConstructionSiteList] = useState<IConstructionSite[]>([]);
+  const [costEstimateList, setCostEstimateList] = useState<ICostEstimate[]>([]);
+
+  useEffect(() => {
+    fetchInitialData();
+  }, []);
+
+  const fetchInitialData = async () => {
+    const csListRes = await constructionSiteAPI.getListActive();
+    setConstructionSiteList(csListRes);
+  };
+
+  const handleChangeCS = async (event: SelectChangeEvent) => {
+    const csId = event.target.value;
+    const ceList = await costEstimateAPI.getListCodeAndName(Number.parseInt(csId));
+
+    onChangeCS(csId);
+    setCostEstimateList(ceList);
+  }
+
+  const handleChangeCE = async (event: SelectChangeEvent) => {
+    const ceId = event.target.value;
+    onChangeCE(ceId);
+  }
 
   return (
     <section className="flex gap-10">
@@ -37,12 +62,12 @@ export default function SelectCESection({
         <Select
           labelId="label-construction-site-plan"
           label="Chọn công trình"
-          value={selectedCS}
+          value={selectedCSId + ""}
           onChange={handleChangeCS}
         >
           {contructionSiteList.map((cs, idx) => (
-            <MenuItem key={idx} value={cs.constructionCode}>
-              {cs.constructionCode} + {cs.constructionName}
+            <MenuItem key={cs.constructionsiteid} value={cs.constructionsiteid}>
+              {cs.constructionsitecode} + {cs.constructionsitename}
             </MenuItem>
           ))}
         </Select>
@@ -55,14 +80,15 @@ export default function SelectCESection({
           Chọn dự toán
         </InputLabel>
         <Select
+          disabled={!selectedCSId}
           labelId="label-costestimate-plan"
           label="Chọn dự toán"
           value={selectedCE}
           onChange={handleChangeCE}
         >
           {costEstimateList.map((ce) => (
-            <MenuItem key={ce.costEstimateCode} value={ce.costEstimateCode}>
-              {ce.costEstimateCode}
+            <MenuItem key={ce.costestimateid} value={ce.costestimateid}>
+              {ce.costestimatename}
             </MenuItem>
           ))}
         </Select>

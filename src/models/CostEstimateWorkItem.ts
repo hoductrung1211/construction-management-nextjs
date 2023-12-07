@@ -1,7 +1,7 @@
 import ICostEstimateTask from "./CostEstimateTask";
 
 export default interface ICostEstimateWorkItem {
-    workitemid: string;
+    workitemid: number;
     workitemname: string;
     workitemcode: string;
         

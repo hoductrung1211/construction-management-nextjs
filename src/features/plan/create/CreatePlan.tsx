@@ -1,48 +1,84 @@
 'use client';
 import PlanOverviewSection from "./PlanOverviewSection";
 import PlanWorkItemSection from "./PlanWorkItemSection";
-import { SelectChangeEvent } from "@mui/material";
 import { useState } from "react";
 import SelectCESection from "./SelectCESection";
 import { Dayjs } from "dayjs";
 import useAlert from "@/hooks/useAlert";
 import useLoadingAnimation from "@/hooks/useLoadingAnimation";
-import { IContructionSite, initCSInfo } from "@/models/ConstructionSite";
-import { ICostEstimate, initCEInfo } from "@/models/CostEstimate";
+import IConstructionSite from "@/models/ConstructionSite";
+import ICostEstimate from "@/models/CostEstimate"; 
+import constructionSiteAPI from "@/apis/constructionSite";
+import costEstimateAPI from "@/apis/costEstimate";
+import { IEmployee } from "@/models/Employee";
 
 export default function CreatePlan({
 
 }) {
-    const [selectedCS, setSelectedCS] = useState("");
-    const [selectedCE, setSelectedCE] = useState("");
+    const setLoadingAnimation = useLoadingAnimation();
+    const setAlert = useAlert();
+    const [selectedCSId, setSelectedCSId] = useState("");
+    const [selectedCEId, setSelectedCEId] = useState("");
 
-    const [CSInfo, setCSInfo] = useState<IContructionSite | null>(null);
-    const [CEInfo, setCEInfo] = useState<ICostEstimate | null>(null);
+    const [CSInfo, setCSInfo] = useState<IConstructionSite>();
+    const [CEInfo, setCEInfo] = useState<ICostEstimate>();
 
-    const [approverCode, setApproverCode] = useState<string | null>(null);
+    const [approver, setApprover] = useState<IEmployee | undefined>(undefined);
     const [startDate, setStartDate] = useState<Dayjs | null>(null);
     const [endDate, setEndDate] = useState<Dayjs | null>(null);
 
-    const setLoadingAnimation = useLoadingAnimation();
-
-    const setAlert = useAlert();
-
-    const handleCSChange = (event: SelectChangeEvent) => {
-        setSelectedCS(event.target.value);
+    const handleCSChange = (constructionSiteId: string) => {
+        setSelectedCSId(constructionSiteId);
     };
 
-    const handleCEChange = (event: SelectChangeEvent) => {
-        setSelectedCE(event.target.value);
+    const handleCEChange = (costEstimateId: string) => {
+        setSelectedCEId(costEstimateId);
     };
+
+    const handleLoadCSInfo = async () => {
+        if (selectedCEId && selectedCSId) {
+
+            if (selectedCEId == CEInfo?.costestimateid + "")
+                return;
+
+            setLoadingAnimation(true);
+
+            try {
+                const constructionSite = (await constructionSiteAPI.getListActive()).find(cs => cs.constructionsiteid + "" == selectedCSId);
+                setCSInfo(constructionSite);
+
+                // 1. Get Info Cost Estimate
+                const costEstiamte = await costEstimateAPI.getById(Number.parseInt(selectedCEId));
+                setCEInfo(costEstiamte);
+                setStartDate(null);
+                setEndDate(null);
+
+                // 2. Call API Cost Estimate Tasks
+                // const data = await 
+            }
+            catch (ex) {
+
+            }
+            finally {
+                setLoadingAnimation(false);
+            }
+        }
+        else {
+            setAlert({
+                message: "Vui lòng chọn đầy đủ các trường thông tin",
+                severity: "error"
+            });
+        }
+    }
 
     return (
         <main className="flex flex-col gap-10 p-5 bg-[#ced6e0]">
             <PlanOverviewSection
                 constructionSite={CSInfo}
                 costEstimate={CEInfo}
-                approverCode={approverCode}
-                handleChangeApprover={(newApproverCode) => { 
-                    setApproverCode(newApproverCode);
+                approver={approver}
+                handleChangeApprover={(newApproverId) => { 
+                    setApprover(newApproverId);
                 }}
                 
                 startDate={startDate}
@@ -56,27 +92,11 @@ export default function CreatePlan({
                 }}
             >
                 <SelectCESection
-                    selectedCS={selectedCS}
-                    selectedCE={selectedCE}
-                    handleChangeCS={handleCSChange}
-                    handleChangeCE={handleCEChange}
-                    handleLoadPlanInfo={() => {
-                        if (selectedCE && selectedCS) {
-                            setLoadingAnimation(true);
-                            setTimeout(() => {
-                                setLoadingAnimation(false);
-                            }, 1200);
-
-                            setCSInfo(initCSInfo)
-                            setCEInfo(initCEInfo)
-                        }
-                        else {
-                            setAlert({
-                                message: "Vui lòng chọn đầy đủ các trường thông tin",
-                                severity: "error"
-                            })
-                        }
-                    }}
+                    selectedCSId={selectedCSId}
+                    selectedCE={selectedCEId}
+                    onChangeCS={handleCSChange}
+                    onChangeCE={handleCEChange}
+                    handleLoadPlanInfo={handleLoadCSInfo}
                 />
             </PlanOverviewSection>
             {

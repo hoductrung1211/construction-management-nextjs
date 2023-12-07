@@ -4,7 +4,7 @@ import ICostEstimateWorkItem from "@/models/CostEstimateWorkItem";
 
 const costEstimateAPI = {
     getListCodeAndName: (constructionSiteId: number) =>
-        request.get<ICostEstimateWorkItem[]>(
+        request.get<ICostEstimate[]>(
             `/costestimate/getcodeandname/${constructionSiteId}`
         ),
     

@@ -1,24 +1,54 @@
 import { Avatar, FormControl, TextField } from "@mui/material";
 import Icon from "../../Icon";
 import IconButton from "../../IconButton";
-import { listLabors } from "@/models/Employee";
+import { useEffect, useState } from "react";
+import { IEmployee } from "@/models/Employee";
+import useLoadingAnimation from "@/hooks/useLoadingAnimation";
+import employeeAPI from "@/apis/employee";
+import useAlert from "@/hooks/useAlert";
 
 export default function PopupAddSupervisor({
-    selectedSupervisorCode: selectedSupervisionCode,
-    onChangeSupervisor: onChangeSupervision,
+    selectedSupervisorCode,
+    onChangeSupervisor,
 }: {
-    selectedSupervisorCode: string | null;
-    onChangeSupervisor: (eeCode: string | null) => void;
+    selectedSupervisorCode?: string;
+    onChangeSupervisor: (approver?: IEmployee) => void;
 }) {
+    const [laborList, setLaborList] = useState<IEmployee[]>([]);
+    const setLoading = useLoadingAnimation();
+    const setAlert = useAlert();
+
     const filteredListLabors : {
         id: string;
         firstName: string;
         lastName: string;
     }[] = [];
-    const selectedSupervision = listLabors.find(labor => labor.employeeid == selectedSupervisionCode);
+    const selectedSupervision = laborList.find(labor => labor.employeeid + "" == selectedSupervisorCode);
 
     const onUnselectSupervisor = () => {
-        onChangeSupervision(null);
+        onChangeSupervisor(undefined);
+    }
+
+    useEffect(() => {
+        fetchLaborList();
+    }, []);
+
+    async function fetchLaborList() {
+        setLoading(true);
+        
+        try {
+            const laborResponse = await employeeAPI.getList();
+            setLaborList(laborResponse);
+        }
+        catch (ex) {
+            setAlert({
+                message: "Xảy ra lỗi khi lấy dữ liệu Nhân công!",
+                severity: "error"
+            })
+        }
+        finally {
+            setLoading(true);
+        }
     }
 
     return (
@@ -40,25 +70,25 @@ export default function PopupAddSupervisor({
                         <IconButton onClick={onUnselectSupervisor} name="user-xmark" tooltip="Bỏ chọn người giám sát" />
                     </div>
                     <div className="grid grid-cols-3 items-center justify-items-start rounded-md">
-                        <Avatar>{selectedSupervision.firstName?.[0]}</Avatar>
+                        <Avatar>{selectedSupervision.firstname?.[0]}</Avatar>
                         <span>{selectedSupervision.employeeid}</span>
-                        <span>{selectedSupervision.firstName + " " + selectedSupervision.lastName}</span>
+                        <span>{selectedSupervision.firstname + " " + selectedSupervision.lastname}</span>
                     </div>
                 </section>
             }
             <main className="relative flex-grow p-2 flex flex-col gap-2 overflow-auto ">
-            { listLabors.length ? 
-                listLabors.map(labor => (
+            { laborList.length ? 
+                laborList.map(labor => (
                     <button
                         key={labor.employeeid}
                         className="flex-shrink-0 h-20 px-3 grid grid-cols-3 items-center justify-items-start hover:bg-apple-gray-6 cursor-pointer rounded-md"
                         onClick={() => {
-                            onChangeSupervision(labor.employeeid)
+                            onChangeSupervisor(labor)
                         }}
                     >
-                        <Avatar>{labor.lastName?.[0]}</Avatar>
+                        <Avatar>{labor.lastname?.[0]}</Avatar>
                         <span>{labor.employeeid}</span>
-                        <span>{labor.firstName + " " + labor.lastName}</span>
+                        <span>{labor.firstname + " " + labor.lastname}</span>
                     </button>) 
                 ) :
                 <p className="absolute top-1/2 left-1/2 -translate-x-1/2  -translate-y-1/2 text-apple-gray">Không có kết quả tìm kiếm phù hợp</p>

@@ -1,15 +1,14 @@
 import FieldValue from "@/components/FieldValue";
-import { ICostEstimate } from "@/models/CostEstimate";
-import { getVNLocaleDateString } from "@/utils/functions/getLocaleDateString";
+import ICostEstimate from "@/models/CostEstimate";
  
 export default function CostEstimateDetail({
     costEstimate: {
         costestimatecode: costEstimateCode,
         costestimatename: costEstimateName,
-        creator,
-        createddate: createdTime,
-        totalCost,
-        totalWorkItems
+        // creator,
+        // createddate: createdTime,
+        // totalCost,
+        // totalWorkItems
     }
 }: {
     costEstimate: ICostEstimate
@@ -20,16 +19,16 @@ export default function CostEstimateDetail({
               {costEstimateCode} {costEstimateName} 
             </FieldValue>
             <FieldValue label="Người tạo">
-                {creator}
+                {/* {creator} */}
             </FieldValue>
             <FieldValue label="Thời gian tạo">
-                {createdTime.toLocaleTimeString("en-gb")}
+                {/* {createdTime} */}
             </FieldValue>
             <FieldValue label="Tổng số hạng mục">
-                {totalWorkItems}
+                {/* {totalWorkItems} */}
             </FieldValue> 
             <FieldValue label="Tổng chi phí">
-              <span className="font-bold text-lg text-orange-500">{totalCost.toLocaleString("en-gb")} VND</span>
+              {/* <span className="font-bold text-lg text-orange-500">{totalCost.toLocaleString("en-gb")} VND</span> */}
             </FieldValue> 
         </div>
     )
