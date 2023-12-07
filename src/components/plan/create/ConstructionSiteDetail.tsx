@@ -1,18 +1,17 @@
 import FieldValue from "@/components/FieldValue";
 import { IContructionSite } from "@/models/ConstructionSite";
+import { getVNLocaleDateString } from "@/utils/functions/getLocaleDateString";
 
 export default function ConstructionSiteDetail({
     constructionSite: {
-        constructionCode,
-        constructionName,
+        constructionsitecode: constructionCode,
+        constructionsitename: constructionName,
         address,
         brand,
-
-        startDate,
-        endDate,
-        
-        creator,
-        createdTime
+        startdate: startDate,
+        enddate: endDate,
+        creator, // metadata
+        createdtime: createdTime
     }
 }: {
     constructionSite: IContructionSite
@@ -20,16 +19,16 @@ export default function ConstructionSiteDetail({
     return (
         <div className="col-span-1 flex flex-col gap-4">
             <FieldValue label="Công trình">
-                {constructionCode} {constructionName}
+                #{constructionCode} {constructionName}
             </FieldValue>
             <FieldValue label="Địa chỉ">
                 {address}
             </FieldValue>
             <FieldValue label="Ngày dự kiến bắt đầu">
-                {/* {startDate.toDateString()} */}
+                {getVNLocaleDateString(startDate.toDateString())}
             </FieldValue>
             <FieldValue label="Ngày dự kiến kết thúc">
-                {/* {endDate.toDateString()} */}
+                {getVNLocaleDateString(endDate.toDateString())}
             </FieldValue>
             <FieldValue label="Thương hiệu công ty">
                 {brand}
@@ -38,7 +37,7 @@ export default function ConstructionSiteDetail({
                 {creator}
             </FieldValue>
             <FieldValue label="Thời gian tạo">
-                {createdTime.toLocaleTimeString("en-US")}
+                {getVNLocaleDateString(createdTime.toDateString())}
             </FieldValue>
         </div>
     )

@@ -27,7 +27,7 @@ export const initWorkItems: ICreatePlanWorkItem[] = [
                 taskName: 'Clearing the Site',
                 labors: [
                     {
-                        employeeCode: "#EL0001",
+                        employeeid: "#EL0001",
                         firstName: "Diễm Quỳnh",
                         lastName: "Hà"
                     }

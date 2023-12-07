@@ -1,12 +1,13 @@
 import FieldValue from "@/components/FieldValue";
 import { ICostEstimate } from "@/models/CostEstimate";
+import { getVNLocaleDateString } from "@/utils/functions/getLocaleDateString";
  
 export default function CostEstimateDetail({
     costEstimate: {
-        costEstimateCode,
-        costEstimateName,
+        costestimatecode: costEstimateCode,
+        costestimatename: costEstimateName,
         creator,
-        createdTime,
+        createddate: createdTime,
         totalCost,
         totalWorkItems
     }
@@ -22,7 +23,7 @@ export default function CostEstimateDetail({
                 {creator}
             </FieldValue>
             <FieldValue label="Thời gian tạo">
-                {createdTime.toLocaleTimeString("en-US")}
+                {getVNLocaleDateString(createdTime.toDateString())}
             </FieldValue>
             <FieldValue label="Tổng số hạng mục">
                 {totalWorkItems}

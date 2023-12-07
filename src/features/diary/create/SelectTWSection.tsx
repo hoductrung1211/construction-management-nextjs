@@ -21,7 +21,6 @@ export default function SelectTWSection({
   selectedTaskWI,
   handleChangeCS,
   handleChangetaskWI,
-  // handleLoadAmountOfPlan,
 }: SelectCESectionProps) {
   const lsTaskWorkitem =
     contructionSiteList.find((cs) => cs.id == selectedCS)?.lstaskWI ?? [];

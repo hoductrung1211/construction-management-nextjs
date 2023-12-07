@@ -1,10 +1,7 @@
 "use client";
 import { CustomTabPanel } from "@/components/TabPanel";
 import { Box, Tab, Tabs } from "@mui/material";
-import React from "react";
-import FilterPlan from "../../../components/FilterPlan_Diary";
-import ListPlan from "../../../components/plan/ListPlans";
-import PageNumber from "../../../components/PageNumber";
+import React from "react";  
 
 function a11yProps(index: number) {
   return {

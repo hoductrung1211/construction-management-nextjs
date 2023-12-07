@@ -1,7 +1,7 @@
 'use client';
 import { Navigation } from "@/configs/sidebarNavigation";
 import CreateDiary from "@/features/diary/create/CreateDiary";
-import FilterPlan from "@/components/FilterPlan_Diary";
+import FilterPlan from "@/legacy/plan/FilterPlan_Diary";
 import ListPlanTab from "@/features/plan/list/ListPlanTab";
 import CreatePlan from "@/features/plan/create/CreatePlan";
 import PageContainer from "@/layouts/PageContainer";
@@ -26,7 +26,7 @@ export default function Home() {
         }
       ]}
     >
-      <CreateDiary/>
+      <CreatePlan />
 
     </PageContainer>
   )

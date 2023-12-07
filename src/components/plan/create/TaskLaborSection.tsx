@@ -28,7 +28,7 @@ export default function TaskLaborSection({
           <Autocomplete
             size="small"
             options={listLabors}
-            getOptionLabel={option => option.employeeCode + " " + option.firstName + " " + option.lastName}
+            getOptionLabel={option => option.employeeid + " " + option.firstName + " " + option.lastName}
             renderInput={(params) =>
               <TextField
                 {...params}
@@ -40,7 +40,7 @@ export default function TaskLaborSection({
               />
             } 
             onChange={(e, labor) => {
-              if (labor && !currentLabors.find(l => l.employeeCode == labor.employeeCode)) {
+              if (labor && !currentLabors.find(l => l.employeeid == labor.employeeid)) {
                 onChangeLabors([
                   ...currentLabors,
                   labor
@@ -63,23 +63,23 @@ export default function TaskLaborSection({
         {currentLabors.length ? (
           currentLabors.map((labor) => (
             <button
-              key={labor.employeeCode}
+              key={labor.employeeid}
               className="flex-shrink-0 h-20 px-3 grid grid-cols-4 items-center justify-items-start hover:bg-apple-gray-6 cursor-pointer rounded-md"
             >
               <Avatar>{labor.lastName?.[0]}</Avatar>
-              <span>{labor.employeeCode}</span>
+              <span>{labor.employeeid}</span>
               <span>{labor.firstName + " " + labor.lastName}</span>
               <IconButton
                 className="justify-self-end"
                 name="user-xmark"
                 tooltip="Bỏ chọn nhân công"
                 onClick={() => {
-                  const currentIdx = currentLabors.findIndex(l => l.employeeCode == labor.employeeCode)
+                  const currentIdx = currentLabors.findIndex(l => l.employeeid == labor.employeeid)
                   setCurrentLabors([
                     ...currentLabors.slice(0, currentIdx),
                     ...currentLabors.slice(currentIdx + 1)
                   ]);
-                  const idx = labors.findIndex(l => l.employeeCode == labor.employeeCode);
+                  const idx = labors.findIndex(l => l.employeeid == labor.employeeid);
                   onChangeLabors([
                     ...labors.slice(0, idx),
                     ...labors.slice(idx + 1)

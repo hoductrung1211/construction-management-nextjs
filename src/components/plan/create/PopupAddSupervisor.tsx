@@ -15,7 +15,7 @@ export default function PopupAddSupervisor({
         firstName: string;
         lastName: string;
     }[] = [];
-    const selectedSupervision = listLabors.find(labor => labor.employeeCode == selectedSupervisionCode);
+    const selectedSupervision = listLabors.find(labor => labor.employeeid == selectedSupervisionCode);
 
     const onUnselectSupervisor = () => {
         onChangeSupervision(null);
@@ -41,7 +41,7 @@ export default function PopupAddSupervisor({
                     </div>
                     <div className="grid grid-cols-3 items-center justify-items-start rounded-md">
                         <Avatar>{selectedSupervision.firstName?.[0]}</Avatar>
-                        <span>{selectedSupervision.employeeCode}</span>
+                        <span>{selectedSupervision.employeeid}</span>
                         <span>{selectedSupervision.firstName + " " + selectedSupervision.lastName}</span>
                     </div>
                 </section>
@@ -50,14 +50,14 @@ export default function PopupAddSupervisor({
             { listLabors.length ? 
                 listLabors.map(labor => (
                     <button
-                        key={labor.employeeCode}
+                        key={labor.employeeid}
                         className="flex-shrink-0 h-20 px-3 grid grid-cols-3 items-center justify-items-start hover:bg-apple-gray-6 cursor-pointer rounded-md"
                         onClick={() => {
-                            onChangeSupervision(labor.employeeCode)
+                            onChangeSupervision(labor.employeeid)
                         }}
                     >
                         <Avatar>{labor.lastName?.[0]}</Avatar>
-                        <span>{labor.employeeCode}</span>
+                        <span>{labor.employeeid}</span>
                         <span>{labor.firstName + " " + labor.lastName}</span>
                     </button>) 
                 ) :

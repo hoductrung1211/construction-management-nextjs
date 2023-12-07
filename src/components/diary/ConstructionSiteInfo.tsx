@@ -1,26 +1,20 @@
 "use client";
-
 import {
   FormControl,
-  InputAdornment,
   InputLabel,
   MenuItem,
-  OutlinedInput,
   Select,
   SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import dayjs, { Dayjs } from "dayjs";
 
 import * as React from "react";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { DatePicker } from "@mui/x-date-pickers";
 import SelectTWSection from "@/features/diary/create/SelectTWSection";
 import { useState } from "react";
-import useAlert from "@/hooks/useAlert";
 
 export default function ConstructionSiteInfo() {
   const [selectedCS, setSelectedCS] = useState("");
@@ -33,7 +27,6 @@ export default function ConstructionSiteInfo() {
     setSelectedTaskWI(event.target.value);
   };
 
-  const setAlert = useAlert();
   return (
     <div className="container-fluid bg-background-color">
       <p className="ml-10 py-4 font-semibold text-lg ">
@@ -45,18 +38,6 @@ export default function ConstructionSiteInfo() {
           selectedTaskWI={selectedTaskWI}
           handleChangeCS={handleCSChange}
           handleChangetaskWI={handleChangetaskWI}
-          
-          // handleLoadAmountOfPlan={() => {
-          //   if (selectedTaskWI && selectedCS) {
-          //     setSelectedCS(initCSInfo);
-          //     setSelectedTaskWI(initCEInfo);
-          //   } else {
-          //     setAlert({
-          //       message: "Vui lòng chọn đầy đủ các trường thông tin",
-          //       severity: "error",
-          //     });
-          //   }
-          // }}
         />
         <div className=" rounded-lg bg-[#F9FAFB] flex mx-6 gap-10">
           <div className="flex-col flex w-180 gap-8 mx-2">
@@ -150,25 +131,3 @@ export default function ConstructionSiteInfo() {
     </div>
   );
 }
-
-interface ICSInfo {
-  csId: string;
-  csName: string;
-  address: string;
-  brand: string;
-  creator: string;
-  createdTime: Date;
-  endDate: Date;
-  startDate: Date;
-}
-
-const initCSInfo = {
-  csId: "",
-  csName: "",
-  address: "",
-  brand: "",
-  creator: "",
-  createdTime: new Date(2024, 11, 20),
-  endDate: new Date(2024, 11, 20),
-  startDate: new Date(2024, 11, 20),
-};

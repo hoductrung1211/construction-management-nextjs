@@ -25,7 +25,7 @@ export default function PlanWorkItem({
     workItemName,
   } = workItem;
   
-  const supervisor = listLabors.find((ee) => ee.employeeCode == supervisorCode);
+  const supervisor = listLabors.find((ee) => ee.employeeid == supervisorCode);
 
   const [isShow, setIsShow] = useState(true);
   const { setModal, setIsOpenModal } = useModal();
@@ -84,7 +84,7 @@ export default function PlanWorkItem({
                 <span className="font-bold">
                   {supervisor.firstName + " " + supervisor.lastName}
                 </span>
-                {supervisor.employeeCode}
+                {supervisor.employeeid}
               </p>
             ) : (
               <span>Chưa chọn người giám sát</span>

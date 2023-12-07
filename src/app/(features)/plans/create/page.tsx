@@ -4,7 +4,6 @@ import CreatePlan from "@/features/plan/create/CreatePlan";
 import PageContainer from "@/layouts/PageContainer";
 
 export default function Page() {
- 
   return (
     <PageContainer
       activeNav={Navigation.ConstructionSites}
