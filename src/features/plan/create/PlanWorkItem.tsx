@@ -7,7 +7,7 @@ import useModal from "@/hooks/useModal";
 import PopupAddSupervisor from "@/components/plan/create/PopupAddSupervisor";
 import { ICreatePlanWorkItem } from "@/models/WorkItem";
 import { ICreatePlanTask } from "@/models/Task";
-import { listLabors } from "@/models/Employee";
+import { IEmployee, listLabors } from "@/models/Employee";
 
 export default function PlanWorkItem({
 	workItem,
@@ -19,13 +19,13 @@ export default function PlanWorkItem({
 	const {
 		isSelected,
 		orderIndex,
-		supervisorCode,
+		supervisor,
 		tasks,
 		workItemCode,
 		workItemName,
 	} = workItem;
 
-	const supervisor = listLabors.find((ee) => ee.employeeid == supervisorCode);
+	const selectedSupervisor = listLabors.find((ee) => ee.employeeid == supervisor?.employeeid);
 
 	const [isShow, setIsShow] = useState(true);
 	const { setModal, setIsOpenModal } = useModal();
@@ -82,7 +82,7 @@ export default function PlanWorkItem({
 						{supervisor ? (
 							<p className="flex gap-2">
 								<span className="font-bold">
-									{supervisor.firstName + " " + supervisor.lastName}
+									{supervisor.firstname + " " + supervisor.lastname}
 								</span>
 								{supervisor.employeeid}
 							</p>
@@ -98,11 +98,11 @@ export default function PlanWorkItem({
 							setModal({
 								children: (
 									<PopupAddSupervisor
-										selectedSupervisorCode={supervisorCode}
-										onChangeSupervisor={(eeCode: string | null) => {
+										selectedSupervisorCode={supervisor?.employeeid + ""}
+										onChangeSupervisor={(newSupervisor?: IEmployee) => {
 											onWorkItemChange({
 												...workItem,
-												supervisorCode: eeCode,
+												supervisor: newSupervisor,
 											});
 
 											setIsOpenModal(false);

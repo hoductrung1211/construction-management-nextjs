@@ -11,12 +11,14 @@ import ICostEstimate from "@/models/CostEstimate";
 import constructionSiteAPI from "@/apis/constructionSite";
 import costEstimateAPI from "@/apis/costEstimate";
 import { IEmployee } from "@/models/Employee";
+import ICostEstimateWorkItem from "@/models/CostEstimateWorkItem";
 
 export default function CreatePlan({
 
 }) {
     const setLoadingAnimation = useLoadingAnimation();
     const setAlert = useAlert();
+    
     const [selectedCSId, setSelectedCSId] = useState("");
     const [selectedCEId, setSelectedCEId] = useState("");
 
@@ -26,6 +28,8 @@ export default function CreatePlan({
     const [approver, setApprover] = useState<IEmployee | undefined>(undefined);
     const [startDate, setStartDate] = useState<Dayjs | null>(null);
     const [endDate, setEndDate] = useState<Dayjs | null>(null);
+
+    const [ceWorkItems, setCeWorkItems] = useState<ICostEstimateWorkItem[]>([]);
 
     const handleCSChange = (constructionSiteId: string) => {
         setSelectedCSId(constructionSiteId);
@@ -54,7 +58,8 @@ export default function CreatePlan({
                 setEndDate(null);
 
                 // 2. Call API Cost Estimate Tasks
-                // const data = await 
+                const data = await costEstimateAPI.getListCostEstimateTasks(Number.parseInt(selectedCEId));
+                console.log(data);
             }
             catch (ex) {
 
@@ -102,7 +107,7 @@ export default function CreatePlan({
             {
                 (CEInfo && CSInfo) &&
                 <PlanWorkItemSection
-                
+                    ceWorkItems={ceWorkItems}
                 />
             }
         </main>

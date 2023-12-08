@@ -3,10 +3,31 @@ import { useState } from "react";
 import { Button } from "@mui/material";
 import Icon from "@/components/Icon";
 import { ICreatePlanWorkItem, initWorkItems } from "@/models/WorkItem";
+import ICostEstimateWorkItem from "@/models/CostEstimateWorkItem";
+import { ICreatePlanTask } from "@/models/Task";
 import PlanWorkItem from "./PlanWorkItem";
 
-export default function PlanWorkItemSection() {
-    const [workItems, setWorkItems] = useState(initWorkItems);
+export default function PlanWorkItemSection({
+    ceWorkItems
+}: {
+    ceWorkItems: ICostEstimateWorkItem[]
+}) {
+    // const [workItems, setWorkItems] = useState<ICreatePlanWorkItem[]>(ceWorkItems.map((wi, idx) => ({
+    //     isSelected: true,
+    //     tasks: wi.tasks.map(t => ({
+    //         isSelected: true,
+    //         taskCode: t.taskcode,
+    //         taskName: t.taskname,
+    //         startDate: null,
+
+    //     })),
+    //     orderIndex: idx,
+    //     workItemCode: wi.workitemid + "",
+    //     workItemName: wi.workitemname,
+    //     supervisor: undefined
+    // })));
+
+    const [workItems, setWorkItems] = useState(initWorkItems)
 
     const selectedWorkItems = workItems.filter(w => w.isSelected);
     const totalOfSelectedTasks = selectedWorkItems.reduce((res, wi) => {

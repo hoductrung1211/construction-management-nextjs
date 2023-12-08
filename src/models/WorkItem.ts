@@ -1,3 +1,4 @@
+import { IEmployee } from "./Employee";
 import { ICreatePlanTask } from "./Task";
 
 export interface ICreatePlanWorkItem {
@@ -6,12 +7,13 @@ export interface ICreatePlanWorkItem {
 
     workItemName: string;
     workItemCode: string;
-    supervisorCode: string | null;
+    supervisor?: IEmployee;
     
     tasks: ICreatePlanTask[];
 }
 
-export const initWorkItems: ICreatePlanWorkItem[] = [
+export const initWorkItems: ICreatePlanWorkItem[] 
+    = [
     {
         isSelected: true,
         orderIndex: 1,
