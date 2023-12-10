@@ -5,6 +5,4 @@ export default interface ICostEstimateTask {
     
     amountofwork: number;
     quantityunitname: string;
-
-    
 }

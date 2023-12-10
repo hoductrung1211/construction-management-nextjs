@@ -8,10 +8,10 @@ import employeeAPI from "@/apis/employee";
 import useAlert from "@/hooks/useAlert";
 
 export default function PopupAddSupervisor({
-    selectedSupervisorCode,
+    selectedSupervisorId,
     onChangeSupervisor,
 }: {
-    selectedSupervisorCode?: string;
+    selectedSupervisorId?: number;
     onChangeSupervisor: (approver?: IEmployee) => void;
 }) {
     const [laborList, setLaborList] = useState<IEmployee[]>([]);
@@ -23,7 +23,7 @@ export default function PopupAddSupervisor({
         firstName: string;
         lastName: string;
     }[] = [];
-    const selectedSupervision = laborList.find(labor => labor.employeeid + "" == selectedSupervisorCode);
+    const selectedSupervision = laborList.find(labor => labor.employeeid == selectedSupervisorId);
 
     const onUnselectSupervisor = () => {
         onChangeSupervisor(undefined);

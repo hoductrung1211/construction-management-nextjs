@@ -98,7 +98,7 @@ export default function PlanWorkItem({
 							setModal({
 								children: (
 									<PopupAddSupervisor
-										selectedSupervisorCode={supervisor?.employeeid + ""}
+										selectedSupervisorId={supervisor?.employeeid + ""}
 										onChangeSupervisor={(newSupervisor?: IEmployee) => {
 											onWorkItemChange({
 												...workItem,

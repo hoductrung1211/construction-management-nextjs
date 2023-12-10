@@ -1,5 +1,5 @@
 import { IEmployee } from "./Employee";
-import { IProduct } from "./Product";
+import IProduct from "./Product";
 
 export interface ICreatePlanTask {
     isSelected: boolean;

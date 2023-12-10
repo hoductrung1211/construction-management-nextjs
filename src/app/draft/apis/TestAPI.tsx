@@ -10,8 +10,9 @@ export default function TestAPI() {
     }, []);
 
     async function callApi() {
-        const res = await axios.get("employees/search?name");
-        setData(res);
+        const {data} = await axios.get("costestimatetask/getlistbycostestimateid/1");
+        setData(data);
+        console.log(data);
     }
 
     return (

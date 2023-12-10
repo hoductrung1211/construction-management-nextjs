@@ -113,7 +113,7 @@ export default function WorkItem({
                             setModal({
                                 children:
                                     <PopupAddSupervisor
-                                        selectedSupervisorCode={supervisorCode}
+                                        selectedSupervisorId={supervisorCode}
                                         onChangeSupervisor={(eeCode: string | null) => {
                                             onWorkItemChange({
                                                 ...workItem,

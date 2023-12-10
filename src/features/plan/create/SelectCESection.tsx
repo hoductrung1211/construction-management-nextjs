@@ -42,7 +42,7 @@ export default function SelectCESection({
 
   const handleChangeCS = async (event: SelectChangeEvent) => {
     const csId = event.target.value;
-    const ceList = await costEstimateAPI.getListCodeAndName(Number.parseInt(csId));
+    const ceList = await costEstimateAPI.getListCodeAndName(csId);
 
     onChangeCS(csId);
     setCostEstimateList(ceList);

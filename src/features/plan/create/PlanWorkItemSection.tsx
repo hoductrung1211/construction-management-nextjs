@@ -88,6 +88,7 @@ export default function PlanWorkItemSection({
                     </Button>
                 </footer>
             </div>
+            
             <div className="pb-32 flex flex-col gap-4">
                 <div className="sticky top-20 flex flex-col gap-4">
                     <IconButton name="bars-progress" tooltip="Hiển thị theo dạng danh sách" bgColor={true} /> 

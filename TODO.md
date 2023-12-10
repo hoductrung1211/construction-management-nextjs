@@ -10,3 +10,12 @@ Press Ctrl + Shift + V to preview `.md` file.
     - createdDate.
     - Total number of work item (can be updated later).
     - Total cost (can be updated later).
+
+# API Form Body
+- Is there a plan name???
+
+# Front-end
+1. Approver Popup
+- Filter by Name or ID.
+2. Labor Popup
+- Sync data on Popup with root component.

@@ -41,12 +41,10 @@ export default function CreatePlan({
 
     const handleLoadCSInfo = async () => {
         if (selectedCEId && selectedCSId) {
-
             if (selectedCEId == CEInfo?.costestimateid + "")
                 return;
 
             setLoadingAnimation(true);
-
             try {
                 const constructionSite = (await constructionSiteAPI.getListActive()).find(cs => cs.constructionsiteid + "" == selectedCSId);
                 setCSInfo(constructionSite);
