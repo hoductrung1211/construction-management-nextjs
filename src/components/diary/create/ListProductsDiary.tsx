@@ -3,12 +3,17 @@
 import React, { useState } from "react";
 import Icon from "../../Icon";
 import Products, { IProduct } from "./Products";
+import { IDairyProduct } from "@/models/DiaryProduct";
 
 export interface IProductList {
   products: IProduct[];
 }
 
-export default function ListProductsDiary({ lsproduct}: { lsproduct: IProductList }) {
+export default function ListProductsDiary({
+  lsproduct,
+}: {
+  lsproduct: IDairyProduct[];
+}) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (
@@ -36,11 +41,13 @@ export default function ListProductsDiary({ lsproduct}: { lsproduct: IProductLis
           </p>
         </div>
       </div>
-      {isShow && <div className="listProducts py-3 mx-3 bg-white">
-        {lsproduct.products.map((product, idx) => (
-          <Products key={idx} product={product}/>
-        ))}
-      </div>}
+      {isShow && (
+        <div className="listProducts py-3 mx-3 bg-white">
+          {lsproduct.map((product, idx) => (
+            <Products key={idx} product={product} no={idx + 1} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

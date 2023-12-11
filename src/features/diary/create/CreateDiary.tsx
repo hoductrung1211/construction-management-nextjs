@@ -1,4 +1,5 @@
 "use client";
+import planTaskAPI from "@/apis/plantask";
 import Icon from "@/components/Icon";
 import ConstructionSiteInfo from "@/components/diary/create/ConstructionSiteInfo";
 import ListLaborsDiary, {
@@ -9,6 +10,8 @@ import ListProblem from "@/components/diary/create/ListProblem";
 import ListProductsDiary, {
   IProductList,
 } from "@/components/diary/create/ListProductsDiary";
+import { IDairyEmployee } from "@/models/DiaryEmployee";
+import { IDairyProduct } from "@/models/DiaryProduct";
 import { Button, SelectChangeEvent, styled } from "@mui/material";
 import { useState } from "react";
 
@@ -25,15 +28,55 @@ const VisuallyHiddenInput = styled("input")`
 `;
 
 export default function CreateDiary() {
-  const [labors, setLabors] = useState(initlistLabors);
-  const [products, setProducts] = useState(initlistProducts);
+  const [labors, setLabors] = useState<IDairyEmployee[]>([]);
+  const [products, setProducts] = useState<IDairyProduct[]>([]);
+  const [selectedCS, setSelectedCSId] = useState("");
+  const [selectedWT, setselectedWTId] = useState("");
+  const [showInfo, setShowInfo] = useState(false);
+
+  const handleCSChange = (constructionSiteId: string) => {
+    setSelectedCSId(constructionSiteId);
+  };
+
+  const handleShowInfo = async (showInfo: boolean) => {
+    setShowInfo(showInfo);
+    const laborData = await planTaskAPI.getLabor(selectedWT);
+    const productData = await planTaskAPI.getProduct(selectedWT);
+    setLabors(laborData);
+    setProducts(productData);
+    console.log(laborData, selectedWT);
+  };
+
+  const handleWTChange = (event: SelectChangeEvent) => {
+    setselectedWTId(event.target.value);
+  };
+
+  // const handleCEChange = (costEstimateId: string) => {
+  //     setSelectedCEId(costEstimateId);
+  // };
+
   return (
     <div className=" bg-background-color">
-      <ConstructionSiteInfo />
-      <ListLaborsDiary lslabor={labors} />
-      <ListProductsDiary lsproduct={products} />
-      <ListPicture />
-      <ListProblem />
+      <ConstructionSiteInfo
+        selectedCS={selectedCS}
+        selectedTaskWI={selectedWT}
+        onChangeCS={handleCSChange}
+        showInfo={showInfo}
+        onChangeShowInfo={handleShowInfo}
+        onChangetaskWI={handleWTChange}
+      />
+      {showInfo && (
+        <>
+          {labors !== undefined ? (
+            <ListLaborsDiary lslabor={labors} />
+          ) : (
+            <p>Không có nhân công</p>
+          )}
+          <ListProductsDiary lsproduct={products} />
+          <ListPicture />
+          <ListProblem />
+        </>
+      )}
       <div className=" p-3 flex justify-end items-center gap-5">
         <Button
           color="success"

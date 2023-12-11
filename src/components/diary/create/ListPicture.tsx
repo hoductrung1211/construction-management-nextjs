@@ -22,9 +22,10 @@ export default function ListPicture() {
 
     // Chuyển danh sách các file thành mảng các URL hình ảnh
     if (files != null) {
-      const imageUrls = Array.from(files).map((file) =>
-        URL.createObjectURL(file)
-      );
+      const imageUrls = Array.from(files).map((file) => {
+        URL.createObjectURL(file);
+        console.log(file);
+      });
 
       // Cập nhật trạng thái với danh sách hình ảnh đã chọn
       setSelectedImages(imageUrls);
@@ -60,18 +61,21 @@ export default function ListPicture() {
   };
 
   const image4 = selectedImages.length > 3 && (
-        <div className="relative h-32 w-32"
-        onClick={() => openLightbox(selectedImages[3], 3)}>
+    <div
+      className="relative h-32 w-32"
+      onClick={() => openLightbox(selectedImages[3], 3)}
+    >
       <Image
         src={selectedImages[3]}
         alt="Selected 3"
         fill
-        className="w-32 h-32 object-contain bg-[#AEAEB2] opacity-60 rounded-none cursor-pointer"/>
+        className="w-32 h-32 object-contain bg-[#AEAEB2] opacity-60 rounded-none cursor-pointer"
+      />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-black font-semibold text-2xl">
         + {selectedImages.length - 3}
       </div>
     </div>
-      );
+  );
 
   return (
     <div className="mt-4 bg-background-color w-full rounded-t-lg">
@@ -86,12 +90,8 @@ export default function ListPicture() {
       {isShow && (
         <div className="list-picture flex gap-2 mx-3 py-3 relative">
           <div className=" ml-5">
-          {
-            selectedImages
-            .slice(0, 3)
-            .map((imageUrl, index) => (
-             (
-                <Image
+            {selectedImages.slice(0, 3).map((imageUrl, index) => (
+              <Image
                 key={index}
                 src={imageUrl}
                 alt={`Selected ${index}`}
@@ -99,23 +99,22 @@ export default function ListPicture() {
                 height={200}
                 className="w-32 h-32 object-cover rounded-none cursor-pointer"
                 onClick={() => openLightbox(imageUrl, index)}
-              />)
-            ))
-          }
-          {image4}
-          <Button
-            className="w-32 h-32 bg-[#AEAEB2] rounded-none hover:bg-[#C6C6C9] hover:rounded-none"
-            component="label"
-            variant="contained"
-          >
-            <Icon name="plus" className=" text-[#F2F2F7]" size="2xl" />
-            <input
-              type="file"
-              multiple
-              style={{ display: "none" }}
-              onChange={handleFileChange}
-            />
-          </Button>
+              />
+            ))}
+            {image4}
+            <Button
+              className="w-32 h-32 bg-[#AEAEB2] rounded-none hover:bg-[#C6C6C9] hover:rounded-none"
+              component="label"
+              variant="contained"
+            >
+              <Icon name="plus" className=" text-[#F2F2F7]" size="2xl" />
+              <input
+                type="file"
+                multiple
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+              />
+            </Button>
           </div>
         </div>
       )}

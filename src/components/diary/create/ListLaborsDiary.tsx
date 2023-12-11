@@ -3,12 +3,17 @@
 import React, { useState } from "react";
 import Icon from "../../Icon";
 import Labors, { ILabor } from "./Labors";
+import { IDairyEmployee } from "@/models/DiaryEmployee";
 
 export interface ILaborList {
   labors: ILabor[];
 }
 
-export default function ListLaborsDiary({ lslabor }: { lslabor: ILaborList }) {
+export default function ListLaborsDiary({
+  lslabor,
+}: {
+  lslabor: IDairyEmployee[];
+}) {
   const [isShow, setIsShow] = useState(true);
 
   function handleChangeIsShow() {
@@ -28,13 +33,17 @@ export default function ListLaborsDiary({ lslabor }: { lslabor: ILaborList }) {
           </p>
         </div>
       </header>
-      {
-        isShow && <div className="listLabors py-3 mx-3 bg-white">
-        {lslabor.labors.map((labor, idx) => (
-          <Labors key={labor.laborCode} labor={labor} />
-        ))}
-      </div>
-      }
+      {isShow && (
+        <div className="listLabors py-3 mx-3 bg-white">
+          {lslabor.map((labor, idx) => (
+            <Labors
+              key={labor.mdEmployee.userid}
+              labor={labor.mdEmployee}
+              no={idx + 1}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

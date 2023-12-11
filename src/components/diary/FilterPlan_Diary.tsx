@@ -10,10 +10,10 @@ import {
   MenuItem,
   OutlinedInput,
   Select,
-  TextField,
 } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import React from "react";
 
 const lsbrand = [
   {
@@ -52,12 +52,18 @@ export default function FilterPlan_Diary() {
           </Select>
         </FormControl>
         <FormControl size="small" className="w-72" variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-password">Nhập mã hoặc tên công trình</InputLabel>
+          <InputLabel htmlFor="outlined-adornment-password">
+            Nhập mã hoặc tên công trình
+          </InputLabel>
           <OutlinedInput
             id="searchConstructionSite"
             endAdornment={
               <InputAdornment position="end">
-                <Icon name="magnifying-glass" size="lg" className=" text-apple-gray"/>
+                <Icon
+                  name="magnifying-glass"
+                  size="lg"
+                  className=" text-apple-gray"
+                />
               </InputAdornment>
             }
             label="Nhập mã hoặc tên công trình"

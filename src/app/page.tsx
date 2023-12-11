@@ -1,28 +1,28 @@
-'use client';
+"use client";
 import { Navigation } from "@/configs/sidebarNavigation";
-import CreatePlan from "@/features/plan/create-rework/CreatePlan";
+import CreateDiary from "@/features/diary/create/CreateDiary";
 import PageContainer from "@/layouts/PageContainer";
 
-export default function Home() { 
+export default function Home() {
   return (
     <PageContainer
       activeNav={Navigation.ConstructionSites}
       breadcrumbs={[
         {
           text: "Trang chủ",
-          href:""
+          href: "",
         },
         {
           text: "Công trình",
-          href:""
+          href: "",
         },
         {
           text: "Tạo kế hoạch",
-          href:""
-        }
+          href: "",
+        },
       ]}
     >
-      <CreatePlan />
+      <CreateDiary />
     </PageContainer>
-  )
+  );
 }
