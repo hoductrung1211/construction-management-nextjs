@@ -1,5 +1,5 @@
 "use client";
-import ConstructionSiteInfo from "./PlanInfo";
+
 import { useState } from "react";
 import { IPDetailProps } from "@/components/plan/detail/PlanInfo";
 import PlanInfo from "./PlanInfo";

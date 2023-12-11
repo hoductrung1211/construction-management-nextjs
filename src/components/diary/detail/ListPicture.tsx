@@ -2,13 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import CloseIcon from "@mui/icons-material/Close";
-import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import Icon from "@/components/Icon";
-import { Button } from "@mui/material";
-import IconButton from "@/components/IconButton";
 
 export interface IImages {
   imageId: string;

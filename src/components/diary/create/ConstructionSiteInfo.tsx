@@ -2,22 +2,18 @@
 
 import {
   FormControl,
-  InputAdornment,
   InputLabel,
   MenuItem,
-  OutlinedInput,
   Select,
   SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import dayjs, { Dayjs } from "dayjs";
 
 import * as React from "react";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { DatePicker } from "@mui/x-date-pickers";
 import SelectTWSection from "@/features/diary/create/SelectTWSection";
 import { useState } from "react";
 import useAlert from "@/hooks/useAlert";

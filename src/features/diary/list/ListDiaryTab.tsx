@@ -1,8 +1,10 @@
 "use client";
 
-import PageNumber from "@/components/PageNumber";
+
 import { CustomTabPanel } from "@/components/TabPanel";
-import ListDiaries from "@/components/diary/ListDiaries";
+import ListDiaries from "@/components/diary/list/ListDiaries";
+import PageNumber from "@/components/diary/list/PageNumber";
+
 import { Box, Tab, Tabs } from "@mui/material";
 import React from "react";
 

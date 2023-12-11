@@ -2,8 +2,6 @@
 
 import React, { useState } from "react";
 import Icon from "../../Icon";
-import { Unstable_NumberInput as NumberInput } from "@mui/base/Unstable_NumberInput";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import Labors, { ILabor } from "./Labors";
 
 export interface ILaborList {

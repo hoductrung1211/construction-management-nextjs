@@ -3,8 +3,6 @@
 import { Button, IconButton, SelectChangeEvent } from "@mui/material";
 import Icon from "../../Icon";
 import { ChangeEvent, useState } from "react";
-import { styled } from "@mui/material/styles";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Image from "next/image";
 import { ModalImage } from "../detail/ListPicture";
 

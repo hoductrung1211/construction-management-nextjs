@@ -2,8 +2,6 @@
 
 import React, { useState } from "react";
 import Icon from "../../Icon";
-import { styled } from "@mui/material";
-import { blue, grey } from "@mui/material/colors";
 import Products, { IProduct } from "./Products";
 
 export interface IProductList {
