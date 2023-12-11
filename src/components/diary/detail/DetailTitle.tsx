@@ -1,4 +1,4 @@
-
+"use client";
 export interface IWTDetailProps{
   workitemId: string,
   workitemName: string,
@@ -18,14 +18,14 @@ export default function DetailTitle(
 }
 ){
     return(
-        <div className="flex ml-5">
-          <div className=" flex-col pr-5">
-            <p className="font-semibold  text-center">{workitemName}</p>
-            <p className="font-thin text-center text-text-color">{workitemId}</p>
+        <div className="flex border-2 border-[#E5E7EB] p-2">
+          <div className=" flex-col pr-5 ml-5">
+            <p className="font-semibold  text-center">Xây móng</p>
+            <p className="font-thin text-center text-text-color">#WT0001</p>
           </div>
           <div className=" flex-col px-5 border-x-2 border-text-color">
-            <p className="font-semibold text-center">{taskName}</p>
-            <p className="font-thin text-center text-text-color">{taskName}s</p>
+            <p className="font-semibold text-center">Đào móng</p>
+            <p className="font-thin text-center text-text-color">#TK0001</p>
           </div>
         </div>
     )

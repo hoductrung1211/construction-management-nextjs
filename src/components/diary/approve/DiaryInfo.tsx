@@ -1,14 +1,16 @@
 "use client";
-import ConstructionSiteInfo from "./PlanInfo";
+
 import { useState } from "react";
-import { IPDetailProps } from "@/components/plan/detail/PlanInfo";
 import PlanInfo from "./PlanInfo";
-import DetailTitle, { IWTDetailProps } from "./DetailTitle";
-import ListPicture, { IImagesList } from "./ListPicture";
-import ListProductsDiary, { IProductList } from "./ListProductsDiary";
-import ListLaborsDiary, { ILaborList } from "./ListLaborsDiary";
-import ListProblem from "./ListProblem";
+
 import Image from "next/image";
+import DetailTitle, { IWTDetailProps } from "../detail/DetailTitle";
+
+import ListProductsDiary, { IProductList } from "../detail/ListProductsDiary";
+import ListPicture, { IImagesList } from "../detail/ListPicture";
+import ListProblem from "../detail/ListProblem";
+import { IPDetailProps } from "@/components/plan/detail/PlanInfo";
+import ListLaborsDiary, { ILaborList } from "../detail/ListLaborsDiary";
 
 export interface IDRDetailProps {}
 export default function DiaryInfo() {
@@ -31,7 +33,7 @@ export default function DiaryInfo() {
               <div className="flex gap-6 mx-5 mt-3">
                 <div className="grow bg-[#F9FAFB] rounded-xl">
                   <div className=" grid grid-cols-2 m-5 gap-4">
-                  <div className=" flex flex-col col-span-2 h-32 justify-center items-center">
+                    <div className=" flex flex-col col-span-2 h-32 justify-center items-center">
                       <Image
                         src="/iconweathers/Nang.png"
                         alt=""

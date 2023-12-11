@@ -27,8 +27,8 @@ export default function ListDiaryTab() {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Đã xác nhận" {...a11yProps(0)} />
-          <Tab label="Chờ đối chứng" {...a11yProps(1)} />
+          <Tab label="Gần đây" {...a11yProps(0)} />
+          <Tab label="Chờ đối chứng/duyệt" {...a11yProps(1)} />
           <Tab label="Khác" {...a11yProps(2)} />
         </Tabs>
       </Box>

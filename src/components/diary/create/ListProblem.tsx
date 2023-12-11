@@ -1,0 +1,142 @@
+"use client";
+
+import { Button, IconButton, TextField } from "@mui/material";
+import Icon from "../../Icon";
+import Image from "next/image";
+import { ChangeEvent, useState } from "react";
+import { ModalImage } from "../detail/ListPicture";
+
+export default function ListProblem() {
+  const [isShow, setIsShow] = useState(true);
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  function handleChangeIsShow() {
+    setIsShow(!isShow);
+  }
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+
+    // Chuyển danh sách các file thành mảng các URL hình ảnh
+    if (files != null) {
+      const imageUrls = Array.from(files).map((file) =>
+        URL.createObjectURL(file)
+      );
+
+      // Cập nhật trạng thái với danh sách hình ảnh đã chọn
+      setSelectedImages(imageUrls);
+    }
+  };
+
+  const openLightbox = (imageLink: string, index: number) => {
+    setSelectedImage(imageLink);
+    setCurrentImageIndex(index);
+  };
+
+  const closeLightbox = () => {
+    setSelectedImage(null);
+    setCurrentImageIndex(0);
+  };
+
+  const changeImage = (direction: "prev" | "next") => {
+    let newIndex;
+    if (direction === "next") {
+      if (currentImageIndex == selectedImages.length - 1) {
+        return;
+      }
+      newIndex = currentImageIndex + 1;
+    } else {
+      if (currentImageIndex == 0) {
+        return;
+      }
+      newIndex = currentImageIndex - 1;
+    }
+
+    setSelectedImage(selectedImages[newIndex]);
+    setCurrentImageIndex(newIndex);
+  };
+
+  const image4 = selectedImages.length > 3 && (
+    <div className="relative h-32 w-32"
+    onClick={() => openLightbox(selectedImages[3], 3)}>
+  <Image
+    src={selectedImages[3]}
+    alt="Selected 3"
+    fill
+    className="w-32 h-32 object-contain bg-[#AEAEB2] opacity-60 rounded-none cursor-pointer"
+  />
+  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-black font-semibold text-2xl cursor-pointer">
+    + {selectedImages.length - 3}
+  </div>
+</div>
+  );
+
+  return (
+    <div className=" mt-4 bg-background-color w-full rounded-t-lg">
+      <div className=" flex space-x-2">
+        <Icon
+          className="  ml-3 grid place-items-center w-8 h-8 cursor-pointer hover:text-dark "
+          name={isShow ? "angle-down" : "angle-right"}
+          onClick={handleChangeIsShow}
+        />
+        <p className="font-semibold text-text-color">Sự cố</p>
+      </div>
+      {isShow && (
+        <div className="list-picture flex gap-10 mx-3 py-3 relative">
+          <div className=" ml-3 flex gap-2">
+          {
+            selectedImages
+            .slice(0, 3)
+            .map((imageUrl, index) => (
+             (
+                <Image
+                key={index}
+                src={imageUrl}
+                alt={`Selected ${index}`}
+                width={200}
+                height={200}
+                className="w-32 h-32 object-cover rounded-none cursor-pointer"
+                onClick={() => openLightbox(imageUrl, index)}
+              />)
+            ))
+          }
+          {image4}
+          <Button
+            className="w-32 h-32 bg-[#AEAEB2] rounded-none hover:bg-[#C6C6C9] hover:rounded-none"
+            component="label"
+            variant="contained"
+          >
+            <Icon name="plus" className=" text-[#F2F2F7]" size="2xl" />
+            <input
+              type="file"
+              multiple
+              style={{ display: "none" }}
+              onChange={handleFileChange}
+            />
+          </Button>
+        </div>
+        <TextField
+          className=" w-120"
+          id="outlined-multiline-static"
+          label="Nội dung sự cố"
+          multiline
+          rows={4}
+          value="Nhập sự cố..."
+        />
+          </div>
+      )}
+      {selectedImage && (
+        <ModalImage
+          imageUrl={selectedImage}
+          onClose={closeLightbox}
+          onNext={() => changeImage("next")}
+          onPrev={() => changeImage("prev")}
+          currentIndex={currentImageIndex}
+          totalImages={selectedImages.length}
+        />
+      )}
+    </div>
+  );
+}

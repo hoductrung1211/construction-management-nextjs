@@ -1,5 +1,7 @@
+import Icon from "@/components/Icon";
 import { FormControl, InputLabel, MenuItem, Select, StepTypeMap } from "@mui/material";
-import Icon from "../Icon";
+import { useState } from "react";
+
 
 export interface ILabor{
     isSelected: boolean;
