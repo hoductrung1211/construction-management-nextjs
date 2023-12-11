@@ -1,5 +1,5 @@
+import DiaryInfo from "@/components/diary/approve/DiaryInfo";
 import DetailTitle from "@/components/diary/detail/DetailTitle";
-import DiaryInfo from "@/components/diary/detail/DiaryInfo";
 import ListLaborsDiary, { ILaborList } from "@/components/diary/detail/ListLaborsDiary";
 import ListPicture, { IImagesList } from "@/components/diary/detail/ListPicture";
 import ListProductsDiary, { IProductList } from "@/components/diary/detail/ListProductsDiary";

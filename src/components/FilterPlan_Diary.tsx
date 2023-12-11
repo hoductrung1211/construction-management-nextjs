@@ -5,9 +5,12 @@ import IconButton from "@/components/IconButton";
 import {
   Button,
   FormControl,
+  InputAdornment,
   InputLabel,
   MenuItem,
+  OutlinedInput,
   Select,
+  TextField,
 } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -48,7 +51,7 @@ export default function FilterPlan_Diary() {
             ))}
           </Select>
         </FormControl>
-        <FormControl size="small">
+        {/* <FormControl size="small">
           <InputLabel id="label-construction-site-plan">
             Chọn công trình
           </InputLabel>
@@ -63,7 +66,20 @@ export default function FilterPlan_Diary() {
               </MenuItem>
             ))}
           </Select>
+        </FormControl> */}
+        <FormControl size="small" className="w-72" variant="outlined">
+          <InputLabel htmlFor="outlined-adornment-password">Nhập mã hoặc tên công trình</InputLabel>
+          <OutlinedInput
+            id="searchConstructionSite"
+            endAdornment={
+              <InputAdornment position="end">
+                <Icon name="magnifying-glass" size="lg" className=" text-apple-gray"/>
+              </InputAdornment>
+            }
+            label="Nhập mã hoặc tên công trình"
+          />
         </FormControl>
+        {/* <TextField className="w-72" size="small" id="search-constructionsite" label="Nhập mã hoặc tên công trình" variant="outlined" /> */}
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
           <DatePicker
             label="Ngày bắt đầu"

@@ -9,6 +9,8 @@ import ListDiaryTab from "@/features/diary/list/ListDiaryTab";
 import DetailPlan from "@/features/plan/detail/DetailPlan";
 import ApprovedView from "@/features/plan/approved/ApprovedView";
 import DetailDiary from "@/features/diary/detail/DetailDiary";
+import ApproveDiary from "@/features/diary/approve/ApproveDiary";
+import ConfirmDiary from "@/features/diary/confirm/ConfirmDiary";
 
 export default function Home() { 
   return (
@@ -33,7 +35,10 @@ export default function Home() {
       {/* <CreatePlan /> */}
       {/* <DetailPlan/> */}
       {/* <ApprovedView/> */}
-      <DetailDiary/>
+      {/* <DetailDiary/> */}
+      {/* <ListPlanTab/> */}
+      {/* <ApproveDiary/> */}
+      <ConfirmDiary/>
     </PageContainer>
   )
 }

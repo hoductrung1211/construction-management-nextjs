@@ -9,10 +9,10 @@ export default function ListPlan() {
       <FilterPlan_Diary />
       <div className=" bg-[#FAFAFC] mx-4 p-4 flex-col">
         <div className="title flex my-2">
+          <p className=" font-semibold w-full text-center">ID+Tên công trình</p>
           <p className=" font-semibold w-full text-center">ID+Tên kế hoạch</p>
           <p className=" font-semibold w-full text-center">Ngày bắt đầu</p>
           <p className=" font-semibold w-full text-center">Ngày kết thúc</p>
-          <p className=" font-semibold w-full text-center">ID+Tên công trình</p>
           <div className=" w-full flex">
             <p className=" font-semibold text-center grow">Ngày tạo</p>
             <span className=" flex-none w-10"></span>
@@ -20,10 +20,10 @@ export default function ListPlan() {
         </div>
         <div className=" lsplan flex-col space-y-1">
           <div className="flex">
+            <p className=" w-full text-center">ID+Tên công trình</p>
             <p className=" w-full text-center">ID+Tên kế hoạch</p>
             <p className=" w-full text-center">Ngày bắt đầu</p>
             <p className=" w-full text-center">Ngày kết thúc</p>
-            <p className=" w-full text-center">ID+Tên công trình</p>
             <div className=" w-full flex">
               <p className=" grow text-center">Nhật ký ngày</p>
               <span className=" flex-none w-10">
@@ -32,10 +32,10 @@ export default function ListPlan() {
             </div>
           </div>
           <div className="flex">
+            <p className=" w-full text-center">ID+Tên công trình</p>
             <p className=" w-full text-center">ID+Tên kế hoạch</p>
             <p className=" w-full text-center">Ngày bắt đầu</p>
             <p className=" w-full text-center">Ngày kết thúc</p>
-            <p className=" w-full text-center">ID+Tên công trình</p>
             <div className=" w-full flex">
               <p className=" grow text-center">Nhật ký ngày</p>
               <span className=" flex-none w-10">

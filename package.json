@@ -20,6 +20,7 @@
     "notistack": "^3.0.1",
     "react": "^18",
     "react-dom": "^18",
+    "react-modal": "^3.16.1",
     "universal-cookie": "^6.1.1"
   },
   "devDependencies": {

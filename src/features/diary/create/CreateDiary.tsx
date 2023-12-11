@@ -1,10 +1,14 @@
 "use client";
 import Icon from "@/components/Icon";
-import ConstructionSiteInfo from "@/components/diary/ConstructionSiteInfo";
-import ListLaborsDiary, { ILaborList } from "@/components/diary/ListLaborsDiary";
-import ListPicture from "@/components/diary/ListPicture";
-import ListProblem from "@/components/diary/ListProblem";
-import ListProductsDiary, { IProductList } from "@/components/diary/ListProductsDiary";
+import ConstructionSiteInfo from "@/components/diary/create/ConstructionSiteInfo";
+import ListLaborsDiary, {
+  ILaborList,
+} from "@/components/diary/create/ListLaborsDiary";
+import ListPicture from "@/components/diary/create/ListPicture";
+import ListProblem from "@/components/diary/create/ListProblem";
+import ListProductsDiary, {
+  IProductList,
+} from "@/components/diary/create/ListProductsDiary";
 import { Button, SelectChangeEvent, styled } from "@mui/material";
 import { useState } from "react";
 
@@ -28,8 +32,26 @@ export default function CreateDiary() {
       <ConstructionSiteInfo />
       <ListLaborsDiary lslabor={labors} />
       <ListProductsDiary lsproduct={products} />
-      <ListPicture/>
-      <ListProblem/>
+      <ListPicture />
+      <ListProblem />
+      <div className=" p-3 flex justify-end items-center gap-5">
+        <Button
+          color="success"
+          className="min-w-[100px] bg-success flex justify-center items-center gap-3"
+          variant="contained"
+        >
+          <Icon name="floppy-disk" size="xl" />
+          Lưu
+        </Button>
+        <Button
+          color="info"
+          className="min-w-[100px] bg-primary flex justify-center items-center gap-3"
+          variant="contained"
+        >
+          <Icon name="paper-plane" size="xl" />
+          Gửi
+        </Button>
+      </div>
     </div>
   );
 }
@@ -62,7 +84,7 @@ const initlistLabors: ILaborList = {
       lastName: "Nguyễn",
       role: "Công nhân",
       shift: 8,
-    }
+    },
   ],
 };
 
@@ -88,6 +110,6 @@ const initlistProducts: IProductList = {
       pdName: "Đá",
       pdUnit: "m3",
       pdAmount: 80,
-    }
+    },
   ],
 };

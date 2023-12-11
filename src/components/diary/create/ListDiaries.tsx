@@ -1,8 +1,8 @@
 "use client";
 
+import FilterPlan_Diary from "@/components/FilterPlan_Diary";
 import Icon from "@/components/Icon";
-import FilterPlan from "../FilterPlan_Diary";
-import FilterPlan_Diary from "../FilterPlan_Diary";
+
 
 export default function ListDiaries() {
   return (

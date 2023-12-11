@@ -5,8 +5,10 @@ const nextConfig = {
         {    protocol: 'https',
             hostname: 'www.procore.com',
             port: '',
-            pathname: '/*/**',}
-        ]
+            pathname: '/*/**',
+        }
+        ],
+        
     }
 }
 

@@ -64,7 +64,7 @@ export default function SelectTWSection({
       </FormControl>
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
         <DatePicker
-          label="Ngày xem"
+          label="Nhật ký ngày"
           slotProps={{ textField: { className: "w-72", size: "small" } }}
         />
       </LocalizationProvider>

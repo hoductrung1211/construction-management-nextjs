@@ -35,7 +35,7 @@ export default function ConstructionSiteInfo() {
 
   const setAlert = useAlert();
   return (
-    <div className="container-fluid bg-background-color">
+    <div className=" bg-background-color">
       <p className="ml-10 py-4 font-semibold text-lg ">
         Thông tin nhật ký công trình
       </p>
@@ -119,9 +119,9 @@ export default function ConstructionSiteInfo() {
                 <p className=" font-semibold">Khối lượng hoàn thành</p>
               </div>
               <div className="w-30 space-y-2">
-                <p>300</p>
-                <p>100</p>
-                <p>140</p>
+                <p>300<span>m3</span></p>
+                <p>100<span>m3</span></p>
+                <p>140<span>m3</span></p>
                 <TextField
                   className=" w-24"
                   size="small"
