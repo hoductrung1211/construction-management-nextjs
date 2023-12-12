@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Icon from "../../Icon";
 import Labors, { ILabor } from "./Labors";
 import { IDairyEmployee } from "@/models/DiaryEmployee";
@@ -11,14 +11,33 @@ export interface ILaborList {
 
 export default function ListLaborsDiary({
   lslabor,
+  handleRemoveLabor: handleRemoveLabor,
 }: {
   lslabor: IDairyEmployee[];
+  handleRemoveLabor: (idx: string) => void;
 }) {
   const [isShow, setIsShow] = useState(true);
 
   function handleChangeIsShow() {
     setIsShow(!isShow);
   }
+
+  const LaborItem = useCallback(() => {
+    return (
+      <div className="listLabors py-3 mx-3 bg-white">
+        {lslabor &&
+          lslabor.map((labor, idx) => (
+            <Labors
+              key={labor.mdEmployee.userid}
+              labor={labor.mdEmployee}
+              no={idx + 1}
+              handleRemoveLabor={handleRemoveLabor}
+            />
+          ))}
+      </div>
+    );
+  }, [lslabor]);
+
   return (
     <div className=" mt-4 bg-background-color w-full rounded-t-lg">
       <header className="flex gap-20 justify-between">
@@ -33,17 +52,7 @@ export default function ListLaborsDiary({
           </p>
         </div>
       </header>
-      {isShow && (
-        <div className="listLabors py-3 mx-3 bg-white">
-          {lslabor.map((labor, idx) => (
-            <Labors
-              key={labor.mdEmployee.userid}
-              labor={labor.mdEmployee}
-              no={idx + 1}
-            />
-          ))}
-        </div>
-      )}
+      {isShow && <LaborItem />}
     </div>
   );
 }

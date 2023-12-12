@@ -10,6 +10,7 @@ import ListProblem from "@/components/diary/create/ListProblem";
 import ListProductsDiary, {
   IProductList,
 } from "@/components/diary/create/ListProductsDiary";
+import useLoadingAnimation from "@/hooks/useLoadingAnimation";
 import { IDairyEmployee } from "@/models/DiaryEmployee";
 import { IDairyProduct } from "@/models/DiaryProduct";
 import { Button, SelectChangeEvent, styled } from "@mui/material";
@@ -28,6 +29,8 @@ const VisuallyHiddenInput = styled("input")`
 `;
 
 export default function CreateDiary() {
+  const useLoading = useLoadingAnimation();
+
   const [labors, setLabors] = useState<IDairyEmployee[]>([]);
   const [products, setProducts] = useState<IDairyProduct[]>([]);
   const [selectedCS, setSelectedCSId] = useState("");
@@ -38,14 +41,20 @@ export default function CreateDiary() {
     setSelectedCSId(constructionSiteId);
   };
 
-  const handleShowInfo = async (showInfo: boolean) => {
-    setShowInfo(showInfo);
-    const laborData = await planTaskAPI.getLabor(selectedWT);
-    const productData = await planTaskAPI.getProduct(selectedWT);
-    setLabors(laborData);
-    setProducts(productData);
-    console.log(laborData, selectedWT);
-  };
+  async function HandleShowInfo(showInfo: boolean) {
+    useLoading(true);
+    try {
+      const laborData = await planTaskAPI.getLabor(selectedWT);
+      const productData = await planTaskAPI.getProduct(selectedWT);
+      setLabors(laborData || []);
+      setProducts(productData || []);
+      setShowInfo(showInfo);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      useLoading(false);
+    }
+  }
 
   const handleWTChange = (event: SelectChangeEvent) => {
     setselectedWTId(event.target.value);
@@ -55,46 +64,63 @@ export default function CreateDiary() {
   //     setSelectedCEId(costEstimateId);
   // };
 
+  function handleRemoveLabor(idx: string) {
+    const newList = labors.filter((item) => item.mdEmployee.userid !== idx);
+    setLabors(newList);
+  }
+
+  function handleRemoveProduct(idx: number) {
+    const newList = products.filter((item) => item.mdProduct.productid !== idx);
+    setProducts(newList);
+  }
+
   return (
-    <div className=" bg-background-color">
+    <div className="bg-background-color h-screen">
       <ConstructionSiteInfo
         selectedCS={selectedCS}
         selectedTaskWI={selectedWT}
         onChangeCS={handleCSChange}
         showInfo={showInfo}
-        onChangeShowInfo={handleShowInfo}
+        onChangeShowInfo={HandleShowInfo}
         onChangetaskWI={handleWTChange}
       />
       {showInfo && (
         <>
           {labors !== undefined ? (
-            <ListLaborsDiary lslabor={labors} />
+            <ListLaborsDiary
+              lslabor={labors}
+              handleRemoveLabor={handleRemoveLabor}
+            />
           ) : (
             <p>Không có nhân công</p>
           )}
-          <ListProductsDiary lsproduct={products} />
+          <ListProductsDiary
+            lsproduct={products}
+            handleRemoveProduct={handleRemoveProduct}
+          />
           <ListPicture />
           <ListProblem />
+
+          <div className=" p-3 flex justify-end items-center gap-5">
+            <Button
+              color="success"
+              className="min-w-[100px] bg-success flex justify-center items-center gap-3"
+              variant="contained"
+            >
+              <Icon name="floppy-disk" size="xl" />
+              Lưu
+            </Button>
+            <Button
+              color="info"
+              className="min-w-[100px] bg-primary flex justify-center items-center gap-3"
+              variant="contained"
+            >
+              <Icon name="paper-plane" size="xl" />
+              Gửi
+            </Button>
+          </div>
         </>
       )}
-      <div className=" p-3 flex justify-end items-center gap-5">
-        <Button
-          color="success"
-          className="min-w-[100px] bg-success flex justify-center items-center gap-3"
-          variant="contained"
-        >
-          <Icon name="floppy-disk" size="xl" />
-          Lưu
-        </Button>
-        <Button
-          color="info"
-          className="min-w-[100px] bg-primary flex justify-center items-center gap-3"
-          variant="contained"
-        >
-          <Icon name="paper-plane" size="xl" />
-          Gửi
-        </Button>
-      </div>
     </div>
   );
 }

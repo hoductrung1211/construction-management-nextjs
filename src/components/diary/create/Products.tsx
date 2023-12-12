@@ -12,9 +12,11 @@ export interface IProduct {
 export default function Products({
   product,
   no,
+  handleRemoveProduct,
 }: {
   product: IDairyProduct;
   no: number;
+  handleRemoveProduct: (idx: number) => void;
 }) {
   return (
     <div className=" flex justify-between mx-9 my-2 items-center">
@@ -33,7 +35,7 @@ export default function Products({
           required
         />
       </div>
-      <span className=" w-2 mr-2">
+      <span className=" w-2 mr-2 cursor-pointer" onClick={() => handleRemoveProduct(product.mdProduct.productid)}>
         <Icon size="lg" className="text-text-color" name="xmark" />
       </span>
     </div>

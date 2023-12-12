@@ -15,7 +15,7 @@ import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import useAlert from "@/hooks/useAlert";
 import {
   DateCalendar,
@@ -31,8 +31,10 @@ import constructionSiteAPI from "@/apis/constructionSite";
 import planTaskAPI from "@/apis/plantask";
 import { IWeather } from "@/models/Weather";
 import dairyApi from "@/apis/dairy";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/vi";
+import useLoadingAnimation from "@/hooks/useLoadingAnimation";
+
 export interface SelectCESectionProps {
   selectedCS: string;
   selectedTaskWI: string;
@@ -53,6 +55,12 @@ export default function ConstructionSiteInfo({
 }: // onChangetaskWI,
 SelectCESectionProps) {
   const defaultDate = dayjs(Date.now.toString()).locale("vi");
+  const useLoading = useLoadingAnimation();
+  const [startTime, setStartTime] = React.useState<Dayjs | null>(
+    dayjs(Date.now())
+  );
+  const [endTime, setEndTime] = React.useState<Dayjs | null>(dayjs(Date.now()));
+
   // handleLoadAmountOfPlan,
   const [selectedConstruction, setselectedConstruction] = useState("");
   const [selectedTaskWorkitem, setSelectedTaskWorkitem] = useState("");
@@ -63,9 +71,14 @@ SelectCESectionProps) {
     IConstructionSite[]
   >([]);
   const [planTask, setPlanTask] = useState<IPlanTaskDiary>();
+  const [flagLoadButton, setFlagLoadButton] = useState<Boolean>(true);
+  const [flagTaskWI, setFlagTaskWI] = useState<Boolean>(true);
 
   const [workitemTaskList, setWorkitemTaskList] =
     React.useState<IPlanTaskDiary[]>();
+
+  const [temperature, setTemperature] = useState<number>(0);
+  const [amountDone, setAmountDone] = useState<number>(0);
 
   React.useEffect(() => {
     fetchInitialData();
@@ -81,14 +94,16 @@ SelectCESectionProps) {
     const csId = event.target.value;
     setselectedConstruction(csId);
     setWorkitemTaskList((await planTaskAPI.getList(csId)) || []);
+    setFlagTaskWI(false);
   };
   const handleChangetaskWI = async (event: SelectChangeEvent) => {
     const workitemtaskId = event.target.value;
     onChangetaskWI(event);
     setSelectedTaskWorkitem(workitemtaskId);
+    setFlagLoadButton(false);
     // setWorkitemTaskList(await planTaskAPI.getList(csId));
   };
-  const handleLoadPlanTaskInfo = async () => {
+  async function HandleLoadPlanTaskInfo() {
     const planTask = ((await planTaskAPI.getPlanTask(selectedTaskWorkitem)) ||
       [])[0];
     const weathers = (await dairyApi.getWeather()) || [];
@@ -96,16 +111,54 @@ SelectCESectionProps) {
     setPlanTask(planTask);
     onChangeShowInfo(true);
     console.log(planTask);
+  }
+
+  const onChangeTemperature = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setTemperature(parseInt(e.target.value));
+  };
+
+  const onChangeAmountDone = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const temp = parseInt(e.target.value);
+    if (temp >= 0) setAmountDone(temp);
+    else setAmountDone(0);
   };
 
   const setAlert = useAlert();
   dayjs.locale("vi");
+  function onChangeStartTime(value: Dayjs | null): void {
+    if (value?.isBefore(startTime)) {
+    setStartTime(value);
+    }else {
+      setAlert({
+        severity: "error",
+        message: "Giờ bắt đầu phải trước giờ kết thúc",
+      })
+    }
+  }
+
+  function onChangeEndTime(value: Dayjs | null): void {
+    if (value?.isAfter(startTime)) {
+      setEndTime(value);
+    }
+    else {
+      setAlert({
+        severity: "error",
+        message: "Giờ kết thúc phải trước giờ bắt đầu",
+      })
+    }
+    
+  }
+
   return (
     <div className=" bg-background-color">
       <p className="ml-10 py-4 font-semibold text-lg ">
         Thông tin nhật ký công trình
       </p>
-      <div className="bg-white rounded-lg py-5 mx-3">
+      <div className="bg-white rounded-lg py-5 mx-3 ">
         <section className=" flex mx-8 mb-5 space-x-14">
           <FormControl size="small">
             <InputLabel id="label-construction-site-plan">
@@ -132,6 +185,7 @@ SelectCESectionProps) {
             </InputLabel>
             <Select
               className="w-72"
+              disabled={flagTaskWI}
               labelId="label-task-workitem"
               label="Chọn công việc-hạng mục"
               value={selectedTaskWorkitem}
@@ -150,7 +204,11 @@ SelectCESectionProps) {
               ))}
             </Select>
           </FormControl>
-          <Button variant="outlined" onClick={() => handleLoadPlanTaskInfo()}>
+          <Button
+            disabled={flagLoadButton}
+            variant="outlined"
+            onClick={() => HandleLoadPlanTaskInfo()}
+          >
             Load
           </Button>
         </section>
@@ -178,7 +236,7 @@ SelectCESectionProps) {
                     </Select>
                   </FormControl>
                   <TextField
-                    className="w-72"
+                    className="w-72 "
                     size="small"
                     id="outlined-temperature"
                     label="Nhiệt độ"
@@ -186,7 +244,9 @@ SelectCESectionProps) {
                     InputProps={{
                       endAdornment: <div style={{ marginLeft: 5 }}>&deg;C</div>,
                     }}
-                    
+                    type="number"
+                    value={temperature}
+                    onChange={(e) => onChangeTemperature(e)}
                   />
                 </div>
               </div>
@@ -198,7 +258,8 @@ SelectCESectionProps) {
                       <DemoContainer components={["TimePicker"]}>
                         <TimePicker
                           label="Giờ bắt đầu"
-                          // value={selectedStartTime.toLocaleString("en-gb")}
+                          value={startTime}
+                          onChange={(value) => onChangeStartTime(value)}
                           slotProps={{
                             textField: { className: "  w-72", size: "small" },
                           }}
@@ -209,6 +270,8 @@ SelectCESectionProps) {
                       <DemoContainer components={["TimePicker"]}>
                         <TimePicker
                           label="Giờ kết thúc"
+                          value={endTime}
+                          onChange={(value) => onChangeEndTime(value)}
                           slotProps={{
                             textField: { className: "  w-72", size: "small" },
                           }}
@@ -262,15 +325,17 @@ SelectCESectionProps) {
                         </div>
                       ),
                     }}
-                    
+                    type="number"
+                    value={amountDone}
+                    onChange={(e) => onChangeAmountDone(e)}
                   />
                 </div>
               </div>
             </div>
             <div className="grow flex-col bg-[#F9FAFB] mb-4">
               <p className="text-xl font-semibold ml-6">Ngày nhật ký</p>
-              <LocalizationProvider  dateAdapter={AdapterDayjs}>
-                <DateCalendar className="m-0"/>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateCalendar className="m-0" />
               </LocalizationProvider>
             </div>
           </div>

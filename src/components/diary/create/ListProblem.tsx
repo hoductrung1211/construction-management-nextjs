@@ -26,7 +26,8 @@ export default function ListProblem() {
       );
 
       // Cập nhật trạng thái với danh sách hình ảnh đã chọn
-      setSelectedImages(imageUrls);
+      const newList = selectedImages.concat(imageUrls);
+      setSelectedImages(newList);
     }
   };
 
@@ -59,19 +60,27 @@ export default function ListProblem() {
   };
 
   const image4 = selectedImages.length > 3 && (
-    <div className="relative h-32 w-32"
-    onClick={() => openLightbox(selectedImages[3], 3)}>
-  <Image
-    src={selectedImages[3]}
-    alt="Selected 3"
-    fill
-    className="w-32 h-32 object-contain bg-[#AEAEB2] opacity-60 rounded-none cursor-pointer"
-  />
-  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-black font-semibold text-2xl cursor-pointer">
-    + {selectedImages.length - 3}
-  </div>
-</div>
+    <div
+      className="relative h-32 w-32"
+      onClick={() => openLightbox(selectedImages[3], 3)}
+    >
+      <Image
+        src={selectedImages[3]}
+        alt="Selected 3"
+        fill
+        className="w-32 h-32 object-contain bg-[#AEAEB2] opacity-60 rounded-none cursor-pointer"
+      />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-black font-semibold text-2xl cursor-pointer">
+        + {selectedImages.length - 3}
+      </div>
+    </div>
   );
+
+  function handleRemoveFiles(imgURL: string) {
+    const newList = selectedImages.filter((img) => img !== imgURL);
+    console.log(newList);
+    setSelectedImages(newList);
+  }
 
   return (
     <div className=" mt-4 bg-background-color w-full rounded-t-lg">
@@ -86,46 +95,48 @@ export default function ListProblem() {
       {isShow && (
         <div className="list-picture flex gap-10 mx-3 py-3 relative">
           <div className=" ml-3 flex gap-2">
-          {
-            selectedImages
-            .slice(0, 3)
-            .map((imageUrl, index) => (
-             (
+            {selectedImages.slice(0, 3).map((imageUrl, index) => (
+              <div key={index} className="relative">
                 <Image
-                key={index}
-                src={imageUrl}
-                alt={`Selected ${index}`}
-                width={200}
-                height={200}
-                className="w-32 h-32 object-cover rounded-none cursor-pointer"
-                onClick={() => openLightbox(imageUrl, index)}
-              />)
-            ))
-          }
-          {image4}
-          <Button
-            className="w-32 h-32 bg-[#AEAEB2] rounded-none hover:bg-[#C6C6C9] hover:rounded-none"
-            component="label"
-            variant="contained"
-          >
-            <Icon name="plus" className=" text-[#F2F2F7]" size="2xl" />
-            <input
-              type="file"
-              multiple
-              style={{ display: "none" }}
-              onChange={handleFileChange}
-            />
-          </Button>
-        </div>
-        <TextField
-          className=" w-120"
-          id="outlined-multiline-static"
-          label="Nội dung sự cố"
-          multiline
-          rows={4}
-          value="Nhập sự cố..."
-        />
+                  src={imageUrl}
+                  alt={`Selected ${index}`}
+                  width={200}
+                  height={200}
+                  className="w-32 h-32 object-cover rounded-none cursor-pointer"
+                  onClick={() => openLightbox(imageUrl, index)}
+                ></Image>
+                <Icon
+                  size="lg"
+                  className="text-text-color absolute top-0 right-0 mr-1 cursor-pointer"
+                  name="xmark"
+                  onClick={() => handleRemoveFiles(imageUrl)}
+                />
+              </div>
+            ))}
+            {image4}
+            <Button
+              className="w-32 h-32 bg-[#AEAEB2] rounded-none hover:bg-[#C6C6C9] hover:rounded-none"
+              component="label"
+              variant="contained"
+            >
+              <Icon name="plus" className=" text-[#F2F2F7]" size="2xl" />
+              <input
+                type="file"
+                multiple
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+              />
+            </Button>
           </div>
+          <TextField
+            className=" w-120"
+            id="outlined-multiline-static"
+            placeholder="Nội dung sự cố"
+            multiline
+            rows={4}
+            
+          />
+        </div>
       )}
       {selectedImage && (
         <ModalImage

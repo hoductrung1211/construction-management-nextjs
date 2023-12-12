@@ -10,9 +10,11 @@ export interface IProductList {
 }
 
 export default function ListProductsDiary({
+  handleRemoveProduct,
   lsproduct,
 }: {
   lsproduct: IDairyProduct[];
+  handleRemoveProduct : (idx: number) => void;
 }) {
   const [value, setValue] = React.useState(0);
 
@@ -43,8 +45,8 @@ export default function ListProductsDiary({
       </div>
       {isShow && (
         <div className="listProducts py-3 mx-3 bg-white">
-          {lsproduct.map((product, idx) => (
-            <Products key={idx} product={product} no={idx + 1} />
+          {lsproduct && lsproduct.map((product, idx) => (
+            <Products key={idx} product={product} no={idx + 1} handleRemoveProduct={handleRemoveProduct}/>
           ))}
         </div>
       )}

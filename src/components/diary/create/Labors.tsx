@@ -20,10 +20,13 @@ export interface ILabor {
 export default function Labors({
   labor,
   no,
+  handleRemoveLabor: handleRemoveLabor
 }: {
   labor: IEmployee;
   no: number;
+  handleRemoveLabor: (idx: string ) => void;
 }) {
+  console.log(no,handleRemoveLabor);
   return (
     <div className=" bg-white flex justify-between mx-9 my-3 items-center">
       <p className=" w-3">{no}</p>
@@ -44,7 +47,7 @@ export default function Labors({
           <MenuItem value="">Ca PartTime(13h-17h)</MenuItem>
         </Select>
       </FormControl>
-      <span className=" w-2 mr-2">
+      <span className=" w-2 mr-2 cursor-pointer" onClick={() => handleRemoveLabor(labor.userid)}>
         <Icon size="lg" className="text-text-color" name="xmark" />
       </span>
     </div>
