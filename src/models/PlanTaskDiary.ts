@@ -1,6 +1,6 @@
 export default interface IPlanTaskDiary {
   plantaskid?: Number;
-  amountofwork?: Number;
+  amountofwork: number;
   enddate?: Date;
   orderindex?: Number;
   startdate?: Date;

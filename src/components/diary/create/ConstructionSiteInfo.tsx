@@ -35,6 +35,7 @@ import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/vi";
 import useLoadingAnimation from "@/hooks/useLoadingAnimation";
 
+import IProgress from "@/models/Progress";
 export interface SelectCESectionProps {
   selectedCS: string;
   selectedTaskWI: string;
@@ -61,15 +62,14 @@ SelectCESectionProps) {
   );
   const [endTime, setEndTime] = React.useState<Dayjs | null>(dayjs(Date.now()));
 
-  // handleLoadAmountOfPlan,
   const [selectedConstruction, setselectedConstruction] = useState("");
   const [selectedTaskWorkitem, setSelectedTaskWorkitem] = useState("");
-  // const [selectedStartTime, setselectedStartTime] = useState(new Date());
-  // const [selectedEndTime, setselectedEndTime] = useState(Date);
+
   const [weatherList, setWeatherList] = React.useState<IWeather[]>([]);
   const [contructionSiteList, setConstructionSiteList] = React.useState<
     IConstructionSite[]
   >([]);
+  const [progressInfo, setProgressInfo] = React.useState<IProgress>();
   const [planTask, setPlanTask] = useState<IPlanTaskDiary>();
   const [flagLoadButton, setFlagLoadButton] = useState<Boolean>(true);
   const [flagTaskWI, setFlagTaskWI] = useState<Boolean>(true);
@@ -107,8 +107,10 @@ SelectCESectionProps) {
     const planTask = ((await planTaskAPI.getPlanTask(selectedTaskWorkitem)) ||
       [])[0];
     const weathers = (await dairyApi.getWeather()) || [];
+    const progress = (await dairyApi.getProgressInfo(planTask.plantaskid as number)) || undefined;
     setWeatherList(weathers);
     setPlanTask(planTask);
+    setProgressInfo(progress);
     onChangeShowInfo(true);
     console.log(planTask);
   }
@@ -302,13 +304,13 @@ SelectCESectionProps) {
                     </span>
                   </p>
                   <p>
-                    100
+                    {progressInfo?.totalamountofworkdone}
                     <span>
                       {planTask.mdTask.mdQuantityUnit.quantityunitname}
                     </span>
                   </p>
                   <p>
-                    140
+                    {(planTask.amountofwork - progressInfo.totalamountofworkdone) as number}
                     <span>
                       {planTask.mdTask.mdQuantityUnit.quantityunitname}
                     </span>
