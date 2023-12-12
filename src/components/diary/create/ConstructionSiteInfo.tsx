@@ -11,20 +11,28 @@ import {
 } from "@mui/material";
 
 import * as React from "react";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import SelectTWSection from "@/features/diary/create/SelectTWSection";
 import { useState } from "react";
 import useAlert from "@/hooks/useAlert";
-import { DatePicker } from "@mui/x-date-pickers";
+import {
+  DateCalendar,
+  DatePicker,
+  DesktopDatePicker,
+  MobileDatePicker,
+  StaticDatePicker,
+} from "@mui/x-date-pickers";
 import IConstructionSite from "@/models/ConstructionSite";
 import IPlanTaskDiary from "@/models/PlanTaskDiary";
 import costEstimateAPI from "@/apis/costEstimate";
 import constructionSiteAPI from "@/apis/constructionSite";
 import planTaskAPI from "@/apis/plantask";
-
+import { IWeather } from "@/models/Weather";
+import dairyApi from "@/apis/dairy";
+import dayjs from "dayjs";
+import "dayjs/locale/vi";
 export interface SelectCESectionProps {
   selectedCS: string;
   selectedTaskWI: string;
@@ -44,9 +52,13 @@ export default function ConstructionSiteInfo({
   onChangetaskWI,
 }: // onChangetaskWI,
 SelectCESectionProps) {
+  const defaultDate = dayjs(Date.now.toString()).locale("vi");
   // handleLoadAmountOfPlan,
   const [selectedConstruction, setselectedConstruction] = useState("");
   const [selectedTaskWorkitem, setSelectedTaskWorkitem] = useState("");
+  // const [selectedStartTime, setselectedStartTime] = useState(new Date());
+  // const [selectedEndTime, setselectedEndTime] = useState(Date);
+  const [weatherList, setWeatherList] = React.useState<IWeather[]>([]);
   const [contructionSiteList, setConstructionSiteList] = React.useState<
     IConstructionSite[]
   >([]);
@@ -60,14 +72,15 @@ SelectCESectionProps) {
   }, []);
 
   const fetchInitialData = async () => {
-    const csListRes: IConstructionSite[] = await constructionSiteAPI.getListActive() || [];
+    const csListRes: IConstructionSite[] =
+      (await constructionSiteAPI.getListActive()) || [];
     setConstructionSiteList(csListRes);
   };
 
   const handleCSChange = async (event: SelectChangeEvent) => {
     const csId = event.target.value;
     setselectedConstruction(csId);
-    setWorkitemTaskList(await planTaskAPI.getList(csId) || []);
+    setWorkitemTaskList((await planTaskAPI.getList(csId)) || []);
   };
   const handleChangetaskWI = async (event: SelectChangeEvent) => {
     const workitemtaskId = event.target.value;
@@ -76,13 +89,17 @@ SelectCESectionProps) {
     // setWorkitemTaskList(await planTaskAPI.getList(csId));
   };
   const handleLoadPlanTaskInfo = async () => {
-    const planTask = (await planTaskAPI.getPlanTask(selectedTaskWorkitem)  || [])[0];
+    const planTask = ((await planTaskAPI.getPlanTask(selectedTaskWorkitem)) ||
+      [])[0];
+    const weathers = (await dairyApi.getWeather()) || [];
+    setWeatherList(weathers);
     setPlanTask(planTask);
     onChangeShowInfo(true);
     console.log(planTask);
   };
 
   const setAlert = useAlert();
+  dayjs.locale("vi");
   return (
     <div className=" bg-background-color">
       <p className="ml-10 py-4 font-semibold text-lg ">
@@ -133,17 +150,9 @@ SelectCESectionProps) {
               ))}
             </Select>
           </FormControl>
-          <div className=" flex gap-5">
-            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
-              <DatePicker
-                label="Nhật ký ngày"
-                slotProps={{ textField: { className: "w-72", size: "small" } }}
-              />
-            </LocalizationProvider>
-            <Button variant="outlined" onClick={() => handleLoadPlanTaskInfo()}>
-              Load
-            </Button>
-          </div>
+          <Button variant="outlined" onClick={() => handleLoadPlanTaskInfo()}>
+            Load
+          </Button>
         </section>
         {planTask && (
           <div className=" rounded-lg bg-[#F9FAFB] flex mx-6 gap-10">
@@ -155,14 +164,17 @@ SelectCESectionProps) {
                     <InputLabel id="label-construction-site-plan">
                       Chọn thời tiết
                     </InputLabel>
+
                     <Select
                       className=" w-72"
                       labelId="label-construction-site-plan"
                       label="Chọn thời tiết"
                     >
-                      <MenuItem value="">Mưa</MenuItem>
-                      <MenuItem value="">Nắng</MenuItem>
-                      <MenuItem value="">Âm u</MenuItem>
+                      {weatherList.map((item, idx) => (
+                        <MenuItem key={idx} value={item.weatherid}>
+                          {item.weathername}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                   <TextField
@@ -174,6 +186,7 @@ SelectCESectionProps) {
                     InputProps={{
                       endAdornment: <div style={{ marginLeft: 5 }}>&deg;C</div>,
                     }}
+                    
                   />
                 </div>
               </div>
@@ -185,6 +198,7 @@ SelectCESectionProps) {
                       <DemoContainer components={["TimePicker"]}>
                         <TimePicker
                           label="Giờ bắt đầu"
+                          // value={selectedStartTime.toLocaleString("en-gb")}
                           slotProps={{
                             textField: { className: "  w-72", size: "small" },
                           }}
@@ -220,13 +234,21 @@ SelectCESectionProps) {
                 <div className="w-30 space-y-2">
                   <p>
                     {planTask.amountofwork as number}
-                    <span> m3</span>
+                    <span>
+                      {planTask.mdTask.mdQuantityUnit.quantityunitname}
+                    </span>
                   </p>
                   <p>
-                    100<span> m3</span>
+                    100
+                    <span>
+                      {planTask.mdTask.mdQuantityUnit.quantityunitname}
+                    </span>
                   </p>
                   <p>
-                    140<span> m3</span>
+                    140
+                    <span>
+                      {planTask.mdTask.mdQuantityUnit.quantityunitname}
+                    </span>
                   </p>
                   <TextField
                     className=" w-24"
@@ -235,12 +257,21 @@ SelectCESectionProps) {
                     variant="outlined"
                     InputProps={{
                       endAdornment: (
-                        <div style={{ marginLeft: 5 }}>m&sup3;</div>
+                        <div style={{ marginLeft: 5 }}>
+                          {planTask.mdTask.mdQuantityUnit.quantityunitname}
+                        </div>
                       ),
                     }}
+                    
                   />
                 </div>
               </div>
+            </div>
+            <div className="grow flex-col bg-[#F9FAFB] mb-4">
+              <p className="text-xl font-semibold ml-6">Ngày nhật ký</p>
+              <LocalizationProvider  dateAdapter={AdapterDayjs}>
+                <DateCalendar className="m-0"/>
+              </LocalizationProvider>
             </div>
           </div>
         )}
