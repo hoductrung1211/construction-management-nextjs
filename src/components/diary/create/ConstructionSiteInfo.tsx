@@ -60,14 +60,14 @@ SelectCESectionProps) {
   }, []);
 
   const fetchInitialData = async () => {
-    const csListRes = await constructionSiteAPI.getListActive();
+    const csListRes: IConstructionSite[] = await constructionSiteAPI.getListActive() || [];
     setConstructionSiteList(csListRes);
   };
 
   const handleCSChange = async (event: SelectChangeEvent) => {
     const csId = event.target.value;
     setselectedConstruction(csId);
-    setWorkitemTaskList(await planTaskAPI.getList(csId));
+    setWorkitemTaskList(await planTaskAPI.getList(csId) || []);
   };
   const handleChangetaskWI = async (event: SelectChangeEvent) => {
     const workitemtaskId = event.target.value;
@@ -76,7 +76,7 @@ SelectCESectionProps) {
     // setWorkitemTaskList(await planTaskAPI.getList(csId));
   };
   const handleLoadPlanTaskInfo = async () => {
-    const planTask = (await planTaskAPI.getPlanTask(selectedTaskWorkitem))[0];
+    const planTask = (await planTaskAPI.getPlanTask(selectedTaskWorkitem)  || [])[0];
     setPlanTask(planTask);
     onChangeShowInfo(true);
     console.log(planTask);
@@ -121,7 +121,7 @@ SelectCESectionProps) {
               onChange={handleChangetaskWI}
             >
               {workitemTaskList?.map((tk, idx) => (
-                <MenuItem key={idx} value={tk.plantaskid}>
+                <MenuItem key={idx} value={tk.plantaskid as number}>
                   {tk.mdWorkItem.workitemCode +
                     " " +
                     tk.mdWorkItem.workitemname +
@@ -219,7 +219,7 @@ SelectCESectionProps) {
                 </div>
                 <div className="w-30 space-y-2">
                   <p>
-                    {planTask.amountofwork}
+                    {planTask.amountofwork as number}
                     <span> m3</span>
                   </p>
                   <p>
