@@ -33,6 +33,7 @@ import { IWeather } from "@/models/Weather";
 import dairyApi from "@/apis/dairy";
 import dayjs from "dayjs";
 import "dayjs/locale/vi";
+import IProgress from "@/models/Progress";
 export interface SelectCESectionProps {
   selectedCS: string;
   selectedTaskWI: string;
@@ -52,7 +53,6 @@ export default function ConstructionSiteInfo({
   onChangetaskWI,
 }: // onChangetaskWI,
 SelectCESectionProps) {
-  const defaultDate = dayjs(Date.now.toString()).locale("vi");
   // handleLoadAmountOfPlan,
   const [selectedConstruction, setselectedConstruction] = useState("");
   const [selectedTaskWorkitem, setSelectedTaskWorkitem] = useState("");
@@ -62,6 +62,7 @@ SelectCESectionProps) {
   const [contructionSiteList, setConstructionSiteList] = React.useState<
     IConstructionSite[]
   >([]);
+  const [progressInfo, setProgressInfo] = React.useState<IProgress>();
   const [planTask, setPlanTask] = useState<IPlanTaskDiary>();
 
   const [workitemTaskList, setWorkitemTaskList] =
@@ -92,8 +93,10 @@ SelectCESectionProps) {
     const planTask = ((await planTaskAPI.getPlanTask(selectedTaskWorkitem)) ||
       [])[0];
     const weathers = (await dairyApi.getWeather()) || [];
+    const progress = (await dairyApi.getProgressInfo(planTask.plantaskid as number)) || undefined;
     setWeatherList(weathers);
     setPlanTask(planTask);
+    setProgressInfo(progress);
     onChangeShowInfo(true);
     console.log(planTask);
   };
@@ -239,13 +242,13 @@ SelectCESectionProps) {
                     </span>
                   </p>
                   <p>
-                    100
+                    {progressInfo?.totalamountofworkdone}
                     <span>
                       {planTask.mdTask.mdQuantityUnit.quantityunitname}
                     </span>
                   </p>
                   <p>
-                    140
+                    {(planTask.amountofwork - progressInfo.totalamountofworkdone) as number}
                     <span>
                       {planTask.mdTask.mdQuantityUnit.quantityunitname}
                     </span>
