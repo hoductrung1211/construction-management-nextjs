@@ -17,21 +17,6 @@ export default function ListPicture() {
     console.log(selectedImages.length);
   }
 
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-
-    // Chuyển danh sách các file thành mảng các URL hình ảnh
-    if (files != null) {
-      const imageUrls = Array.from(files).map((file) => {
-        URL.createObjectURL(file);
-        console.log(file);
-      });
-
-      // Cập nhật trạng thái với danh sách hình ảnh đã chọn
-      setSelectedImages(imageUrls);
-    }
-  };
-
   const openLightbox = (imageLink: string, index: number) => {
     setSelectedImage(imageLink);
     setCurrentImageIndex(index);
@@ -40,6 +25,23 @@ export default function ListPicture() {
   const closeLightbox = () => {
     setSelectedImage(null);
     setCurrentImageIndex(0);
+  };
+
+
+
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+
+    // Chuyển danh sách các file thành mảng các URL hình ảnh
+    if (files != null) {
+      const imageUrls = Array.from(files).map((file) =>
+        URL.createObjectURL(file)
+      );
+
+      // Cập nhật trạng thái với danh sách hình ảnh đã chọn
+      setSelectedImages(imageUrls);
+    }
   };
 
   const changeImage = (direction: "prev" | "next") => {
@@ -88,34 +90,39 @@ export default function ListPicture() {
         <p className="font-semibold text-text-color">Hình ảnh</p>
       </div>
       {isShow && (
-        <div className="list-picture flex gap-2 mx-3 py-3 relative">
-          <div className=" ml-5">
-            {selectedImages.slice(0, 3).map((imageUrl, index) => (
+        <div className="list-picture flex gap-10 mx-3 py-3 relative">
+        <div className=" ml-3 flex gap-2">
+        {
+          selectedImages
+          .slice(0, 3)
+          .map((imageUrl, index) => (
+           (
               <Image
-                key={index}
-                src={imageUrl}
-                alt={`Selected ${index}`}
-                width={200}
-                height={200}
-                className="w-32 h-32 object-cover rounded-none cursor-pointer"
-                onClick={() => openLightbox(imageUrl, index)}
-              />
-            ))}
-            {image4}
-            <Button
-              className="w-32 h-32 bg-[#AEAEB2] rounded-none hover:bg-[#C6C6C9] hover:rounded-none"
-              component="label"
-              variant="contained"
-            >
-              <Icon name="plus" className=" text-[#F2F2F7]" size="2xl" />
-              <input
-                type="file"
-                multiple
-                style={{ display: "none" }}
-                onChange={handleFileChange}
-              />
-            </Button>
-          </div>
+              key={index}
+              src={imageUrl}
+              alt={`Selected ${index}`}
+              width={200}
+              height={200}
+              className="w-32 h-32 object-cover rounded-none cursor-pointer"
+              onClick={() => openLightbox(imageUrl, index)}
+            />)
+          ))
+        }
+        {image4}
+        <Button
+          className="w-32 h-32 bg-[#AEAEB2] rounded-none hover:bg-[#C6C6C9] hover:rounded-none"
+          component="label"
+          variant="contained"
+        >
+          <Icon name="plus" className=" text-[#F2F2F7]" size="2xl" />
+          <input
+            type="file"
+            multiple
+            style={{ display: "none" }}
+            onChange={handleFileChange}
+          />
+        </Button>
+      </div>
         </div>
       )}
       {selectedImage && (

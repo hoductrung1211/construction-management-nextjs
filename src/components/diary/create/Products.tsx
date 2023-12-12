@@ -20,11 +20,11 @@ export default function Products({
     <div className=" flex justify-between mx-9 my-2 items-center">
       <p className=" w-3">{no}</p>
       <p className=" w-14">{product.mdProduct.productid}</p>
-      <p className=" w-60">{product.mdProduct.productname}</p>
-      <p className=" w-10">
+      <p className=" w-64">{product.mdProduct.productname}</p>
+      <p className=" w-64">
         {product.mdProduct.mdQuantityUnit.quantityunitname}
       </p>
-      <div className="w-20">
+      <div className="w-40">
         <input
           type="number"
           id="number-input"
