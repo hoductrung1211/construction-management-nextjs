@@ -30,7 +30,7 @@ import costEstimateAPI from "@/apis/costEstimate";
 import constructionSiteAPI from "@/apis/constructionSite";
 import planTaskAPI from "@/apis/plantask";
 import { IWeather } from "@/models/Weather";
-import dairyApi from "@/apis/dairy";
+import diaryApi from "@/apis/dairy";
 import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/vi";
 import useLoadingAnimation from "@/hooks/useLoadingAnimation";
@@ -39,46 +39,61 @@ import IProgress from "@/models/Progress";
 export interface SelectCESectionProps {
   selectedCS: string;
   selectedTaskWI: string;
-  onChangeCS: (constructionSiteId: string) => void;
+  selectedWeather: string;
+  planTask: IPlanTaskDiary;
+  weather: IWeather[];
+  progress: IProgress;
   showInfo: Boolean;
-  onChangeShowInfo: (showInfo: boolean) => void;
-  onChangetaskWI: (event: SelectChangeEvent) => void;
-  // handleLoadAmountOfPlan: () => void;
+  startTime: Dayjs;
+  endTime:Dayjs;
+  temperature: number;
+  amountDone: number;
+  onChangeCS: (constructionSiteId: string) => void;
+  onChangeTaskWI: (event: SelectChangeEvent) => void;
+  onChangeWeather: (event: SelectChangeEvent) => void;
+  onChangeStartTime: (value: dayjs.Dayjs) => void;
+  onChangeEndTime: (value: dayjs.Dayjs) => void;
+  onChangeTemperature: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChangeAmountDone:(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  HandleLoadPlanTaskInfo: () => void;
 }
 
 export default function ConstructionSiteInfo({
   selectedCS,
   selectedTaskWI,
-  onChangeCS,
+  selectedWeather,
+  startTime,
+  endTime,
+  temperature,
+  amountDone,
+  planTask,
+  weather,
+  progress,
   showInfo,
-  onChangeShowInfo,
-  onChangetaskWI,
+  onChangeCS,
+  onChangeTaskWI,
+  onChangeWeather,
+  onChangeStartTime,
+  onChangeEndTime,
+  onChangeTemperature,
+  onChangeAmountDone,
+  HandleLoadPlanTaskInfo
 }: // onChangetaskWI,
 SelectCESectionProps) {
   const defaultDate = dayjs(Date.now.toString()).locale("vi");
   const useLoading = useLoadingAnimation();
-  const [startTime, setStartTime] = React.useState<Dayjs | null>(
-    dayjs(Date.now())
-  );
-  const [endTime, setEndTime] = React.useState<Dayjs | null>(dayjs(Date.now()));
 
   const [selectedConstruction, setselectedConstruction] = useState("");
   const [selectedTaskWorkitem, setSelectedTaskWorkitem] = useState("");
 
-  const [weatherList, setWeatherList] = React.useState<IWeather[]>([]);
   const [contructionSiteList, setConstructionSiteList] = React.useState<
     IConstructionSite[]
   >([]);
-  const [progressInfo, setProgressInfo] = React.useState<IProgress>();
-  const [planTask, setPlanTask] = useState<IPlanTaskDiary>();
-  const [flagLoadButton, setFlagLoadButton] = useState<Boolean>(true);
-  const [flagTaskWI, setFlagTaskWI] = useState<Boolean>(true);
+  const [flagLoadButton, setFlagLoadButton] = useState<boolean>(true);
+  const [flagTaskWI, setFlagTaskWI] = useState<boolean>(true);
 
   const [workitemTaskList, setWorkitemTaskList] =
     React.useState<IPlanTaskDiary[]>();
-
-  const [temperature, setTemperature] = useState<number>(0);
-  const [amountDone, setAmountDone] = useState<number>(0);
 
   React.useEffect(() => {
     fetchInitialData();
@@ -98,62 +113,14 @@ SelectCESectionProps) {
   };
   const handleChangetaskWI = async (event: SelectChangeEvent) => {
     const workitemtaskId = event.target.value;
-    onChangetaskWI(event);
+    onChangeTaskWI(event);
     setSelectedTaskWorkitem(workitemtaskId);
     setFlagLoadButton(false);
     // setWorkitemTaskList(await planTaskAPI.getList(csId));
   };
-  async function HandleLoadPlanTaskInfo() {
-    const planTask = ((await planTaskAPI.getPlanTask(selectedTaskWorkitem)) ||
-      [])[0];
-    const weathers = (await dairyApi.getWeather()) || [];
-    const progress = (await dairyApi.getProgressInfo(planTask.plantaskid as number)) || undefined;
-    setWeatherList(weathers);
-    setPlanTask(planTask);
-    setProgressInfo(progress);
-    onChangeShowInfo(true);
-    console.log(planTask);
-  }
-
-  const onChangeTemperature = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setTemperature(parseInt(e.target.value));
-  };
-
-  const onChangeAmountDone = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const temp = parseInt(e.target.value);
-    if (temp >= 0) setAmountDone(temp);
-    else setAmountDone(0);
-  };
 
   const setAlert = useAlert();
   dayjs.locale("vi");
-  function onChangeStartTime(value: Dayjs | null): void {
-    if (value?.isBefore(startTime)) {
-    setStartTime(value);
-    }else {
-      setAlert({
-        severity: "error",
-        message: "Giờ bắt đầu phải trước giờ kết thúc",
-      })
-    }
-  }
-
-  function onChangeEndTime(value: Dayjs | null): void {
-    if (value?.isAfter(startTime)) {
-      setEndTime(value);
-    }
-    else {
-      setAlert({
-        severity: "error",
-        message: "Giờ kết thúc phải trước giờ bắt đầu",
-      })
-    }
-    
-  }
 
   return (
     <div className=" bg-background-color">
@@ -229,8 +196,10 @@ SelectCESectionProps) {
                       className=" w-72"
                       labelId="label-construction-site-plan"
                       label="Chọn thời tiết"
+                      value={selectedWeather}
+                      onChange={onChangeWeather}
                     >
-                      {weatherList.map((item, idx) => (
+                      {weather.map((item, idx) => (
                         <MenuItem key={idx} value={item.weatherid}>
                           {item.weathername}
                         </MenuItem>
@@ -261,7 +230,7 @@ SelectCESectionProps) {
                         <TimePicker
                           label="Giờ bắt đầu"
                           value={startTime}
-                          onChange={(value) => onChangeStartTime(value)}
+                          onChange={(value) => onChangeStartTime(value as Dayjs)}
                           slotProps={{
                             textField: { className: "  w-72", size: "small" },
                           }}
@@ -273,7 +242,7 @@ SelectCESectionProps) {
                         <TimePicker
                           label="Giờ kết thúc"
                           value={endTime}
-                          onChange={(value) => onChangeEndTime(value)}
+                          onChange={(value) => onChangeEndTime(value as Dayjs)}
                           slotProps={{
                             textField: { className: "  w-72", size: "small" },
                           }}
@@ -304,13 +273,13 @@ SelectCESectionProps) {
                     </span>
                   </p>
                   <p>
-                    {progressInfo?.totalamountofworkdone}
+                    {progress?.totalamountofworkdone}
                     <span>
                       {planTask.mdTask.mdQuantityUnit.quantityunitname}
                     </span>
                   </p>
                   <p>
-                    {(planTask.amountofwork - progressInfo.totalamountofworkdone) as number}
+                    {(planTask.amountofwork ,progress?.totalamountofworkdone | 0) as number}
                     <span>
                       {planTask.mdTask.mdQuantityUnit.quantityunitname}
                     </span>

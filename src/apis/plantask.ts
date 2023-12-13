@@ -1,6 +1,7 @@
 import IPlanTaskDiary from "@/models/PlanTaskDiary";
 import request from "./request";
 import { IDairyEmployee } from "@/models/DiaryEmployee";
+import { IDairyProduct } from "@/models/DiaryProduct";
 
 const planTaskAPI = {
   getList: (constructionid: any) =>
@@ -10,7 +11,7 @@ const planTaskAPI = {
   getLabor: (plantaskid: any) =>
     request.get<IDairyEmployee[]>(`/plantasklabor/${plantaskid}`),
   getProduct: (plantaskid: any) =>
-    request.get<IDairyEmployee[]>(`/plantaskproduct/${plantaskid}`),
+    request.get<IDairyProduct[]>(`/plantaskproduct/${plantaskid}`),
 };
 
 export default planTaskAPI;

@@ -1,5 +1,6 @@
 import { IDairyProduct } from "@/models/DiaryProduct";
 import Icon from "../../Icon";
+import { ChangeEvent, useState } from "react";
 
 export interface IProduct {
   no: number;
@@ -13,11 +14,21 @@ export default function Products({
   product,
   no,
   handleRemoveProduct,
+  handleChangeProduct,
 }: {
   product: IDairyProduct;
   no: number;
   handleRemoveProduct: (idx: number) => void;
+  handleChangeProduct: (no: number, productid: number, consumptionAmount: number) => void;
 }) {
+
+  const [consumptionAmount, setConsumptionAmount] = useState<number>(0);
+
+  function handleChangeConsumption(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    setConsumptionAmount(parseInt(event.target.value));
+    handleChangeProduct(no - 1, product.mdProduct.productid, consumptionAmount);
+  }
+
   return (
     <div className=" flex justify-between mx-9 my-2 items-center">
       <p className=" w-3">{no}</p>
@@ -33,6 +44,8 @@ export default function Products({
           aria-describedby="helper-text-explanation"
           className="h-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           required
+          value={consumptionAmount}
+          onChange={handleChangeConsumption}
         />
       </div>
       <span className=" w-2 mr-2 cursor-pointer" onClick={() => handleRemoveProduct(product.mdProduct.productid)}>

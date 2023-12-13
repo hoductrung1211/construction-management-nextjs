@@ -8,4 +8,5 @@ export interface IDairyProduct {
       quantityunitname: string;
     };
   };
+  consumptionAmount?: number;
 }

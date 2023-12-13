@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import Icon from "../../Icon";
 import Labors, { ILabor } from "./Labors";
 import { IDairyEmployee } from "@/models/DiaryEmployee";
 import { IShift } from "@/models/Shift";
-import dairyApi from "@/apis/dairy";
+import diaryApi from "@/apis/dairy";
+import { SelectChangeEvent } from "@mui/material";
 
 export interface ILaborList {
   labors: ILabor[];
@@ -13,17 +14,20 @@ export interface ILaborList {
 
 export default function ListLaborsDiary({
   lslabor,
+  onChangeLabor,
   handleRemoveLabor: handleRemoveLabor,
 }: {
   lslabor: IDairyEmployee[];
+  onChangeLabor: (labor: IDairyEmployee[]) => void;
   handleRemoveLabor: (idx: string) => void;
 }) {
+  8;
   const [isShow, setIsShow] = useState(true);
   const [shiftList, setShiftList] = React.useState<IShift[]>([]);
   const fetchInitialShiftData = async () => {
-    const sList : IShift[] = (await dairyApi.getShift()) || [];
+    const sList: IShift[] = (await diaryApi.getShift()) || [];
     setShiftList(sList);
-  }
+  };
 
   React.useEffect(() => {
     fetchInitialShiftData();
@@ -32,22 +36,12 @@ export default function ListLaborsDiary({
     setIsShow(!isShow);
   }
 
-  const LaborItem = useCallback(() => {
-    return (
-      <div className="listLabors py-3 mx-3 bg-white">
-        {lslabor &&
-          lslabor.map((labor, idx) => (
-            <Labors
-              key={labor.mdEmployee.userid}
-              labor={labor.mdEmployee}
-              no={idx + 1}
-              handleRemoveLabor={handleRemoveLabor}
-              shiftList={shiftList}
-            />
-          ))}
-      </div>
-    );
-  }, [lslabor]);
+  const handleChangeLabor = (idx: string, shiftid: string, no: number) => {
+    var newLabor = lslabor.find((item) => item.mdEmployee.userid == idx) as IDairyEmployee;
+    newLabor.shiftid = parseInt(shiftid);
+    onChangeLabor(lslabor);
+    // var temp = newListLabor.splice(no,0,newLabor as IDairyEmployee);
+  };
 
   return (
     <div className=" mt-4 bg-background-color w-full rounded-t-lg">
@@ -63,7 +57,21 @@ export default function ListLaborsDiary({
           </p>
         </div>
       </header>
-      {isShow && <LaborItem />}
+      {isShow && (
+        <div className="listLabors py-3 mx-3 bg-white">
+          {lslabor &&
+            lslabor.map((labor, idx) => (
+              <Labors
+                key={labor.mdEmployee.userid}
+                labor={labor.mdEmployee}
+                no={idx + 1}
+                handleRemoveLabor={handleRemoveLabor}
+                handleChangeLabor={handleChangeLabor}
+                shiftList={shiftList}
+              />
+            ))}
+        </div>
+      )}
     </div>
   );
 }

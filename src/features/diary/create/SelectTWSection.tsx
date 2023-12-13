@@ -37,7 +37,7 @@ SelectCESectionProps) {
     React.useState<String>("");
   const [workitemTask, setWorkitemTask] = React.useState<IPlanTaskDiary[]>();
   async function getConstructions() {
-    const api: IConstructionSite[] = await constructionSiteAPI.getListActive();
+    const api = await constructionSiteAPI.getListActive() as IConstructionSite[];
     setConstructions(api);
   }
   const handleConstruction = async (event: SelectChangeEvent) => {
@@ -53,7 +53,6 @@ SelectCESectionProps) {
   React.useEffect(() => {
     getConstructions();
   }, []);
-  console.log(workitemTask);
   return (
     <section className="grid grid-cols-3 mx-8 mb-5 gap-20">
       <FormControl size="small">

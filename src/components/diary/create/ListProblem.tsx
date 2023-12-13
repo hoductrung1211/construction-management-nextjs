@@ -6,9 +6,18 @@ import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import { ModalImage } from "../detail/ListPicture";
 
-export default function ListProblem() {
+export default function ListProblem({
+  problem,
+  onChangeProblem,
+  onChangeListProblem,
+}: {
+  problem: String;
+  onChangeProblem: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChangeListProblem: (files: File[]) => void;
+}) {
   const [isShow, setIsShow] = useState(true);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  let formData = new FormData();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -21,11 +30,16 @@ export default function ListProblem() {
 
     // Chuyển danh sách các file thành mảng các URL hình ảnh
     if (files != null) {
-      const imageUrls = Array.from(files).map((file) =>
-        URL.createObjectURL(file)
-      );
+      const imageUrls = Array.from(files).map((file) => URL.createObjectURL(file));
 
-      // Cập nhật trạng thái với danh sách hình ảnh đã chọn
+      const listFile = Array.from(files).map((file) => file);
+      for (let i = 0; i < files.length; i++) {
+        formData.append('files', files[i]);
+      }
+
+      onChangeListProblem(listFile);
+      
+      // Cập nhật trạng thái với danh sách hình ảnh đã chọn;
       const newList = selectedImages.concat(imageUrls);
       setSelectedImages(newList);
     }
@@ -60,10 +74,7 @@ export default function ListProblem() {
   };
 
   const image4 = selectedImages.length > 3 && (
-    <div
-      className="relative h-32 w-32"
-      onClick={() => openLightbox(selectedImages[3], 3)}
-    >
+    <div className="relative h-32 w-32" onClick={() => openLightbox(selectedImages[3], 3)}>
       <Image
         src={selectedImages[3]}
         alt="Selected 3"
@@ -78,7 +89,6 @@ export default function ListProblem() {
 
   function handleRemoveFiles(imgURL: string) {
     const newList = selectedImages.filter((img) => img !== imgURL);
-    console.log(newList);
     setSelectedImages(newList);
   }
 
@@ -120,12 +130,7 @@ export default function ListProblem() {
               variant="contained"
             >
               <Icon name="plus" className=" text-[#F2F2F7]" size="2xl" />
-              <input
-                type="file"
-                multiple
-                style={{ display: "none" }}
-                onChange={handleFileChange}
-              />
+              <input type="file" name="files" multiple style={{ display: "none" }} onChange={handleFileChange} />
             </Button>
           </div>
           <TextField
@@ -134,7 +139,10 @@ export default function ListProblem() {
             placeholder="Nội dung sự cố"
             multiline
             rows={4}
-            
+            value={problem}
+            onChange={(event) => {
+              onChangeProblem(event);
+            }}
           />
         </div>
       )}

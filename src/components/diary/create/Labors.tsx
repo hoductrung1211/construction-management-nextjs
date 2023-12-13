@@ -1,8 +1,8 @@
 import Icon from "@/components/Icon";
 import { IEmployee } from "@/models/Employee";
 import { IShift } from "@/models/Shift";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import React from "react";
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import React, { useState } from "react";
 
 export interface ILabor {
   isSelected: boolean;
@@ -17,15 +17,22 @@ export default function Labors({
   labor,
   no,
   handleRemoveLabor: handleRemoveLabor,
+  handleChangeLabor,
   shiftList,
 }: {
   labor: IEmployee;
   no: number;
   shiftList: IShift[];
-  handleRemoveLabor: (idx: string ) => void;
-
+  handleRemoveLabor: (idx: string) => void;
+  handleChangeLabor: (idx: string, shiftid: string, no: number) => void;
 }) {
-  console.log(no,handleRemoveLabor);
+  const [shift, setShift] = useState<string>("");
+
+  function handleChangeShiftLabor(event: SelectChangeEvent) {
+    setShift(event.target.value);
+    handleChangeLabor(labor.userid, event.target.value, no-1);
+  }
+
   return (
     <div className=" bg-white flex justify-between mx-9 my-3 items-center">
       <p className=" w-3">{no}</p>
@@ -36,7 +43,13 @@ export default function Labors({
       <p className=" w-64">Công nhân</p>
       <FormControl size="small">
         <InputLabel id="label-construction-site-plan">Chọn ca làm</InputLabel>
-        <Select className="w-40" labelId="label-shift" label="Chọn ca làm">
+        <Select
+          className="w-40"
+          labelId="label-shift"
+          label="Chọn ca làm"
+          value={shift}
+          onChange={handleChangeShiftLabor}
+        >
           {shiftList.map((item, idx) => (
             <MenuItem key={idx} value={item.shiftid}>
               {item.shiftname}

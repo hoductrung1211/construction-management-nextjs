@@ -6,7 +6,11 @@ import { ChangeEvent, useState } from "react";
 import Image from "next/image";
 import { ModalImage } from "../detail/ListPicture";
 
-export default function ListPicture() {
+export default function ListPicture({
+  onChangePicture,
+}: {
+  onChangePicture: (files: File[]) => void;
+}) {
   const [isShow, setIsShow] = useState(true);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -31,9 +35,11 @@ export default function ListPicture() {
 
     // Chuyển danh sách các file thành mảng các URL hình ảnh
     if (files != null) {
-      const imageUrls = Array.from(files).map((file) =>
-        URL.createObjectURL(file)
-      );
+      const imageUrls = Array.from(files).map((file) => URL.createObjectURL(file));
+
+      const listFile = Array.from(files).map((file) => file);
+
+      onChangePicture(listFile);
 
       // Cập nhật trạng thái với danh sách hình ảnh đã chọn
       const newList = selectedImages.concat(imageUrls);
@@ -60,10 +66,7 @@ export default function ListPicture() {
   };
 
   const image4 = selectedImages.length > 3 && (
-    <div
-      className="relative h-32 w-32"
-      onClick={() => openLightbox(selectedImages[3], 3)}
-    >
+    <div className="relative h-32 w-32" onClick={() => openLightbox(selectedImages[3], 3)}>
       <Image
         src={selectedImages[3]}
         alt="Selected 3"
@@ -77,9 +80,8 @@ export default function ListPicture() {
     </div>
   );
 
-  function handleRemoveFiles(imgURL: string){
-    const newList = selectedImages.filter(img => img !== imgURL);
-    console.log(newList);
+  function handleRemoveFiles(imgURL: string) {
+    const newList = selectedImages.filter((img) => img !== imgURL);
     setSelectedImages(newList);
   }
 
@@ -92,7 +94,6 @@ export default function ListPicture() {
           onClick={handleChangeIsShow}
         />
         <p className="font-semibold text-text-color">Hình ảnh</p>
-
       </div>
       {isShow && (
         <div className="list-picture flex gap-10 mx-3 py-3 relative">
@@ -111,9 +112,8 @@ export default function ListPicture() {
                   size="lg"
                   className="text-text-color absolute top-0 right-0 mr-1 cursor-pointer"
                   name="xmark"
-                  onClick={()=> handleRemoveFiles(imageUrl)}
+                  onClick={() => handleRemoveFiles(imageUrl)}
                 />
-
               </div>
             ))}
             {image4}
@@ -123,12 +123,7 @@ export default function ListPicture() {
               variant="contained"
             >
               <Icon name="plus" className=" text-[#F2F2F7]" size="2xl" />
-              <input
-                type="file"
-                multiple
-                style={{ display: "none" }}
-                onChange={handleFileChange}
-              />
+              <input type="file" multiple style={{ display: "none" }} onChange={handleFileChange} />
             </Button>
           </div>
         </div>

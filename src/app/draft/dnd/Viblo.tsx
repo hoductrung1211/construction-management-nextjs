@@ -32,7 +32,6 @@ export default function Dnd() {
             return;
 
         let newItems = items.filter(item => item != draggedItem);
-        console.log(newItems);
 
         newItems.splice(index, 0, draggedItem);
 

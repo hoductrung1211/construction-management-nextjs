@@ -11,10 +11,12 @@ export interface IProductList {
 
 export default function ListProductsDiary({
   handleRemoveProduct,
+  onChangeProduct,
   lsproduct,
 }: {
   lsproduct: IDairyProduct[];
-  handleRemoveProduct : (idx: number) => void;
+  onChangeProduct: (product: IDairyProduct[]) => void;
+  handleRemoveProduct: (idx: number) => void;
 }) {
   const [value, setValue] = React.useState(0);
 
@@ -28,6 +30,12 @@ export default function ListProductsDiary({
 
   function handleChangeIsShow() {
     setIsShow(!isShow);
+  }
+
+  function handleChangeProduct(no: number, productid: number, consumptionAmount: number) {
+    var newProduct = lsproduct.find((item) => item.mdProduct.productid == productid) as IDairyProduct;
+    newProduct.consumptionAmount = consumptionAmount;
+    onChangeProduct(lsproduct);
   }
   return (
     <div className=" mt-4 bg-background-color w-full rounded-t-lg">
@@ -45,9 +53,16 @@ export default function ListProductsDiary({
       </div>
       {isShow && (
         <div className="listProducts py-3 mx-3 bg-white">
-          {lsproduct && lsproduct.map((product, idx) => (
-            <Products key={idx} product={product} no={idx + 1} handleRemoveProduct={handleRemoveProduct}/>
-          ))}
+          {lsproduct &&
+            lsproduct.map((product, idx) => (
+              <Products
+                key={idx}
+                product={product}
+                no={idx + 1}
+                handleRemoveProduct={handleRemoveProduct}
+                handleChangeProduct={handleChangeProduct}
+              />
+            ))}
         </div>
       )}
     </div>

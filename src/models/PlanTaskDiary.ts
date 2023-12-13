@@ -10,7 +10,7 @@ export default interface IPlanTaskDiary {
     taskcode: String;
     taskname: String;
     mdQuantityUnit: {
-      quantityunitid?: Number;
+      quantityunitid: Number;
       quantityunitname: String;
     };
   };
