@@ -2,7 +2,11 @@
 
 import dairyApi from "@/apis/dairy";
 import { CustomTabPanel } from "@/components/TabPanel";
+import FilterDiary from "@/components/diary/list/FilterDiary";
 import ListDiaries from "@/components/diary/list/ListDiaries";
+import ListDiaryCurrent from "@/components/diary/list/ListDiaryCurrent";
+import ListDiaryOther from "@/components/diary/list/ListDiaryOther";
+import ListDiaryReview from "@/components/diary/list/ListDiaryReview";
 import PageNumber from "@/components/diary/list/PageNumber";
 import IDiary from "@/models/Diary";
 
@@ -18,30 +22,10 @@ function a11yProps(index: number) {
 
 export default function ListDiaryTab() {
   const [value, setValue] = React.useState(0);
-  const [listDiariesResent, setListDiariesResent] = React.useState<IDiary[]>(
-    []
-  );
-  const [listDiariesReview, setListDiariesReview] = React.useState<IDiary[]>(
-    []
-  );
-  const [listDiariesOther, setListDiariesOther] = React.useState<IDiary[]>([]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
-  const fetchInitialData = async () => {
-    const lsDiariesRecent: IDiary[] = (await dairyApi.getListDiaries(1)) || [];
-    setListDiariesResent(lsDiariesRecent);
-    const lsDiariesReview: IDiary[] = (await dairyApi.getListDiaries(2)) || [];
-    setListDiariesReview(lsDiariesReview);
-    const lsDiariesOther: IDiary[] = (await dairyApi.getListDiaries(3)) || [];
-    setListDiariesOther(lsDiariesOther);
-  };
-
-  React.useEffect(() => {
-    fetchInitialData();
-  }, []);
 
   return (
     <Box className=" bg-[#F5F5F5]" sx={{ width: "100%" }}>
@@ -57,15 +41,15 @@ export default function ListDiaryTab() {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <ListDiaries lsDiaries={listDiariesResent} />
+        <ListDiaryCurrent />
         <PageNumber />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <ListDiaries lsDiaries={listDiariesReview} />
+        <ListDiaryReview />
         <PageNumber />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <ListDiaries lsDiaries={listDiariesOther} />
+        <ListDiaryOther />
         <PageNumber />
       </CustomTabPanel>
     </Box>

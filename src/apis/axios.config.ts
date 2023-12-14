@@ -5,7 +5,7 @@ const axios = originAxios.create({
 });
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.headers.put["Content-Type"] = "application/json";
-axios.defaults.timeout = 5000;
+axios.defaults.timeout = 10000;
 
 axios.interceptors.request.use((config) => {
   const token = localStorage.getItem("accessToken");

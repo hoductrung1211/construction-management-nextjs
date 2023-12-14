@@ -1,7 +1,9 @@
 import dayjs, { Dayjs } from "dayjs";
+import IFile from "./File";
 
 export default interface IDiary{
     diaryid: number;
+    diaryidcode: string;
     cmsDiaryState: {
         diarystateid: number;
         diarystatename: string;
@@ -50,9 +52,10 @@ export default interface IDiary{
     };
     temperature: number;
     problem: string;
-    cmsFiles: {
-        fileid: number;
-        filelink: string;
-        filetype: number;
+    cmsProgresses:{
+        progressid: number;
+        amountofworkdone: number;
+        totalamountofworkdone: number;
     }
+    cmsFiles: IFile[];
 }

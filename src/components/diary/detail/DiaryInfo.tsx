@@ -77,6 +77,7 @@ export default function DiaryInfo() {
             </div>
           </div>
         </section>
+        
         <ListLaborsDiary lslabor={labors} />
         <ListProductsDiary lsproduct={products} />
         <ListPicture lsimages={images} />

@@ -1,22 +1,22 @@
 export default interface IPlanTaskDiary {
-  plantaskid?: Number;
+  plantaskid?: number;
   amountofwork: number;
   enddate?: Date;
-  orderindex?: Number;
+  orderindex?: number;
   startdate?: Date;
-  totallaborquantity?: Number;
+  totallaborquantity?: number;
   mdTask: {
-    taskid: Number;
-    taskcode: String;
-    taskname: String;
+    taskid: number;
+    taskcode: string;
+    taskname: string;
     mdQuantityUnit: {
-      quantityunitid: Number;
-      quantityunitname: String;
+      quantityunitid: number;
+      quantityunitname: string;
     };
   };
   mdWorkItem: {
-    workitemid: Number;
-    workitemCode: String;
-    workitemname: String;
+    workitemid: number;
+    workitemCode: string;
+    workitemname: string;
   };
 }

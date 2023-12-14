@@ -1,22 +1,16 @@
 "use client";
 
 import Icon from "@/components/Icon";
-import FilterPlan_Diary from "../FilterPlan_Diary";
+import FilterDiary from "./FilterDiary";
 import IDiary from "@/models/Diary";
+import React from "react";
 
+export default function ListDiaries({ lsDiaries}: { lsDiaries: IDiary[]}) {
 
-
-export default function ListDiaries(
-  {lsDiaries}:{
-    lsDiaries: IDiary[]
-  }
-) {
   return (
-    <div>
-      <FilterPlan_Diary />
       <div className=" bg-[#FAFAFC] mx-4 p-4 flex-col">
         <div className="title flex my-2">
-        <p className=" font-semibold w-full text-center">ID+Tên công trình</p>
+          <p className=" font-semibold w-full text-center">ID+Tên công trình</p>
           <p className=" font-semibold w-full text-center">ID+Nhật ký</p>
           <p className=" font-semibold w-full text-center">ID+Tên hạng mục</p>
           <p className=" font-semibold w-full text-center">ID+Tên công việc</p>
@@ -32,39 +26,40 @@ export default function ListDiaries(
         <div className=" lsplan flex-col space-y-4">
           {lsDiaries.map((item, idx) => (
             <div className="flex" key={idx}>
-            <p className="w-full text-center">
-                #{item.cmsPlanTask.cmsPlan.mdConstructionSite.constructionsiteid}
-                {item.cmsPlanTask.cmsPlan.mdConstructionSite.constructionsitename}
-              </p>
               <p className="w-full text-center">
-                #{item.diaryid}
+                
+                #{item.cmsPlanTask.cmsPlan.mdConstructionSite.constructionsiteid}-
+                {
+                  item.cmsPlanTask.cmsPlan.mdConstructionSite
+                    .constructionsitename
+                }
               </p>
-              
+              <p className="w-full text-center">#{item.diaryidcode}</p>
+
               <p className=" w-full text-center">
-                #{item.cmsPlanTask.mdWorkItem.workitemCode}
+                #{item.cmsPlanTask.mdWorkItem.workitemCode}-
                 {item.cmsPlanTask.mdWorkItem.workitemname}
               </p>
               <p className=" w-full text-center line-clamp-1">
-                #{item.cmsPlanTask.mdTask.taskcode}
+                #{item.cmsPlanTask.mdTask.taskcode}-
                 {item.cmsPlanTask.mdTask.taskname}
               </p>
-              <p className=" w-full text-center">{item.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}</p>
               <p className=" w-full text-center">
-                Khối lượng hoàn thành
+                {item.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}
               </p>
+              <p className=" w-full text-center">{item.cmsProgresses.amountofworkdone}</p>
               <div className=" w-full flex">
                 <p className=" text-center grow">{item.dateofdiary}</p>
                 <span className=" flex-none w-10">
                   <Icon
-                      className=" text-text-color"
-                      name="arrow-up-right-from-square"
-                      />
+                    className=" text-text-color"
+                    name="arrow-up-right-from-square"
+                  />
                 </span>
               </div>
             </div>
           ))}
         </div>
       </div>
-    </div>
   );
 }
