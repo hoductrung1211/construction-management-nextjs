@@ -15,6 +15,7 @@ import { IDairyProduct as IDiaryProduct } from "@/models/DiaryProduct";
 import IPlanTaskDiary from "@/models/PlanTaskDiary";
 import IProgress from "@/models/Progress";
 import { IWeather } from "@/models/Weather";
+import { uploadImage } from "@/utils/functions/uploadImage";
 import { Button, SelectChangeEvent, styled } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
 import { ChangeEvent, useState } from "react";
@@ -43,19 +44,17 @@ export default function CreateDiary() {
   const [showInfo, setShowInfo] = useState(false);
 
   //const save diary
-  const [diary, setDiary] = useState<IDiaryCreate>();
   const [startTime, setStartTime] = useState<Dayjs>(dayjs(Date.now())); //starttime
   const [endTime, setEndTime] = useState<Dayjs>(dayjs(Date.now())); //endtime
   const [temperature, setTemperature] = useState<number>(0); //temperature
   const [amountDone, setAmountDone] = useState<number>(0); //amountDone
-  const [listLabor, setListLabor] = useState<ILaborCreate[]>([]);
-  const [listProduct, setListProduct] = useState<IProductCreate[]>([]);
   const [planTask, setPlanTask] = useState<IPlanTaskDiary>();
   const [weatherList, setWeatherList] = useState<IWeather[]>([]);
   const [progressInfo, setProgressInfo] = useState<IProgress>();
-  const [listPicture, setListPicture] = useState<File[]>();
-  const [listProblem, setListProblem] = useState<File[]>();
+  const [listPicture, setListPicture] = useState<File[]>([]);
+  const [listProblem, setListProblem] = useState<File[]>([]);
   const [problem, setProblem] = useState<String>("");
+  const [dateOfDiary, setDateOfDiary] = useState<Dayjs>(dayjs(Date.now()));
 
   var listSaveDiaryLabor: ILaborCreate[] = [];
   var listSaveDiaryProduct: IProductCreate[] = [];
@@ -104,7 +103,17 @@ export default function CreateDiary() {
 
   const onChangeAmountDone = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const temp = parseInt(e.target.value);
-    if (temp >= 0) setAmountDone(temp);
+    if (
+      (planTask?.amountofwork as number) - (progressInfo?.totalamountofworkdone as number) <
+      temp
+    ) {
+      setAlert({
+        severity: "error",
+        message: "Khối lượng hoàn thành phải nhỏ hơn khối lượng còn lại!",
+      });
+      return;
+    }
+    if (temp > 0) setAmountDone(temp);
     else setAmountDone(0);
   };
 
@@ -128,6 +137,10 @@ export default function CreateDiary() {
     setListProblem(files);
   };
 
+  const onChangeDateOfDiary = (value: Dayjs) => {
+    setDateOfDiary(value);
+  };
+
   // const handleCEChange = (costEstimateId: string) => {
   //     setSelectedCEId(costEstimateId);
   // };
@@ -141,7 +154,7 @@ export default function CreateDiary() {
       const weathers = (await diaryApi.getWeather()) || [];
       setWeatherList(weathers);
 
-      const progress = await diaryApi.getProgressInfo(planTask.plantaskid as number) as IProgress;
+      const progress = (await diaryApi.getProgressInfo(planTask.plantaskid as number)) as IProgress;
       setProgressInfo(progress);
 
       const laborData = await planTaskAPI.getLabor(selectedWT);
@@ -158,8 +171,48 @@ export default function CreateDiary() {
     }
   }
 
-  //save diary
+  function Validate() {
+    if (selectedWeather == "") {
+      setAlert({ severity: "error", message: "Chưa chọn thời tiết!!!" });
+      return false;
+    }
+
+    if (labors.filter((item) => item.shiftid == undefined).length > 0) {
+      setAlert({ severity: "error", message: "Chưa chọn ca cho nhân công!!!" });
+      return false;
+    }
+
+    if (products.filter((item) => item.consumptionAmount == undefined).length > 0) {
+      setAlert({ severity: "error", message: "Chưa nhập số lượng vật tư!!!" });
+      return false;
+    }
+    return true;
+  }
   async function handleSaveDiary() {
+    if (!Validate()) {
+      return;
+    }
+    try {
+      const uploadedPicURL: string[] = [];
+      const uploadedPicProblemUrls: string[] = [];
+
+      for (let file of listPicture as File[]) {
+        const result = await uploadImage(file, "Picture");
+        uploadedPicURL.push(result.secure_url);
+      }
+
+      for (let file of listProblem as File[]) {
+        const result = await uploadImage(file, "Problem");
+        uploadedPicProblemUrls.push(result.secure_url);
+      }
+
+      const save = await saveDiary(uploadedPicURL, uploadedPicProblemUrls);
+    } catch (error) {
+      throw new Error(`Error uploading images: ${error}`);
+    }
+  }
+
+  async function saveDiary(listPic: String[], listPicProblem: String[]) {
     labors.forEach((l) => {
       var saveDiaryLabor: ILaborCreate = {
         laborID: l.mdEmployee.employeeid,
@@ -178,50 +231,27 @@ export default function CreateDiary() {
       listSaveDiaryProduct.push(saveDiaryProduct);
     });
 
-    var newDiary: IDiaryCreate = {
+    const newDiary: IDiaryCreate = {
       amountOfWork: amountDone,
-      starttime: `${startTime.hour()}:${startTime.minute()}:${startTime.second()}`, // startTime.toString(),
-      endtime: `${endTime.hour()}:${endTime.minute()}:${endTime.second()}`, //endTime.toString(),
+      starttime: `${startTime.hour()}:${startTime.minute()}:${startTime.second()}`,
+      endtime: `${endTime.hour()}:${endTime.minute()}:${endTime.second()}`,
       temperature: temperature,
       cmsPlanTask: parseInt(selectedWT),
       creator: 1,
       quantityUnit: planTask?.mdTask.mdQuantityUnit.quantityunitid as number,
       mdWeather: parseInt(selectedWeather),
 
-      pictures: [], // listPicture as File[],
-      picturesProblem: [], // listProblem as File[],
+      pictures: listPic, //listURLPicture as String[],
+      picturesProblem: listPicProblem, //listURLProblem as String[],
       problem: problem as String,
 
       products: listSaveDiaryProduct,
       labors: listSaveDiaryLabor,
+      dateOfDiary: `${dateOfDiary.year()}-${dateOfDiary.month() + 1}-${dateOfDiary.date()}`,
     };
 
-
-    // var formData = new FormData();
-    // formData.append("amountOfWork", amountDone.toString());
-    // formData.append("starttime", `${startTime.hour()}:${startTime.minute()}:${startTime.second()}`);
-    // formData.append("endtime", `${endTime.hour()}:${endTime.minute()}:${endTime.second()}`);
-    // formData.append("temperature", temperature.toString());
-    // formData.append("cmsPlanTask", selectedWT);
-    // formData.append("creator", "1");
-    // formData.append("quantityUnit", planTask?.mdTask.mdQuantityUnit.quantityunitid.toString());
-    // formData.append("mdWeather", selectedWeather);
-    // listPicture?.every((file) => {
-    //   console.log(file);
-    //   formData.append("pictures", file);
-    // });
-
-    // listProblem?.every((file) => {
-    //   console.log(file);
-    //   formData.append("picturesProblem", file);
-    // });
-
-    // formData.append("problem", "");
-    // formData.append("products", "");
-    // formData.append("labors", "");
-
-    const result = await diaryApi.saveDiary(newDiary);
-    // console.log( newDiary);
+    await diaryApi.saveDiary(newDiary);
+    console.log(newDiary);
   }
 
   //remove child in map
@@ -245,10 +275,11 @@ export default function CreateDiary() {
         endTime={endTime}
         temperature={temperature}
         amountDone={amountDone}
-        planTask={planTask as IPlanTaskDiary} 
+        planTask={planTask as IPlanTaskDiary}
         weather={weatherList as IWeather[]}
         progress={progressInfo as IProgress}
         showInfo={showInfo}
+        dateOfDiary={dateOfDiary}
         onChangeCS={handleCSChange}
         onChangeTaskWI={handleWTChange}
         onChangeWeather={handleWeatherChange}
@@ -256,6 +287,7 @@ export default function CreateDiary() {
         onChangeEndTime={onChangeEndTime}
         onChangeTemperature={onChangeTemperature}
         onChangeAmountDone={onChangeAmountDone}
+        onChangeDateOfDiary={onChangeDateOfDiary}
         HandleLoadPlanTaskInfo={HandleLoadPlanTaskInfo}
       />
       {showInfo && (

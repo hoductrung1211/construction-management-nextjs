@@ -1,6 +1,6 @@
 export interface IProductCreate{
     productId: number, //1,
-    consumptionAmount: number //10
+    consumptionAmount: number//10
 }
 
 export interface   ILaborCreate{
@@ -16,11 +16,12 @@ export default interface IDiaryCreate{
     amountOfWork: number,
     products:IProductCreate[],
     labors:ILaborCreate[],
-    pictures: File[],
-    picturesProblem: File[],
+    pictures: String[],
+    picturesProblem: String[],
     mdWeather: number,
     problem: String, 
     quantityUnit: number, 
+    dateOfDiary: String,
 };
 
 // export default interface IDiary{
