@@ -26,7 +26,7 @@ export default function Products({
 
   function handleChangeConsumption(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     setConsumptionAmount(parseInt(event.target.value));
-    handleChangeProduct(no - 1, product.mdProduct.productid, consumptionAmount);
+    handleChangeProduct(no - 1, product.mdProduct.productid, parseInt(event.target.value));
   }
 
   return (

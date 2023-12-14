@@ -45,16 +45,18 @@ export interface SelectCESectionProps {
   progress: IProgress;
   showInfo: Boolean;
   startTime: Dayjs;
-  endTime:Dayjs;
+  endTime: Dayjs;
   temperature: number;
   amountDone: number;
+  dateOfDiary: Dayjs;
   onChangeCS: (constructionSiteId: string) => void;
   onChangeTaskWI: (event: SelectChangeEvent) => void;
   onChangeWeather: (event: SelectChangeEvent) => void;
   onChangeStartTime: (value: dayjs.Dayjs) => void;
   onChangeEndTime: (value: dayjs.Dayjs) => void;
   onChangeTemperature: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  onChangeAmountDone:(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChangeAmountDone: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChangeDateOfDiary: (value: dayjs.Dayjs) => void;
   HandleLoadPlanTaskInfo: () => void;
 }
 
@@ -70,6 +72,7 @@ export default function ConstructionSiteInfo({
   weather,
   progress,
   showInfo,
+  dateOfDiary,
   onChangeCS,
   onChangeTaskWI,
   onChangeWeather,
@@ -77,7 +80,8 @@ export default function ConstructionSiteInfo({
   onChangeEndTime,
   onChangeTemperature,
   onChangeAmountDone,
-  HandleLoadPlanTaskInfo
+  onChangeDateOfDiary,
+  HandleLoadPlanTaskInfo,
 }: // onChangetaskWI,
 SelectCESectionProps) {
   const defaultDate = dayjs(Date.now.toString()).locale("vi");
@@ -86,22 +90,18 @@ SelectCESectionProps) {
   const [selectedConstruction, setselectedConstruction] = useState("");
   const [selectedTaskWorkitem, setSelectedTaskWorkitem] = useState("");
 
-  const [contructionSiteList, setConstructionSiteList] = React.useState<
-    IConstructionSite[]
-  >([]);
+  const [contructionSiteList, setConstructionSiteList] = React.useState<IConstructionSite[]>([]);
   const [flagLoadButton, setFlagLoadButton] = useState<boolean>(true);
   const [flagTaskWI, setFlagTaskWI] = useState<boolean>(true);
 
-  const [workitemTaskList, setWorkitemTaskList] =
-    React.useState<IPlanTaskDiary[]>();
+  const [workitemTaskList, setWorkitemTaskList] = React.useState<IPlanTaskDiary[]>();
 
   React.useEffect(() => {
     fetchInitialData();
   }, []);
 
   const fetchInitialData = async () => {
-    const csListRes: IConstructionSite[] =
-      (await constructionSiteAPI.getListActive()) || [];
+    const csListRes: IConstructionSite[] = (await constructionSiteAPI.getListActive()) || [];
     setConstructionSiteList(csListRes);
   };
 
@@ -124,15 +124,11 @@ SelectCESectionProps) {
 
   return (
     <div className=" bg-background-color">
-      <p className="ml-10 py-4 font-semibold text-lg ">
-        Thông tin nhật ký công trình
-      </p>
+      <p className="ml-10 py-4 font-semibold text-lg ">Thông tin nhật ký công trình</p>
       <div className="bg-white rounded-lg py-5 mx-3 ">
         <section className=" flex mx-8 mb-5 space-x-14">
           <FormControl size="small">
-            <InputLabel id="label-construction-site-plan">
-              Chọn công trình
-            </InputLabel>
+            <InputLabel id="label-construction-site-plan">Chọn công trình</InputLabel>
             <Select
               className="w-72"
               labelId="label-construction-site-plan"
@@ -149,9 +145,7 @@ SelectCESectionProps) {
           </FormControl>
 
           <FormControl size="small">
-            <InputLabel id="label-costestimate-plan">
-              Chọn công việc-hạng mục
-            </InputLabel>
+            <InputLabel id="label-costestimate-plan">Chọn công việc-hạng mục</InputLabel>
             <Select
               className="w-72"
               disabled={flagTaskWI}
@@ -188,9 +182,7 @@ SelectCESectionProps) {
                 <p className=" my-2 text-xl font-semibold">Thời tiết</p>
                 <div className=" flex space-x-14">
                   <FormControl size="small">
-                    <InputLabel id="label-construction-site-plan">
-                      Chọn thời tiết
-                    </InputLabel>
+                    <InputLabel id="label-construction-site-plan">Chọn thời tiết</InputLabel>
 
                     <Select
                       className=" w-72"
@@ -268,21 +260,15 @@ SelectCESectionProps) {
                 <div className="w-30 space-y-2">
                   <p>
                     {planTask.amountofwork as number}
-                    <span>
-                      {planTask.mdTask.mdQuantityUnit.quantityunitname}
-                    </span>
+                    <span>{planTask.mdTask.mdQuantityUnit.quantityunitname}</span>
                   </p>
                   <p>
                     {progress?.totalamountofworkdone}
-                    <span>
-                      {planTask.mdTask.mdQuantityUnit.quantityunitname}
-                    </span>
+                    <span>{planTask.mdTask.mdQuantityUnit.quantityunitname}</span>
                   </p>
                   <p>
-                    {(planTask.amountofwork ,progress?.totalamountofworkdone | 0) as number}
-                    <span>
-                      {planTask.mdTask.mdQuantityUnit.quantityunitname}
-                    </span>
+                    {(planTask.amountofwork, progress?.totalamountofworkdone | 0) as number}
+                    <span>{planTask.mdTask.mdQuantityUnit.quantityunitname}</span>
                   </p>
                   <TextField
                     className=" w-24"
@@ -306,7 +292,11 @@ SelectCESectionProps) {
             <div className="grow flex-col bg-[#F9FAFB] mb-4">
               <p className="text-xl font-semibold ml-6">Ngày nhật ký</p>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateCalendar className="m-0" />
+                <DateCalendar
+                  className="m-0"
+                  value={dateOfDiary}
+                  onChange={(value) => onChangeDateOfDiary(value as Dayjs)}
+                />
               </LocalizationProvider>
             </div>
           </div>

@@ -18,7 +18,7 @@ export default function ListProductsDiary({
   onChangeProduct: (product: IDairyProduct[]) => void;
   handleRemoveProduct: (idx: number) => void;
 }) {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState<number>();
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
