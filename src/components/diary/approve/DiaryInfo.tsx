@@ -23,7 +23,7 @@ export default function DiaryInfo() {
   return (
     <div className=" flex gap-3 mx-6">
       <div className=" flex-none w-4/5 ">
-        <DetailTitle workitemTask={WTInfo} />
+        <DetailTitle workitemName="" />
         <section>
           <div>
             <div className="bg-white rounded-b-lg flex-col py-5">

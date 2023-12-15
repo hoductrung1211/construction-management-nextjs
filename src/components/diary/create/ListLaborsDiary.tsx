@@ -3,7 +3,7 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import Icon from "../../Icon";
 import Labors, { ILabor } from "./Labors";
-import { IDairyEmployee } from "@/models/DiaryEmployee";
+import { IDiaryEmployee } from "@/models/DiaryEmployee";
 import { IShift } from "@/models/Shift";
 import diaryApi from "@/apis/dairy";
 import { SelectChangeEvent } from "@mui/material";
@@ -17,8 +17,8 @@ export default function ListLaborsDiary({
   onChangeLabor,
   handleRemoveLabor: handleRemoveLabor,
 }: {
-  lslabor: IDairyEmployee[];
-  onChangeLabor: (labor: IDairyEmployee[]) => void;
+  lslabor: IDiaryEmployee[];
+  onChangeLabor: (labor: IDiaryEmployee[]) => void;
   handleRemoveLabor: (idx: string) => void;
 }) {
   8;
@@ -37,7 +37,7 @@ export default function ListLaborsDiary({
   }
 
   const handleChangeLabor = (idx: string, shiftid: string, no: number) => {
-    var newLabor = lslabor.find((item) => item.mdEmployee.userid == idx) as IDairyEmployee;
+    var newLabor = lslabor.find((item) => item.mdEmployee.userid == idx) as IDiaryEmployee;
     newLabor.shiftid = parseInt(shiftid);
     onChangeLabor(lslabor);
     // var temp = newListLabor.splice(no,0,newLabor as IDairyEmployee);

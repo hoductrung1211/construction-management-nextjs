@@ -1,5 +1,6 @@
 import dayjs, { Dayjs } from "dayjs";
 import IFile from "./File";
+import { IDiaryHistory } from "./DiaryHistory";
 
 export default interface IDiary{
     diaryid: number;
@@ -8,9 +9,12 @@ export default interface IDiary{
         diarystateid: number;
         diarystatename: string;
     };
-    createdtime: Dayjs;
+    createdtime: string;
+    starttime: string;
+    endtime: string;
     cmsPlanTask: {
         plantaskid: number;
+        amountofwork: number;
         cmsPlan:{
             mdConstructionSite: {
                 constructionsiteid: number;
@@ -52,6 +56,7 @@ export default interface IDiary{
     };
     temperature: number;
     problem: string;
+    cmsDiaryHistories: IDiaryHistory[], 
     cmsProgresses:{
         progressid: number;
         amountofworkdone: number;

@@ -1,4 +1,4 @@
-import { IDairyProduct } from "@/models/DiaryProduct";
+import { IDiaryProduct } from "@/models/DiaryProduct";
 import Icon from "../../Icon";
 import { ChangeEvent, useState } from "react";
 
@@ -16,7 +16,7 @@ export default function Products({
   handleRemoveProduct,
   handleChangeProduct,
 }: {
-  product: IDairyProduct;
+  product: IDiaryProduct;
   no: number;
   handleRemoveProduct: (idx: number) => void;
   handleChangeProduct: (no: number, productid: number, consumptionAmount: number) => void;

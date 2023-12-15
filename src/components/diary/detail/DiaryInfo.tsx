@@ -2,26 +2,38 @@
 
 import { useState } from "react";
 import { IPDetailProps } from "@/components/plan/detail/PlanInfo";
-import PlanInfo from "./PlanInfo";
-import DetailTitle, { IWTDetailProps } from "./DetailTitle";
+import PlanInfo from "./DiaryMetaData";
+import DetailTitle from "./DetailTitle";
 import ListPicture, { IImagesList } from "./ListPicture";
-import ListProductsDiary, { IProductList } from "./ListProductsDiary";
-import ListLaborsDiary, { ILaborList } from "./ListLaborsDiary";
+import ListProductsDiary from "./ListProductsDiary";
 import ListProblem from "./ListProblem";
 import Image from "next/image";
+import IDiary from "@/models/Diary";
+import DiaryMetaData from "./DiaryMetaData";
+import { IDiaryEmployeeDetail } from "@/models/DiaryEmployee";
+import ListLaborsDiary from "./ListLaborsDiary";
+import { IDiaryProductDetail } from "@/models/DiaryProduct";
+import IFile from "@/models/File";
 
 export interface IDRDetailProps {}
-export default function DiaryInfo() {
+export default function DiaryInfo({diary, lsLabor, lsProduct, lsFile} : {diary: IDiary, lsLabor: IDiaryEmployeeDetail[], lsProduct: IDiaryProductDetail[], lsFile: IFile[]}) {
   const [PLInfo, setPLInfo] = useState<IPDetailProps>(initPLInfo);
-  const [WTInfo, setWtInfo] = useState<IWTDetailProps>(initWTInfo);
-  const [labors, setLabors] = useState(initlistLabors);
-  const [products, setProducts] = useState(initlistProducts);
   const [images, setImages] = useState(initlistImages);
+  const [weather, setWeather] = useState<string>("/iconweathers/Nang.png");
+  function imageWeather() {
+    switch(diary.mdWeather.weatherid){
+      case 1:
+        setWeather("/iconweathers/Nang.png")
+        break;
+    }
+  }
+
+
 
   return (
     <div className=" flex gap-3 mx-6">
       <div className=" flex-none w-4/5 ">
-        <DetailTitle workitemTask={WTInfo} />
+        <DetailTitle workitemCode={diary.cmsPlanTask.mdWorkItem.workitemCode} workitemName={diary.cmsPlanTask.mdWorkItem.workitemname} taskCode={diary.cmsPlanTask.mdTask.taskcode} taskName={diary.cmsPlanTask.mdTask.taskname} />
         <section>
           <div>
             <div className="bg-white rounded-b-lg flex-col py-5">
@@ -33,23 +45,23 @@ export default function DiaryInfo() {
                   <div className=" grid grid-cols-2 m-5 gap-4">
                   <div className=" flex flex-col col-span-2 h-32 justify-center items-center">
                       <Image
-                        src="/iconweathers/Nang.png"
+                        src={weather}
                         alt=""
                         width={200}
                         height={200}
                         className="w-32 h-32 object-cover rounded-none"
                       />
                       <div className=" flex col-span-2 font-semibold gap-3">
-                        <p>Nắng đẹp</p>
+                        <p>{diary.mdWeather.weathername}</p>
                         <p>
-                          Nhiệt độ: <span>30&deg;C</span>
+                          Nhiệt độ: <span>{diary.temperature}&deg;C</span>
                         </p>
                       </div>
                     </div>
-                    <p className="text-center font-semibold">Ngày bắt đầu</p>
-                    <p className="text-center">7:30 AM</p>
-                    <p className="text-center font-semibold">Ngày kết thúc</p>
-                    <p className="text-center">5:30 PM</p>
+                    <p className="text-center font-semibold">Giờ bắt đầu</p>
+                    <p className="text-center">{diary.starttime}</p>
+                    <p className="text-center font-semibold">Giờ kết thúc</p>
+                    <p className="text-center">{diary.endtime}</p>
                   </div>
                 </div>
                 <div className="bg-[#F9FAFB] rounded-2xl">
@@ -57,19 +69,19 @@ export default function DiaryInfo() {
                     <div className="col-span-4 h-32">bar</div>
                     <p className=" font-semibold">Khối lượng kế hoạch</p>
                     <p>
-                      300<span>m3</span>
+                      {diary.cmsPlanTask.amountofwork}<span>{diary.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}</span>
                     </p>
                     <p className=" font-semibold">Tổng tích lũy</p>
                     <p>
-                      100<span>m3</span>
+                      {diary.cmsProgresses.totalamountofworkdone}<span>{diary.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}</span>
                     </p>
                     <p className=" font-semibold">Khối lượng hoàn thành</p>
                     <p>
-                      60<span>m3</span>
+                      {diary.cmsProgresses.amountofworkdone}<span>{diary.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}</span>
                     </p>
                     <p className=" font-semibold">Khối lượng còn lại</p>
                     <p>
-                      140<span>m3</span>
+                    {diary.cmsPlanTask.amountofwork - diary.cmsProgresses.amountofworkdone}<span>{diary.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}</span>
                     </p>
                   </div>
                 </div>
@@ -78,13 +90,13 @@ export default function DiaryInfo() {
           </div>
         </section>
         
-        <ListLaborsDiary lslabor={labors} />
-        <ListProductsDiary lsproduct={products} />
-        <ListPicture lsimages={images} />
-        <ListProblem lsimages={images} />
+        <ListLaborsDiary lslabor={lsLabor} />
+        <ListProductsDiary lsproduct={lsProduct} />
+        <ListPicture lsimages={lsFile.filter(item => item.filetype = 1)} />
+        <ListProblem lsimages={lsFile.filter(item => item.filetype = 0)} />
       </div>
       <div className="grow">
-        <PlanInfo plInfo={PLInfo} />
+        <DiaryMetaData creatorDiary={diary.mdEmployee.lastname + " " + diary.mdEmployee.firstname} createTime = {diary.createdtime} stateDiary={diary.cmsDiaryState.diarystatename} lsHistory={diary.cmsDiaryHistories} />
       </div>
     </div>
   );
@@ -106,70 +118,6 @@ const initPLInfo: IPDetailProps = {
   Supervision: "Hồ Đức Trung",
 };
 
-const initWTInfo: IWTDetailProps = {
-  workitemId: "#WI00001",
-  workitemName: "Xây móng",
-  taskId: "TK00001",
-  taskName: "Đào móng",
-};
-
-const initlistLabors: ILaborList = {
-  labors: [
-    {
-      isSelected: false,
-      no: 1,
-      laborCode: "#EL0001",
-      firstName: "Diễm Quỳnh",
-      lastName: "Hà",
-      role: "Công nhân",
-      shift: 8,
-    },
-    {
-      isSelected: false,
-      no: 2,
-      laborCode: "#EL0002",
-      firstName: "Hồ Hoàng Vy",
-      lastName: "Chu",
-      role: "Công nhân",
-      shift: 4,
-    },
-    {
-      isSelected: false,
-      no: 2,
-      laborCode: "#EL0003",
-      firstName: "Thị Vân Khánh",
-      lastName: "Nguyễn",
-      role: "Công nhân",
-      shift: 8,
-    },
-  ],
-};
-
-const initlistProducts: IProductList = {
-  products: [
-    {
-      no: 1,
-      pdId: "#PD0001",
-      pdName: "Xi măng",
-      pdUnit: "Bao",
-      pdAmount: 5,
-    },
-    {
-      no: 2,
-      pdId: "#PD0002",
-      pdName: "Cát",
-      pdUnit: "m3",
-      pdAmount: 100,
-    },
-    {
-      no: 3,
-      pdId: "#PD0003",
-      pdName: "Đá",
-      pdUnit: "m3",
-      pdAmount: 80,
-    },
-  ],
-};
 
 const initlistImages: IImagesList = {
   images: [

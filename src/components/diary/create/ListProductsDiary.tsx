@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Icon from "../../Icon";
 import Products, { IProduct } from "./Products";
-import { IDairyProduct } from "@/models/DiaryProduct";
+import { IDiaryProduct } from "@/models/DiaryProduct";
 
 export interface IProductList {
   products: IProduct[];
@@ -14,8 +14,8 @@ export default function ListProductsDiary({
   onChangeProduct,
   lsproduct,
 }: {
-  lsproduct: IDairyProduct[];
-  onChangeProduct: (product: IDairyProduct[]) => void;
+  lsproduct: IDiaryProduct[];
+  onChangeProduct: (product: IDiaryProduct[]) => void;
   handleRemoveProduct: (idx: number) => void;
 }) {
   const [value, setValue] = React.useState<number>();
@@ -33,7 +33,7 @@ export default function ListProductsDiary({
   }
 
   function handleChangeProduct(no: number, productid: number, consumptionAmount: number) {
-    var newProduct = lsproduct.find((item) => item.mdProduct.productid == productid) as IDairyProduct;
+    var newProduct = lsproduct.find((item) => item.mdProduct.productid == productid) as IDiaryProduct;
     newProduct.consumptionAmount = consumptionAmount;
     onChangeProduct(lsproduct);
   }

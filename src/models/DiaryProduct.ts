@@ -1,4 +1,6 @@
-export interface IDairyProduct {
+import IProduct from "./Product";
+
+export interface IDiaryProduct {
   planTaskProductId: number;
   mdProduct: {
     productid: number;
@@ -9,4 +11,10 @@ export interface IDairyProduct {
     };
   };
   consumptionAmount?: number;
+}
+
+export interface IDiaryProductDetail{
+  diarytaskproductid: number,
+  consumptionamount: number,
+  mdProduct: IProduct,
 }

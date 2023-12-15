@@ -4,8 +4,16 @@ import Icon from "@/components/Icon";
 import FilterDiary from "./FilterDiary";
 import IDiary from "@/models/Diary";
 import React from "react";
+import { useRouter } from "next/navigation";
+
 
 export default function ListDiaries({ lsDiaries}: { lsDiaries: IDiary[]}) {
+
+  const router = useRouter();
+  const handleDoubleClick = ( id: number) => {
+    router.push("/construction-diaries/"+id);
+  }
+
 
   return (
       <div className=" bg-[#FAFAFC] mx-4 p-4 flex-col">
@@ -23,9 +31,9 @@ export default function ListDiaries({ lsDiaries}: { lsDiaries: IDiary[]}) {
             <span className=" flex-none w-10"></span>
           </div>
         </div>
-        <div className=" lsplan flex-col space-y-4">
+        <div className=" lsplan flex-col">
           {lsDiaries.map((item, idx) => (
-            <div className="flex" key={idx}>
+            <div className="flex hover:bg-apple-gray-5 cursor-pointer py-3" key={idx} onDoubleClick={() => handleDoubleClick(item.diaryid)}>
               <p className="w-full text-center">
                 
                 #{item.cmsPlanTask.cmsPlan.mdConstructionSite.constructionsiteid}-
@@ -48,15 +56,7 @@ export default function ListDiaries({ lsDiaries}: { lsDiaries: IDiary[]}) {
                 {item.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}
               </p>
               <p className=" w-full text-center">{item.cmsProgresses.amountofworkdone}</p>
-              <div className=" w-full flex">
-                <p className=" text-center grow">{item.dateofdiary}</p>
-                <span className=" flex-none w-10">
-                  <Icon
-                    className=" text-text-color"
-                    name="arrow-up-right-from-square"
-                  />
-                </span>
-              </div>
+              <p className=" w-full text-center">{item.dateofdiary}</p>
             </div>
           ))}
         </div>

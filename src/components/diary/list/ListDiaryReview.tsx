@@ -1,6 +1,6 @@
 "use client";
 
-import dairyApi from "@/apis/dairy";
+import dairyApi, { DiaryListType } from "@/apis/dairy";
 import { useState } from "react";
 import FilterDiary from "./FilterDiary";
 import ListDiaries from "./ListDiaries";
@@ -15,7 +15,7 @@ export default function ListDiaryReview(){
 
     const fetchInitialData = async () => {
         if(filterValue != 0){
-            const lsDiariesRecent: IDiary[] = (await dairyApi.getListAllDiariesByConstructionSite(filterValue)) || [];
+            const lsDiariesRecent: IDiary[] = (await dairyApi.getListAllDiariesByConstructionSite(filterValue, DiaryListType.Waiting)) || [];
             setListDiariesReview(lsDiariesRecent);
         }
         else{
@@ -33,7 +33,7 @@ export default function ListDiaryReview(){
 
       async function handleChangeFilter(value: number) {
         setFilterValue(value);
-        const lsDiariesRecent: IDiary[] = (await dairyApi.getListAllDiariesByConstructionSite(value)) || [];
+        const lsDiariesRecent: IDiary[] = (await dairyApi.getListAllDiariesByConstructionSite(value, DiaryListType.Waiting)) || [];
             setListDiariesReview(lsDiariesRecent);
       }
     return(

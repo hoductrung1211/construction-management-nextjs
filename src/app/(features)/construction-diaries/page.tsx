@@ -1,5 +1,5 @@
 import { Navigation } from "@/configs/sidebarNavigation";
-import CreateDiary from "@/features/diary/create/CreateDiary";
+import ListDiaryTab from "@/features/diary/list/ListDiaryTab";
 import PageContainer from "@/layouts/PageContainer";
 
 export default function Page() {
@@ -21,7 +21,7 @@ export default function Page() {
                 }
             ]}
         >
-            <CreateDiary />
+            <ListDiaryTab/>
         </PageContainer>
     )
 }
