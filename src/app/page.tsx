@@ -2,8 +2,8 @@
 import FilterPlan_Diary from "@/components/diary/list/FilterDiary";
 import SearchConstructionSite from "@/components/diary/test";
 import { Navigation } from "@/configs/sidebarNavigation";
-import DetailDiary from "@/features/diary/approve/ApproveDiary";
 import CreateDiary from "@/features/diary/create/CreateDiary";
+import DetailDiary from "@/features/diary/detail/DetailDiary";
 import ListDiaryTab from "@/features/diary/list/ListDiaryTab";
 import PageContainer from "@/layouts/PageContainer";
 
@@ -26,7 +26,7 @@ export default function Home() {
         },
       ]}
     >
-      <DetailDiary/>
+      <CreateDiary />
     </PageContainer>
   );
 }

@@ -17,25 +17,19 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { ChangeEvent, useState } from "react";
 import useAlert from "@/hooks/useAlert";
-import {
-  DateCalendar,
-  DatePicker,
-  DesktopDatePicker,
-  MobileDatePicker,
-  StaticDatePicker,
-} from "@mui/x-date-pickers";
+import { DateCalendar } from "@mui/x-date-pickers";
 import IConstructionSite from "@/models/ConstructionSite";
 import IPlanTaskDiary from "@/models/PlanTaskDiary";
-import costEstimateAPI from "@/apis/costEstimate";
 import constructionSiteAPI from "@/apis/constructionSite";
 import planTaskAPI from "@/apis/plantask";
 import { IWeather } from "@/models/Weather";
-import diaryApi from "@/apis/dairy";
 import dayjs, { Dayjs } from "dayjs";
 import "dayjs/locale/vi";
 import useLoadingAnimation from "@/hooks/useLoadingAnimation";
 
 import IProgress from "@/models/Progress";
+import { DefaultizedPieValueType, PieSeriesType, PieValueType } from "@mui/x-charts";
+import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 export interface SelectCESectionProps {
   selectedCS: string;
   selectedTaskWI: string;
@@ -49,6 +43,8 @@ export interface SelectCESectionProps {
   temperature: number;
   amountDone: number;
   dateOfDiary: Dayjs;
+  amountofwork: number;
+  totalamountofworkdone: number;
   onChangeCS: (constructionSiteId: string) => void;
   onChangeTaskWI: (event: SelectChangeEvent) => void;
   onChangeWeather: (event: SelectChangeEvent) => void;
@@ -73,6 +69,8 @@ export default function ConstructionSiteInfo({
   progress,
   showInfo,
   dateOfDiary,
+  amountofwork,
+  totalamountofworkdone,
   onChangeCS,
   onChangeTaskWI,
   onChangeWeather,
@@ -121,6 +119,64 @@ SelectCESectionProps) {
 
   const setAlert = useAlert();
   dayjs.locale("vi");
+
+  //chart
+  const progressChart = React.useMemo(() => {
+    var data = [
+      { label: "Khối lượng hoàn thành", value: amountDone, color: "#FFBB28" },
+      { label: "Khối lượng tích lũy", value: totalamountofworkdone, color: "#00C49F" },
+      {
+        label: "Khối lượng còn lại",
+        value: amountofwork - totalamountofworkdone - amountDone,
+        color: "#FF8042",
+      },
+
+    ];
+    console.log(amountofwork, totalamountofworkdone, amountDone);
+    // var data2 = [
+    //   { label: "Khối lượng hoàn thành", value: 0, color: "#FFBB28" },
+    //   { label: "Khối lượng tích lũy", value: 0, color: "#00C49F" },
+    //   {
+    //     label: "Khối lượng còn lại",
+    //     value: 0,
+    //     color: "#FF8042",
+    //   },
+    //   { label: "Khối lượng kế hoạch", value: amountofwork, color: "#0088FE" },
+    // ];
+
+    // console.log(amountofwork, totalamountofworkdone, amountDone);
+    // var data = totalamountofworkdone > 0 || amountDone > 0 ? data1 : data2;
+    const sizing = {
+      margin: { left: -100 },
+      width: 400,
+      height: 200,
+    };
+    const TOTAL = data.map((item) => item.value).reduce((a, b) => a + b, 0);
+
+    const getArcLabel = (params: DefaultizedPieValueType) => {
+      const percent = params.value / TOTAL;
+      return `${(percent * 100).toFixed(0)}%`;
+    };
+    return (
+      <PieChart
+        
+        series={[
+          {
+            outerRadius: 80,
+            data,
+            arcLabel: getArcLabel,
+          },
+        ]}
+        sx={{
+          [`& .${pieArcLabelClasses.root}`]: {
+            fill: "white",
+            fontSize: 1,
+          },
+        }}
+        {...sizing}
+      />
+    );
+  }, [amountDone, amountofwork, totalamountofworkdone]);
 
   return (
     <div className=" bg-background-color">
@@ -247,18 +303,16 @@ SelectCESectionProps) {
             </div>
             <div className="grow flex-col bg-[#F9FAFB] space-y-4 mb-4 mx-2">
               <p className=" my-2 text-xl font-semibold">Tiến độ</p>
-              <div>
-                <p> bar</p>
-              </div>
+              <div>{planTask && progressChart}</div>
               <div className=" flex">
                 <div className="w-80 space-y-2">
-                  <p className=" font-semibold">Khối lượng kế hoạch</p>
+                  {/* <p className=" font-semibold">Khối lượng kế hoạch</p>
                   <p className=" font-semibold">Khối lượng tích lũy</p>
-                  <p className=" font-semibold">Khối lượng còn lại</p>
+                  <p className=" font-semibold">Khối lượng còn lại</p> */}
                   <p className=" font-semibold">Khối lượng hoàn thành</p>
                 </div>
                 <div className="w-30 space-y-2">
-                  <p>
+                  {/* <p>
                     {planTask.amountofwork as number}
                     <span>{planTask.mdTask.mdQuantityUnit.quantityunitname}</span>
                   </p>
@@ -267,9 +321,9 @@ SelectCESectionProps) {
                     <span>{planTask.mdTask.mdQuantityUnit.quantityunitname}</span>
                   </p>
                   <p>
-                    {(planTask.amountofwork, progress?.totalamountofworkdone | 0) as number}
+                    {((planTask.amountofwork - progress?.totalamountofworkdone) | 0) as number}
                     <span>{planTask.mdTask.mdQuantityUnit.quantityunitname}</span>
-                  </p>
+                  </p> */}
                   <TextField
                     className=" w-24"
                     size="small"

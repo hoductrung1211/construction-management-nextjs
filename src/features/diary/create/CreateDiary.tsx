@@ -18,7 +18,7 @@ import { IWeather } from "@/models/Weather";
 import { uploadImage } from "@/utils/functions/uploadImage";
 import { Button, SelectChangeEvent, styled } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useMemo, useState } from "react";
 
 const VisuallyHiddenInput = styled("input")`
   clip: rect(0 0 0 0);
@@ -154,7 +154,15 @@ export default function CreateDiary() {
       const weathers = (await diaryApi.getWeather()) || [];
       setWeatherList(weathers);
 
-      const progress = (await diaryApi.getProgressInfo(planTask.plantaskid as number)) as IProgress;
+      var progress = (await diaryApi.getProgressInfo(planTask.plantaskid as number)) as IProgress;
+      if (progress == undefined) {
+        progress = {
+          progressid: 0,
+          amountofworkdone: 0,
+          totalamountofworkdone: 0,
+          cmsConstructionDiary: { diaryid: 0 },
+        };
+      }
       setProgressInfo(progress);
 
       const laborData = await planTaskAPI.getLabor(selectedWT);
@@ -280,6 +288,8 @@ export default function CreateDiary() {
         progress={progressInfo as IProgress}
         showInfo={showInfo}
         dateOfDiary={dateOfDiary}
+        totalamountofworkdone={progressInfo?.totalamountofworkdone as number}
+        amountofwork={planTask?.amountofwork as number}
         onChangeCS={handleCSChange}
         onChangeTaskWI={handleWTChange}
         onChangeWeather={handleWeatherChange}
