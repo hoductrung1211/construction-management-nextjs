@@ -26,7 +26,7 @@ export default function Home() {
         },
       ]}
     >
-      <CreateDiary />
+      <DetailDiary value={8}/>
     </PageContainer>
   );
 }

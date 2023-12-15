@@ -10,8 +10,8 @@ import ListProductsDiary, { IProductList } from "@/components/diary/create/ListP
 import useAlert from "@/hooks/useAlert";
 import useLoadingAnimation from "@/hooks/useLoadingAnimation";
 import IDiaryCreate, { ILaborCreate, IProductCreate } from "@/models/DiaryCreate";
-import { IDairyEmployee as IDiaryEmployee } from "@/models/DiaryEmployee";
-import { IDairyProduct as IDiaryProduct } from "@/models/DiaryProduct";
+import { IDiaryEmployee as IDiaryEmployee } from "@/models/DiaryEmployee";
+import { IDiaryProduct as IDiaryProduct } from "@/models/DiaryProduct";
 import IPlanTaskDiary from "@/models/PlanTaskDiary";
 import IProgress from "@/models/Progress";
 import { IWeather } from "@/models/Weather";

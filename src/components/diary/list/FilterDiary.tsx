@@ -51,7 +51,7 @@ export default function FilterDiary({
   };
 
   const handleClick = () => {
-    router.push("");
+    router.push("/construction-diaries/create");
   };
 
   return (

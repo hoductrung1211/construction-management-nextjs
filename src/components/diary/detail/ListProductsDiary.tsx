@@ -1,14 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import Products, { IProduct } from "./Products";
+import Products from "./Products";
 import Icon from "@/components/Icon";
+import { IDiaryProductDetail } from "@/models/DiaryProduct";
 
-export interface IProductList {
-  products: IProduct[];
-}
 
-export default function ListProductsDiary({ lsproduct}: { lsproduct: IProductList }) {
+export default function ListProductsDiary({ lsproduct}: { lsproduct: IDiaryProductDetail[] }) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (
@@ -32,13 +30,13 @@ export default function ListProductsDiary({ lsproduct}: { lsproduct: IProductLis
             onClick={handleChangeIsShow}
           />
           <p className="font-semibold text-text-color my-auto">
-            Vật tư<span className="ml-4 font-thin">{lsproduct.products.length}</span>
+            Vật tư<span className="ml-4 font-thin">{lsproduct.length}</span>
           </p>
         </div>
       </header>
       {isShow && <div className="listProducts py-3 bg-white">
-        {lsproduct.products.map((product, idx) => (
-          <Products key={idx} product={product}/>
+        {lsproduct.map((product, idx) => (
+          <Products key={idx} no={idx+1} product={product}/>
         ))}
       </div>}
     </div>

@@ -1,5 +1,8 @@
 "use client";
 
+import { IDiaryEmployeeDetail } from "@/models/DiaryEmployee";
+
+
 export interface ILabor{
     isSelected: boolean;
     no: number;
@@ -10,32 +13,23 @@ export interface ILabor{
     shift: number
 }
 export default function Labors({
-    labor
+    no, labor
 }:{
-    labor: ILabor
+    no: number;
+    labor: IDiaryEmployeeDetail
 }
-){
-   
-    const {
-        isSelected,
-        no,
-        laborCode,
-        lastName,
-        firstName,
-        role,
-        shift
-    } = labor; 
+){ 
     return(
         <div
         className=" bg-white flex justify-between mx-9 my-3 items-center"
       >
         <p className=" w-3">{no}</p>
-        <p className=" w-14">{laborCode}</p>
+        <p className=" w-14">{labor.laborsid.employeeid}</p>
         <p className=" w-64">
-          {lastName} {firstName}
+          {labor.laborsid.lastname} {labor.laborsid.firstname}
         </p>
-        <p className=" w-64">{role}</p>
-        <p className=" w-64">{shift}</p>
+        <p className=" w-64">Công nhân</p>
+        <p className=" w-64">Ca - HC</p>
       </div>  
     )
 }

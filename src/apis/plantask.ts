@@ -1,7 +1,7 @@
 import IPlanTaskDiary from "@/models/PlanTaskDiary";
 import request from "./request";
-import { IDairyEmployee } from "@/models/DiaryEmployee";
-import { IDairyProduct } from "@/models/DiaryProduct";
+import { IDiaryEmployee } from "@/models/DiaryEmployee";
+import { IDiaryProduct } from "@/models/DiaryProduct";
 
 const planTaskAPI = {
   getList: (constructionid: any) =>
@@ -9,9 +9,9 @@ const planTaskAPI = {
   getPlanTask: (plantaskid: any) =>
     request.get<IPlanTaskDiary[]>(`/plantask?plantaskid=${plantaskid}`),
   getLabor: (plantaskid: any) =>
-    request.get<IDairyEmployee[]>(`/plantasklabor/${plantaskid}`),
+    request.get<IDiaryEmployee[]>(`/plantasklabor/${plantaskid}`),
   getProduct: (plantaskid: any) =>
-    request.get<IDairyProduct[]>(`/plantaskproduct/${plantaskid}`),
+    request.get<IDiaryProduct[]>(`/plantaskproduct/${plantaskid}`),
 };
 
 export default planTaskAPI;

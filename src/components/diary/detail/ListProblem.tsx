@@ -5,8 +5,9 @@ import { useState } from "react";
 import Image from "next/image";
 import Icon from "@/components/Icon";
 import { IImagesList, ModalImage } from "./ListPicture";
+import IFile from "@/models/File";
 
-export default function ListProblem({ lsimages }: { lsimages: IImagesList }) {
+export default function ListProblem({ lsimages }: { lsimages: IFile[] }) {
   const [isShow, setIsShow] = useState(true);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -28,7 +29,7 @@ export default function ListProblem({ lsimages }: { lsimages: IImagesList }) {
   const changeImage = (direction: "prev" | "next") => {
     let newIndex;
     if (direction === "next") {
-      if (currentImageIndex == lsimages.images.length - 1) {
+      if (currentImageIndex == lsimages.length - 1) {
         return;
       }
       newIndex = currentImageIndex + 1;
@@ -39,20 +40,20 @@ export default function ListProblem({ lsimages }: { lsimages: IImagesList }) {
       newIndex = currentImageIndex - 1;
     }
 
-    setSelectedImage(lsimages.images[newIndex].imageLink);
+    setSelectedImage(lsimages[newIndex].filelink);
     setCurrentImageIndex(newIndex);
   };
 
-  const image4 = lsimages.images.length > 3 && (
+  const image4 = lsimages.length > 3 && (
     <div className="relative h-32 w-32"
-    onClick={() => openLightbox(lsimages.images[3].imageLink, 3)}>
+    onClick={() => openLightbox(lsimages[3].filelink, 3)}>
   <Image
-    src={lsimages.images[3].imageLink}
+    src={lsimages[3].filelink}
     alt="Selected 3"
     fill
     className="w-32 h-32 object-contain bg-[#AEAEB2] opacity-60 rounded-none cursor-pointer"/>
   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-black font-semibold text-2xl">
-    + {lsimages.images.length - 3}
+    + {lsimages.length - 3}
   </div>
 </div>
   );
@@ -72,18 +73,17 @@ export default function ListProblem({ lsimages }: { lsimages: IImagesList }) {
         <div className="list-picture flex gap-10 mx-3 py-3 relative">
           <div className=" ml-3 flex gap-2">
           {
-            lsimages.images
-            .slice(0, 3)
+            lsimages.slice(0, 3)
             .map((image, index) => (
              (
                 <Image
                 key={index}
-                src={image.imageLink}
+                src={image.filelink}
                 alt={`Selected ${index}`}
                 width={200}
                 height={200}
                 className="w-32 h-32 object-cover rounded-none cursor-pointer"
-                onClick={() => openLightbox(image.imageLink, index)}
+                onClick={() => openLightbox(image.filelink, index)}
               />)
             ))
           }
@@ -107,7 +107,7 @@ export default function ListProblem({ lsimages }: { lsimages: IImagesList }) {
           onNext={() => changeImage("next")}
           onPrev={() => changeImage("prev")}
           currentIndex={currentImageIndex}
-          totalImages={lsimages.images.length}
+          totalImages={lsimages.length}
         />
       )}
       </div>

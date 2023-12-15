@@ -10,7 +10,8 @@ export interface IEmployee {
     address: string,
     phone: string,
 
-    userid: string
+    userid: string,
+    status: string,
 }
 
 export const listLabors: IEmployee[] = [];
