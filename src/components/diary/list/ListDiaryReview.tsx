@@ -1,6 +1,6 @@
 "use client";
 
-import dairyApi, { DiaryListType } from "@/apis/dairy";
+import diaryApi, { DiaryListType } from "@/apis/diary";
 import { useState } from "react";
 import FilterDiary from "./FilterDiary";
 import ListDiaries from "./ListDiaries";
@@ -15,11 +15,11 @@ export default function ListDiaryReview(){
 
     const fetchInitialData = async () => {
         if(filterValue != 0){
-            const lsDiariesRecent: IDiary[] = (await dairyApi.getListAllDiariesByConstructionSite(filterValue, DiaryListType.Waiting)) || [];
+            const lsDiariesRecent: IDiary[] = (await diaryApi.getListAllDiariesByConstructionSite(filterValue, DiaryListType.Waiting)) || [];
             setListDiariesReview(lsDiariesRecent);
         }
         else{
-            const lsDiariesRecent: IDiary[] = (await dairyApi.getListAllDiaries(2)) || [];
+            const lsDiariesRecent: IDiary[] = (await diaryApi.getListAllDiaries(2)) || [];
             setListDiariesReview(lsDiariesRecent);
         }
         
@@ -33,7 +33,7 @@ export default function ListDiaryReview(){
 
       async function handleChangeFilter(value: number) {
         setFilterValue(value);
-        const lsDiariesRecent: IDiary[] = (await dairyApi.getListAllDiariesByConstructionSite(value, DiaryListType.Waiting)) || [];
+        const lsDiariesRecent: IDiary[] = (await diaryApi.getListAllDiariesByConstructionSite(value, DiaryListType.Waiting)) || [];
             setListDiariesReview(lsDiariesRecent);
       }
     return(

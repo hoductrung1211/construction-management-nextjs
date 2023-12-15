@@ -5,7 +5,7 @@ import Icon from "../../Icon";
 import Labors, { ILabor } from "./Labors";
 import { IDiaryEmployee } from "@/models/DiaryEmployee";
 import { IShift } from "@/models/Shift";
-import diaryApi from "@/apis/dairy";
+import diaryApi from "@/apis/diary";
 import { SelectChangeEvent } from "@mui/material";
 
 export interface ILaborList {

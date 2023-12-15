@@ -1,6 +1,6 @@
 "use client";
 
-import dairyApi from "@/apis/dairy";
+import diaryApi from "@/apis/diary";
 import { CustomTabPanel } from "@/components/TabPanel";
 import FilterDiary from "@/components/diary/list/FilterDiary";
 import ListDiaries from "@/components/diary/list/ListDiaries";

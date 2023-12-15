@@ -1,5 +1,5 @@
 "use client";
-import diaryApi from "@/apis/dairy";
+import diaryApi from "@/apis/diary";
 import planTaskAPI from "@/apis/plantask";
 import Icon from "@/components/Icon";
 import ConstructionSiteInfo from "@/components/diary/create/ConstructionSiteInfo";
