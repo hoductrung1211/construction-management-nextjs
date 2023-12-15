@@ -7,11 +7,13 @@ import IConstructionSite from "@/models/ConstructionSite";
 import { IDiaryHistory } from "@/models/DiaryHistory";
 
 export default function PlanInfo({
+  planCode,
   creatorDiary,
   createTime,
   stateDiary,
   lsHistory,
 }: {
+  planCode: string;
   creatorDiary: string;
   createTime: string;
   stateDiary: string;
@@ -20,12 +22,18 @@ export default function PlanInfo({
   const [PLInfo, setPLInfo] = useState<IPDetailProps>();
   const isDisplayApprover = stateDiary.trim() === "Đã duyệt";
   const isDisplayConfirmer = stateDiary.trim() === "Đã đối chứng";
+  const actionConfirmer = lsHistory.filter(
+    (item) => item.cmsDiaryAction.diaryactionname.trim() === "Đã đối chứng"
+  )[0];
+  const actionApprover = lsHistory.filter(
+    (item) => item.cmsDiaryAction.diaryactionname.trim() === "Duyệt"
+  )[0];
 
   return (
     <div className=" flex flex-col sticky top-20 rounded-md bg-white gap-2 p-4">
       {/* <ConstructionSiteInfo constructionSite={CSInfo} /> */}
       <div className=" flex flex-col gap-2">
-        <p className=" text-apple-gray">#23PLAN00001</p>
+        <p className=" text-apple-gray">#{planCode}</p>
         <span className=" px-3 bg-[#C7E7E5] text-[#30C1A5] rounded-3xl font-semibold w-fit">
           Doing
         </span>
@@ -37,21 +45,27 @@ export default function PlanInfo({
         <p>{createTime}</p>
         {isDisplayApprover && (
           <div>
-            <p className=" font-semibold">Người duyệt</p>
-            {lsHistory.filter( item => item.cmsDiaryAction.diaryactionname.trim() === "Duyệt")[0] != undefined &&
-            lsHistory.filter( item => item.cmsDiaryAction.diaryactionname.trim() === "Duyệt")[0].mdEmployee.firstname}
-            <p className=" font-semibold">Ngày duyệt</p>
-            {lsHistory.filter( item => item.cmsDiaryAction.diaryactionname.trim() === "Duyệt")[0] != undefined &&
-            lsHistory.filter( item => item.cmsDiaryAction.diaryactionname.trim() === "Duyệt")[0].actiontime}
-            
+            {actionApprover != undefined && (
+              <>
+                <p className=" font-semibold">Người duyệt</p>
+                {actionApprover.mdEmployee.firstname + actionApprover.mdEmployee.lastname}
+                <p className=" font-semibold">Ngày duyệt</p>
+
+                {actionApprover.actiontime}
+              </>
+            )}
           </div>
         )}
         {(isDisplayApprover || isDisplayConfirmer) && (
           <div>
-            <p className=" font-semibold">Người đối chứng</p>
-            {/* {lsHistory.filter( item => item.cmsDiaryAction.diaryactionname.trim() === "Đã đối chứng")[0].mdEmployee.firstname} */}
-            <p className=" font-semibold">Ngày đối chứng</p>
-            {/* {lsHistory.filter( item => item.cmsDiaryAction.diaryactionname.trim() === "Đã đối chứng")[0].actiontime} */}
+            {actionConfirmer != undefined && (
+              <>
+                <p className=" font-semibold">Người đối chứng</p>
+                {actionConfirmer.mdEmployee.firstname + actionConfirmer.mdEmployee.lastname}
+                <p className=" font-semibold">Ngày đối chứng</p>
+                {actionConfirmer.actiontime}
+              </>
+            )}
           </div>
         )}
       </div>

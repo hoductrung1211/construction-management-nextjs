@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IPDetailProps } from "@/components/plan/detail/PlanInfo";
 import PlanInfo from "./DiaryMetaData";
 import DetailTitle from "./DetailTitle";
@@ -16,41 +16,75 @@ import { IDiaryProductDetail } from "@/models/DiaryProduct";
 import IFile from "@/models/File";
 
 export interface IDRDetailProps {}
-export default function DiaryInfo({diary, lsLabor, lsProduct, lsFile} : {diary: IDiary, lsLabor: IDiaryEmployeeDetail[], lsProduct: IDiaryProductDetail[], lsFile: IFile[]}) {
+export default function DiaryInfo({
+  diary,
+  lsLabor,
+  lsProduct,
+  lsFile,
+}: {
+  diary: IDiary;
+  lsLabor: IDiaryEmployeeDetail[];
+  lsProduct: IDiaryProductDetail[];
+  lsFile: IFile[];
+}) {
   const [PLInfo, setPLInfo] = useState<IPDetailProps>(initPLInfo);
   const [images, setImages] = useState(initlistImages);
-  const [weather, setWeather] = useState<string>("/iconweathers/Nang.png");
+  const [weather, setWeather] = useState<string>();
   function imageWeather() {
-    switch(diary.mdWeather.weatherid){
-      case 1:
-        setWeather("/iconweathers/Nang.png")
+    switch (diary.mdWeather.weatherid) {
+      case 1: //Nắng
+        setWeather("/iconweathers/Nang.png");
+        console.log(1);
+        break;
+      case 2: //Mưa
+        console.log(2);
+        setWeather("/iconweathers/Nang.png");
+        break;
+      case 3: //Nhiều mây
+        console.log(3);
+        setWeather("/iconweathers/Nang.png");
+        break;
+      case 4: //Sương mù
+        console.log(4);
+        setWeather("/iconweathers/Nang.png");
+        break;
+      case 5: //Nồm
+        console.log(5);
+        setWeather("/iconweathers/Nang.png");
         break;
     }
   }
 
-
+  useEffect(() => {
+    imageWeather();
+  }, []);
 
   return (
     <div className=" flex gap-3 mx-6">
       <div className=" flex-none w-4/5 ">
-        <DetailTitle workitemCode={diary.cmsPlanTask.mdWorkItem.workitemCode} workitemName={diary.cmsPlanTask.mdWorkItem.workitemname} taskCode={diary.cmsPlanTask.mdTask.taskcode} taskName={diary.cmsPlanTask.mdTask.taskname} />
+        <DetailTitle
+          workitemCode={diary.cmsPlanTask.mdWorkItem.workitemCode}
+          workitemName={diary.cmsPlanTask.mdWorkItem.workitemname}
+          taskCode={diary.cmsPlanTask.mdTask.taskcode}
+          taskName={diary.cmsPlanTask.mdTask.taskname}
+        />
         <section>
           <div>
             <div className="bg-white rounded-b-lg flex-col py-5">
-              <p className=" font-semibold text-lg ml-5">
-                Chi tiết nhật ký công trình
-              </p>
+              <p className=" font-semibold text-lg ml-5">Chi tiết nhật ký công trình</p>
               <div className="flex gap-6 mx-5 mt-3">
                 <div className="grow bg-[#F9FAFB] rounded-xl">
                   <div className=" grid grid-cols-2 m-5 gap-4">
-                  <div className=" flex flex-col col-span-2 h-32 justify-center items-center">
-                      <Image
-                        src={weather}
-                        alt=""
-                        width={200}
-                        height={200}
-                        className="w-32 h-32 object-cover rounded-none"
-                      />
+                    <div className=" flex flex-col col-span-2 h-32 justify-center items-center">
+                      {weather && (
+                        <Image
+                          src={weather as string}
+                          alt=""
+                          width={200}
+                          height={200}
+                          className="w-32 h-32 object-cover rounded-none"
+                        />
+                      )}  
                       <div className=" flex col-span-2 font-semibold gap-3">
                         <p>{diary.mdWeather.weathername}</p>
                         <p>
@@ -69,19 +103,23 @@ export default function DiaryInfo({diary, lsLabor, lsProduct, lsFile} : {diary: 
                     <div className="col-span-4 h-32">bar</div>
                     <p className=" font-semibold">Khối lượng kế hoạch</p>
                     <p>
-                      {diary.cmsPlanTask.amountofwork}<span>{diary.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}</span>
+                      {diary.cmsPlanTask.amountofwork}
+                      <span>{diary.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}</span>
                     </p>
                     <p className=" font-semibold">Tổng tích lũy</p>
                     <p>
-                      {diary.cmsProgresses.totalamountofworkdone}<span>{diary.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}</span>
+                      {diary.cmsProgresses.totalamountofworkdone}
+                      <span>{diary.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}</span>
                     </p>
                     <p className=" font-semibold">Khối lượng hoàn thành</p>
                     <p>
-                      {diary.cmsProgresses.amountofworkdone}<span>{diary.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}</span>
+                      {diary.cmsProgresses.amountofworkdone}
+                      <span>{diary.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}</span>
                     </p>
                     <p className=" font-semibold">Khối lượng còn lại</p>
                     <p>
-                    {diary.cmsPlanTask.amountofwork - diary.cmsProgresses.amountofworkdone}<span>{diary.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}</span>
+                      {diary.cmsPlanTask.amountofwork - diary.cmsProgresses.amountofworkdone}
+                      <span>{diary.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}</span>
                     </p>
                   </div>
                 </div>
@@ -89,14 +127,23 @@ export default function DiaryInfo({diary, lsLabor, lsProduct, lsFile} : {diary: 
             </div>
           </div>
         </section>
-        
+
         <ListLaborsDiary lslabor={lsLabor} />
         <ListProductsDiary lsproduct={lsProduct} />
-        <ListPicture lsimages={lsFile.filter(item => item.filetype = 1)} />
-        <ListProblem lsimages={lsFile.filter(item => item.filetype = 0)} />
+        <ListPicture lsimages={lsFile.filter((item) => item.filetype == 1)} />
+        <ListProblem
+          lsimages={lsFile.filter((item) => item.filetype == 0)}
+          problem={diary.problem}
+        />
       </div>
       <div className="grow">
-        <DiaryMetaData creatorDiary={diary.mdEmployee.lastname + " " + diary.mdEmployee.firstname} createTime = {diary.createdtime} stateDiary={diary.cmsDiaryState.diarystatename} lsHistory={diary.cmsDiaryHistories} />
+        <DiaryMetaData
+          planCode={diary.cmsPlanTask.cmsPlan.planidcode}
+          creatorDiary={diary.mdEmployee.lastname + " " + diary.mdEmployee.firstname}
+          createTime={diary.createdtime}
+          stateDiary={diary.cmsDiaryState.diarystatename}
+          lsHistory={diary.cmsDiaryHistories}
+        />
       </div>
     </div>
   );
@@ -117,7 +164,6 @@ const initPLInfo: IPDetailProps = {
   totalNumberOfLabors: 1120,
   Supervision: "Hồ Đức Trung",
 };
-
 
 const initlistImages: IImagesList = {
   images: [

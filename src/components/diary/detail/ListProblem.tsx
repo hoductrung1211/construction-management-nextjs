@@ -7,7 +7,7 @@ import Icon from "@/components/Icon";
 import { IImagesList, ModalImage } from "./ListPicture";
 import IFile from "@/models/File";
 
-export default function ListProblem({ lsimages }: { lsimages: IFile[] }) {
+export default function ListProblem({ lsimages, problem }: { lsimages: IFile[],problem:string }) {
   const [isShow, setIsShow] = useState(true);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -92,10 +92,9 @@ export default function ListProblem({ lsimages }: { lsimages: IFile[] }) {
           <TextField
           className=" w-120"
           id="outlined-multiline-static"
-          label="Nội dung sự cố"
           multiline
           rows={4}
-          value="abcdefghabcdefghabcdefghabcdefghabcdefghabcdefghabcdefghabcdefghabcdefghabcdefghabcdefghabcdefghabcdefgh"
+          value={problem}
           disabled
         />
         </div>
