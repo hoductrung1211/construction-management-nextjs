@@ -24,7 +24,7 @@ export default function ListDiaryCurrent() {
       setListDiariesResent(lsDiariesRecent);
     } else {
       const lsDiariesRecent: IDiary[] =
-        (await diaryApi.getListAllDiaries(1)) || [];
+        (await diaryApi.getListAllDiaries(DiaryListType.Current)) || [];
       setListDiariesResent(lsDiariesRecent);
     }
   };
