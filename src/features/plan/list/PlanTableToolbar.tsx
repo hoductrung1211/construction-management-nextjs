@@ -13,7 +13,6 @@ export default function PlanTableToolbar({
 		<section className="h-20 px-3 flex justify-between items-center">
 			<div className="">
 				
-
 			</div>
 
 			<IconButton

@@ -19,6 +19,8 @@ export interface ICostEstimate {
 export default function CreatePlan() {
     const setAlert = useAlert();
 
+    const [viewState, setViewState] = useState<"list" | "gantt">("list");
+
     // 1. Lifted state up 
     // - Loaded by: <PlanOverviewInfoLayout />.
     // - Used by: <PlanWorkItemLayout /> to load initial CostEstimate WorkItems.
@@ -67,7 +69,7 @@ export default function CreatePlan() {
                 if (!wi.supervisor) {
                     throw new Error("Cần nhập Người giám sát cho hạng mục số" + wi.orderIndex);
                 }
-                
+
                 const filteredTask = wi.tasks.filter(t => t.isSelected);
                 const tasks = filteredTask.map(t => {
                     if (!t.startDate) {
@@ -75,30 +77,30 @@ export default function CreatePlan() {
                         console.log(message)
                         throw new Error(message);
                     }
-    
+
                     if (!t.endDate) {
                         const message = `Cần nhập Ngày kết thúc của Hạng mục ${wi.orderIndex} Task ${t.orderIndex}`
                         console.log(message)
                         throw new Error(message);
                     }
-    
+
                     if (!costEstimateId) {
                         const message = "Bạn chưa truyền vào costEstimateId trong Task"
                         console.log(message)
                         throw new Error(message);
                     }
-    
+
                     return {
                         taskId: t.taskId,
                         startdate: dayjs(t.startDate).format('DD-MM-YYYY').toString(),
                         enddate: dayjs(t.endDate).format('DD-MM-YYYY').toString(),
-    
+
                         amountOfWork: t.amountOfWork,
                         quantityUnitId: t.quantityUnitId, // HOW CAN WE GET THIS???
-                        
+
                         orderIndex: t.orderIndex,
                         costEstimateId: costEstimateId,
-                        
+
                         // products: t.products.map(p => ({
                         //     productId: p.product.productid, // WRONG???
                         //     quantityUnit: p.product.mdQuantityUnit.quantityunitid, // HOW CAN WE GET THIS???
@@ -148,7 +150,7 @@ export default function CreatePlan() {
 
             return;
         }
-        
+
         const startdate = planEstimate.startDate.format('DD-MM-YYYY').toString();
         const enddate = planEstimate.endDate.format('DD-MM-YYYY').toString();
 
@@ -156,10 +158,10 @@ export default function CreatePlan() {
             planname: planEstimate.planName,
             startdate,
             enddate,
-            
+
             mdConstructionSite: 2, // DO WE REALLY NEED TO PASS A CONSTRUCTION SITE ID???
             mdEmployee: 1, // Creator
-            
+
             approvers: [planEstimate.approver.employeeid],
             listPlanWorkItem: workItems,
             // listPlanWorkItem: [],
@@ -186,7 +188,7 @@ export default function CreatePlan() {
             <PlanOverviewInfoLayout onLoadCostEstimate={
                 (costEstimateId) => {
                     setCostEstimateId(costEstimateId);
-                    
+
                     // Reset planEstimate when changing CostEstimate
                     setPlanEstimate({
                         planName: "",
@@ -206,12 +208,22 @@ export default function CreatePlan() {
             {/* Show Cost Estimate WorkItems & Tasks */}
             {
                 (costEstimateId != undefined) && (
-                    <PlanWorkItemLayout>
-                        <PlanWorkItemSection
-                            key={costEstimateId}
-                            costEstimateId={costEstimateId}
-                            handleCreatePlan={handleCreatePlan}
-                        />
+                    <PlanWorkItemLayout
+                        onClickChangeView={(newState: "list" | "gantt") => {
+                            setViewState(newState);
+                        }}
+                    >
+                        {viewState == "list" ? (
+                            <PlanWorkItemSection
+                                key={costEstimateId}
+                                costEstimateId={costEstimateId}
+                                handleCreatePlan={handleCreatePlan}
+                            />
+                        ) : (
+                                <div className="w-full min-h-full">
+                                    
+                            </div>
+                        )}
                     </PlanWorkItemLayout>
                 )
             }
