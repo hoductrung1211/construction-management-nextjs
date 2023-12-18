@@ -8,9 +8,9 @@ import { IDiaryEmployeeDetail } from "@/models/DiaryEmployee";
 import { IDiaryProductDetail } from "@/models/DiaryProduct";
 
 export const enum DiaryListType {
-    Current = 1,
-    WaitingConfirm = 2,
-    WaitingApprove = 3,
+    Current = 3,
+    WaitingConfirm = 1,
+    WaitingApprove = 2,
     DenyConfirm = 4,
     DenyApprove = 5
 }

@@ -24,7 +24,7 @@ export default function ListDiaryWaitingConfirm() {
       setListDiariesReview(lsDiariesRecent);
     } else {
       const lsDiariesRecent: IDiary[] =
-        (await diaryApi.getListAllDiaries(2)) || [];
+        (await diaryApi.getListAllDiaries(DiaryListType.WaitingConfirm)) || [];
       setListDiariesReview(lsDiariesRecent);
     }
   };

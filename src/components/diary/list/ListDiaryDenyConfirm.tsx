@@ -22,7 +22,7 @@ export default function ListDiaryDenyConfirm() {
       setListDiariesOther(lsDiariesRecent);
     } else {
       const lsDiariesRecent: IDiary[] =
-        (await diaryApi.getListAllDiaries(3)) || [];
+        (await diaryApi.getListAllDiaries(DiaryListType.DenyConfirm)) || [];
       setListDiariesOther(lsDiariesRecent);
     }
   };
