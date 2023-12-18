@@ -3,11 +3,13 @@
 import IconButton from "@/components/IconButton";
 
 export interface IPlanWorkItemLayoutProps {
-    children?: React.ReactNode
+    children?: React.ReactNode;
+    onClickChangeView: (newState: "list" | "gantt") => void;
 }
 
 export default function PlanWorkItemLayout({
-    children
+    children,
+    onClickChangeView,
 }: IPlanWorkItemLayoutProps) {
     return (
         <div className="flex gap-5">
@@ -17,8 +19,18 @@ export default function PlanWorkItemLayout({
             {/* Right aside buttons */}
             <aside className="pb-32 flex flex-col gap-4">
                 <div className="sticky top-20 flex flex-col gap-4">
-                    <IconButton name="bars-progress" tooltip="Hiển thị theo dạng danh sách" bgColor={true} /> 
-                    <IconButton name="chart-gantt" tooltip="Hiển thị theo dạng Gantt Chart"  bgColor={true} /> 
+                    <IconButton
+                        name="bars-progress"
+                        tooltip="Hiển thị theo dạng danh sách"
+                        bgColor={true}
+                        onClick={() => onClickChangeView("list")}
+                    /> 
+                    <IconButton
+                        name="chart-gantt"
+                        tooltip="Hiển thị theo dạng Gantt Chart"
+                        bgColor={true}
+                        onClick={() => onClickChangeView("gantt")}
+                    /> 
                 </div>
                 <div className="sticky top-[580px] bot-10 flex flex-col gap-4">
                     <IconButton

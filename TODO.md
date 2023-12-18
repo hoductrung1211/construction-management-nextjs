@@ -1,5 +1,12 @@
 Press Ctrl + Shift + V to preview `.md` file.
 
+# API Request
+1. Labors param URL is Vietnamese???
+
+    /search?labor=Giám sát&name
+    
+    -> Lý do không để ID là ID nó thay đổi thì sao?
+
 # API returned
 1. Construction Site
 - There hasn't had createdDate in API response yet.
@@ -12,7 +19,7 @@ Press Ctrl + Shift + V to preview `.md` file.
     - Total cost (can be updated later).
 
 # API Form Body
-- Is there a plan name???
+- Date phải truyền theo dạng string: 
 
 # Front-end
 1. Approver Popup

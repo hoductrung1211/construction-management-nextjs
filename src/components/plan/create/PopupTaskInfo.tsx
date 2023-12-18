@@ -5,7 +5,7 @@ import { CustomTabPanel } from "../../TabPanel";
 import TaskLaborSection from "./TaskLaborSection";
 import TaskProductSection from "./TaskProductSection";
 import { IEmployee } from "@/models/Employee";
-import { IProduct } from "@/models/Product";
+import IProduct from "@/models/Product";
 
 function a11yProps(index: number) {
     return {

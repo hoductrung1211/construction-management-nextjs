@@ -1,21 +1,24 @@
+"use client";
 import Icon from "@/components/Icon";
-import Task from "./PlanTask";
+import IconButton from "@/components/IconButton";
+import PopupAddSupervisor from "@/components/plan/create/PopupAddSupervisor";
+import { IEmployee } from "@/models/Employee";
 import { Checkbox } from "@mui/material";
 import { ChangeEvent, useState } from "react";
-import IconButton from "@/components/IconButton";
+import { ITempPlanWorkItem } from "./PlanWorkItemSection";
+import Task, { ITempPlanTask } from "./PlanTask";
 import useModal from "@/hooks/useModal";
-import PopupAddSupervisor from "@/components/plan/create/PopupAddSupervisor";
-import { ICreatePlanWorkItem } from "@/models/WorkItem";
-import { ICreatePlanTask } from "@/models/Task";
-import { IEmployee, listLabors } from "@/models/Employee";
+
+export interface IPlanWorkItemProps {
+	orderIndex: number,
+	workItem: ITempPlanWorkItem;
+	onWorkItemChange: (newOne: ITempPlanWorkItem) => void;
+}
 
 export default function PlanWorkItem({
 	workItem,
 	onWorkItemChange,
-}: {
-	workItem: ICreatePlanWorkItem;
-	onWorkItemChange: (newWI: ICreatePlanWorkItem) => void;
-}) {
+}: IPlanWorkItemProps) {
 	const {
 		isSelected,
 		orderIndex,
@@ -24,30 +27,19 @@ export default function PlanWorkItem({
 		workItemCode,
 		workItemName,
 	} = workItem;
-
-	const selectedSupervisor = listLabors.find((ee) => ee.employeeid == supervisor?.employeeid);
-
-	const [isShow, setIsShow] = useState(true);
 	const { setModal, setIsOpenModal } = useModal();
+	const [isShow, setIsShow] = useState(true);
 
 	function handleChangeIsSelected(e: ChangeEvent<HTMLInputElement>) {
-		const checked = e.target.checked;
-
-		if (!checked) {
-			setIsShow(false);
-		}
-
 		onWorkItemChange({
 			...workItem,
-			isSelected: checked,
+			isSelected: e.target.checked
 		});
+
+		setIsShow(false);
 	}
 
-	function handleChangeIsShow() {
-		if (isSelected) setIsShow(!isShow);
-	}
-
-	function handleChangeTask(newTask: ICreatePlanTask) {
+	function handleChangeTask(newTask: ITempPlanTask) {
 		const idx = tasks.findIndex((t) => t.taskCode == newTask.taskCode);
 
 		if (idx >= 0) {
@@ -64,7 +56,9 @@ export default function PlanWorkItem({
 				<Icon
 					className="grid place-items-center w-8 h-8 cursor-pointer hover:text-dark "
 					name={isShow ? "angle-down" : "angle-right"}
-					onClick={handleChangeIsShow}
+					onClick={() => {
+						isSelected && setIsShow(!isShow)
+					}}
 				/>
 				<Checkbox
 					className=" "
@@ -94,27 +88,27 @@ export default function PlanWorkItem({
 						name="user-plus"
 						tooltip="Thêm người giám sát"
 						onClick={() => {
-							// setModal({
-							// 	children: (
-							// 		<PopupAddSupervisor
-							// 			selectedSupervisorId={supervisor?.employeeid + ""}
-							// 			onChangeSupervisor={(newSupervisor?: IEmployee) => {
-							// 				onWorkItemChange({
-							// 					...workItem,
-							// 					supervisor: newSupervisor,
-							// 				});
+							setModal({
+								children: (
+									<PopupAddSupervisor
+										selectedSupervisorId={supervisor?.employeeid}
+										onChangeSupervisor={(newSupervisor?: IEmployee) => {
+											onWorkItemChange({
+												...workItem,
+												supervisor: newSupervisor,
+											});
 
-							// 				setIsOpenModal(false);
-							// 			}}
-							// 		/>
-							// 	),
-							// });
+											setIsOpenModal(false);
+										}}
+									/>
+								),
+							});
 						}}
 					/>
 				</section>
 			</header>
 			{isShow &&
-				tasks.map((task, idx) => (
+				workItem.tasks.map((task, idx) => (
 					<Task
 						key={task.taskCode}
 						task={task}
@@ -123,7 +117,5 @@ export default function PlanWorkItem({
 					/>
 				))}
 		</section>
-	);
+	)
 }
-
-

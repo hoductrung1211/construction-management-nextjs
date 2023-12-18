@@ -14,5 +14,5 @@ export interface ICreatePlanTask {
     products: {
         product: IProduct;
         quantity: number;
-    }[]
+    }[];
 }
