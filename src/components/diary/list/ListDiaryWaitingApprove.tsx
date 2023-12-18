@@ -8,7 +8,7 @@ import React from "react";
 import IDiary from "@/models/Diary";
 import { useRouter } from "next/navigation";
 
-export default function ListDiaryOther() {
+export default function ListDiaryWaitingApprove() {
   const [filterValue, setFilterValue] = useState(0);
   const [listDiariesOther, setListDiariesOther] = React.useState<IDiary[]>([]);
 
@@ -17,7 +17,7 @@ export default function ListDiaryOther() {
       const lsDiariesRecent: IDiary[] =
         (await diaryApi.getListAllDiariesByConstructionSite(
           filterValue,
-          DiaryListType.Others
+          DiaryListType.WaitingApprove
         )) || [];
       setListDiariesOther(lsDiariesRecent);
     } else {
@@ -33,7 +33,7 @@ export default function ListDiaryOther() {
 
   const router = useRouter();
   const handleDoubleClick = (id: number) => {
-    router.push("/construction-diaries/confirm/" + id);
+    router.push("/construction-diaries/approve/" + id);
   };
 
   async function handleChangeFilter(value: number) {
@@ -41,7 +41,7 @@ export default function ListDiaryOther() {
     const lsDiariesRecent: IDiary[] =
       (await diaryApi.getListAllDiariesByConstructionSite(
         value,
-        DiaryListType.Others
+        DiaryListType.WaitingApprove
       )) || [];
     setListDiariesOther(lsDiariesRecent);
   }

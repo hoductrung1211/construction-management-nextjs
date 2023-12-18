@@ -8,7 +8,7 @@ import React from "react";
 import IDiary from "@/models/Diary";
 import { useRouter } from "next/navigation";
 
-export default function ListDiaryReview() {
+export default function ListDiaryWaitingConfirm() {
   const [filterValue, setFilterValue] = useState(0);
   const [listDiariesConfirm, setListDiariesReview] = React.useState<IDiary[]>(
     []
@@ -19,7 +19,7 @@ export default function ListDiaryReview() {
       const lsDiariesRecent: IDiary[] =
         (await diaryApi.getListAllDiariesByConstructionSite(
           filterValue,
-          DiaryListType.Waiting
+          DiaryListType.WaitingConfirm
         )) || [];
       setListDiariesReview(lsDiariesRecent);
     } else {
@@ -43,7 +43,7 @@ export default function ListDiaryReview() {
     const lsDiariesRecent: IDiary[] =
       (await diaryApi.getListAllDiariesByConstructionSite(
         value,
-        DiaryListType.Waiting
+        DiaryListType.WaitingConfirm
       )) || [];
     setListDiariesReview(lsDiariesRecent);
   }

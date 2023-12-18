@@ -8,24 +8,22 @@ import React from "react";
 import IDiary from "@/models/Diary";
 import { useRouter } from "next/navigation";
 
-export default function ListDiaryReview() {
+export default function ListDiaryDenyConfirm() {
   const [filterValue, setFilterValue] = useState(0);
-  const [listDiariesReview, setListDiariesReview] = React.useState<IDiary[]>(
-    []
-  );
+  const [listDiariesOther, setListDiariesOther] = React.useState<IDiary[]>([]);
 
   const fetchInitialData = async () => {
     if (filterValue != 0) {
       const lsDiariesRecent: IDiary[] =
         (await diaryApi.getListAllDiariesByConstructionSite(
           filterValue,
-          DiaryListType.Waiting
+          DiaryListType.DenyConfirm
         )) || [];
-      setListDiariesReview(lsDiariesRecent);
+      setListDiariesOther(lsDiariesRecent);
     } else {
       const lsDiariesRecent: IDiary[] =
-        (await diaryApi.getListAllDiaries(2)) || [];
-      setListDiariesReview(lsDiariesRecent);
+        (await diaryApi.getListAllDiaries(3)) || [];
+      setListDiariesOther(lsDiariesRecent);
     }
   };
 
@@ -35,7 +33,7 @@ export default function ListDiaryReview() {
 
   const router = useRouter();
   const handleDoubleClick = (id: number) => {
-    router.push("/construction-diaries/confirm/" + id);
+    router.push("/construction-diaries/" + id);
   };
 
   async function handleChangeFilter(value: number) {
@@ -43,14 +41,14 @@ export default function ListDiaryReview() {
     const lsDiariesRecent: IDiary[] =
       (await diaryApi.getListAllDiariesByConstructionSite(
         value,
-        DiaryListType.Waiting
+        DiaryListType.DenyConfirm
       )) || [];
-    setListDiariesReview(lsDiariesRecent);
+    setListDiariesOther(lsDiariesRecent);
   }
   return (
     <div>
       <FilterDiary value={filterValue} onChangeCS={handleChangeFilter} />
-      <ListDiaries lsDiaries={listDiariesReview} handleDoubleClick={handleDoubleClick}/>
+      <ListDiaries lsDiaries={listDiariesOther} handleDoubleClick={handleDoubleClick} />
     </div>
   );
 }
