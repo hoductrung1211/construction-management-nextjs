@@ -1,5 +1,7 @@
+import IQuantityUnit from "./QuantityUnit";
+
 export default interface IProduct {
-    productCode: string;
-    productName: string;
-    unitName: string;
+    productid: number;
+    productname: string;
+    mdQuantityUnit: IQuantityUnit;
 }

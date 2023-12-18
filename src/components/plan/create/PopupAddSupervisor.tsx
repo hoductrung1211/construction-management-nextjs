@@ -4,7 +4,7 @@ import IconButton from "../../IconButton";
 import { useEffect, useState } from "react";
 import { IEmployee } from "@/models/Employee";
 import useLoadingAnimation from "@/hooks/useLoadingAnimation";
-import employeeAPI from "@/apis/employee";
+import employeeAPI, { LaborType } from "@/apis/employee";
 import useAlert from "@/hooks/useAlert";
 
 export default function PopupAddSupervisor({
@@ -37,7 +37,7 @@ export default function PopupAddSupervisor({
         setLoading(true);
         
         try {
-            const laborResponse = await employeeAPI.getList();
+            const laborResponse = await employeeAPI.getList(LaborType.Supervisor);
             setLaborList(laborResponse);
         }
         catch (ex) {
