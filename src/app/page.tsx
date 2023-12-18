@@ -22,7 +22,7 @@ export default function Home() {
         }
       ]}
     >
-      <CreatePlan />
+      <CreatePlan/>
     </PageContainer>
   )
 }
