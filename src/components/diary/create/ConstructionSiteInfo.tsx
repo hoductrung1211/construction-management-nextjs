@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 
 import * as React from "react";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
@@ -28,7 +28,7 @@ import "dayjs/locale/vi";
 import useLoadingAnimation from "@/hooks/useLoadingAnimation";
 
 import IProgress from "@/models/Progress";
-import { DefaultizedPieValueType, PieSeriesType, PieValueType } from "@mui/x-charts";
+import { DefaultizedPieValueType } from "@mui/x-charts";
 import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 export interface SelectCESectionProps {
   selectedCS: string;
@@ -130,22 +130,7 @@ SelectCESectionProps) {
         value: amountofwork - totalamountofworkdone - amountDone,
         color: "#FF8042",
       },
-
     ];
-    console.log(amountofwork, totalamountofworkdone, amountDone);
-    // var data2 = [
-    //   { label: "Khối lượng hoàn thành", value: 0, color: "#FFBB28" },
-    //   { label: "Khối lượng tích lũy", value: 0, color: "#00C49F" },
-    //   {
-    //     label: "Khối lượng còn lại",
-    //     value: 0,
-    //     color: "#FF8042",
-    //   },
-    //   { label: "Khối lượng kế hoạch", value: amountofwork, color: "#0088FE" },
-    // ];
-
-    // console.log(amountofwork, totalamountofworkdone, amountDone);
-    // var data = totalamountofworkdone > 0 || amountDone > 0 ? data1 : data2;
     const sizing = {
       margin: { left: -100 },
       width: 400,
@@ -158,25 +143,37 @@ SelectCESectionProps) {
       return `${(percent * 100).toFixed(0)}%`;
     };
     return (
-      <PieChart
-        
-        series={[
-          {
-            outerRadius: 80,
-            data,
-            arcLabel: getArcLabel,
-          },
-        ]}
-        sx={{
-          [`& .${pieArcLabelClasses.root}`]: {
-            fill: "white",
-            fontSize: 1,
-          },
-        }}
-        {...sizing}
-      />
+      <div>
+        <p>{`Khối lượng kế hoạch: ${amountofwork} ${planTask?.mdTask.mdQuantityUnit.quantityunitname}`}</p>
+        <PieChart
+          series={[
+            {
+              outerRadius: 80,
+              data,
+              arcLabel: getArcLabel,
+            },
+          ]}
+          sx={{
+            [`& .${pieArcLabelClasses.root}`]: {
+              fill: "white",
+              fontSize: 12,
+            },
+          }}
+          {...sizing}
+          slotProps={{
+            legend: {
+              hidden: false,
+              direction: "column",
+              position: {
+                vertical: "middle",
+                horizontal: "right",
+              },
+            },
+          }}
+        />
+      </div>
     );
-  }, [amountDone, amountofwork, totalamountofworkdone]);
+  }, [amountDone, amountofwork, totalamountofworkdone, planTask]);
 
   return (
     <div className=" bg-background-color">
@@ -306,24 +303,9 @@ SelectCESectionProps) {
               <div>{planTask && progressChart}</div>
               <div className=" flex">
                 <div className="w-80 space-y-2">
-                  {/* <p className=" font-semibold">Khối lượng kế hoạch</p>
-                  <p className=" font-semibold">Khối lượng tích lũy</p>
-                  <p className=" font-semibold">Khối lượng còn lại</p> */}
                   <p className=" font-semibold">Khối lượng hoàn thành</p>
                 </div>
                 <div className="w-30 space-y-2">
-                  {/* <p>
-                    {planTask.amountofwork as number}
-                    <span>{planTask.mdTask.mdQuantityUnit.quantityunitname}</span>
-                  </p>
-                  <p>
-                    {progress?.totalamountofworkdone}
-                    <span>{planTask.mdTask.mdQuantityUnit.quantityunitname}</span>
-                  </p>
-                  <p>
-                    {((planTask.amountofwork - progress?.totalamountofworkdone) | 0) as number}
-                    <span>{planTask.mdTask.mdQuantityUnit.quantityunitname}</span>
-                  </p> */}
                   <TextField
                     className=" w-24"
                     size="small"
@@ -360,24 +342,3 @@ SelectCESectionProps) {
   );
 }
 
-interface ICSInfo {
-  csId: string;
-  csName: string;
-  address: string;
-  brand: string;
-  creator: string;
-  createdTime: Date;
-  endDate: Date;
-  startDate: Date;
-}
-
-const initCSInfo = {
-  csId: "",
-  csName: "",
-  address: "",
-  brand: "",
-  creator: "",
-  createdTime: new Date(2024, 11, 20),
-  endDate: new Date(2024, 11, 20),
-  startDate: new Date(2024, 11, 20),
-};
