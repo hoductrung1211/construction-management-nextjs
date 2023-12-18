@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Labors, { ILabor } from "./Labors";
+import Labors, { ILabor } from "./detail/Labors";
 import Icon from "@/components/Icon";
 import { IDiaryEmployeeDetail } from "@/models/DiaryEmployee";
 

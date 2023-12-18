@@ -31,11 +31,10 @@ export default function PlanInfo({
 
   return (
     <div className=" flex flex-col sticky top-20 rounded-md bg-white gap-2 p-4">
-      {/* <ConstructionSiteInfo constructionSite={CSInfo} /> */}
       <div className=" flex flex-col gap-2">
         <p className=" text-apple-gray">#{planCode}</p>
         <span className=" px-3 bg-[#C7E7E5] text-[#30C1A5] rounded-3xl font-semibold w-fit">
-          Doing
+             {stateDiary} 
         </span>
       </div>
       <div className=" flex flex-col gap-2">
@@ -48,7 +47,8 @@ export default function PlanInfo({
             {actionApprover != undefined && (
               <>
                 <p className=" font-semibold">Người duyệt</p>
-                {actionApprover.mdEmployee.firstname + actionApprover.mdEmployee.lastname}
+                {actionApprover.mdEmployee.firstname +
+                  actionApprover.mdEmployee.lastname}
                 <p className=" font-semibold">Ngày duyệt</p>
 
                 {actionApprover.actiontime}
@@ -61,7 +61,8 @@ export default function PlanInfo({
             {actionConfirmer != undefined && (
               <>
                 <p className=" font-semibold">Người đối chứng</p>
-                {actionConfirmer.mdEmployee.firstname + actionConfirmer.mdEmployee.lastname}
+                {actionConfirmer.mdEmployee.firstname +
+                  actionConfirmer.mdEmployee.lastname}
                 <p className=" font-semibold">Ngày đối chứng</p>
                 {actionConfirmer.actiontime}
               </>

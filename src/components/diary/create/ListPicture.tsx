@@ -4,7 +4,7 @@ import { Button, IconButton, SelectChangeEvent } from "@mui/material";
 import Icon from "../../Icon";
 import { ChangeEvent, useState } from "react";
 import Image from "next/image";
-import { ModalImage } from "../detail/ListPicture";
+import { ModalImage } from "../ListPicture";
 
 export default function ListPicture({
   onChangePicture,

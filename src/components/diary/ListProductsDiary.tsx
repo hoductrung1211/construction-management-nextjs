@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Products from "./Products";
+import Products from "./detail/Products";
 import Icon from "@/components/Icon";
 import { IDiaryProductDetail } from "@/models/DiaryProduct";
 

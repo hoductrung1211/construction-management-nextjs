@@ -4,7 +4,7 @@ import { Button, TextField } from "@mui/material";
 import Icon from "../../Icon";
 import Image from "next/image";
 import { ChangeEvent, useState } from "react";
-import { ModalImage } from "../detail/ListPicture";
+import { ModalImage } from "../ListPicture";
 
 export default function ListProblem({
   problem,

@@ -2,6 +2,7 @@
 import FilterPlan_Diary from "@/components/diary/list/FilterDiary";
 import SearchConstructionSite from "@/components/diary/test";
 import { Navigation } from "@/configs/sidebarNavigation";
+import ConfirmDiary from "@/features/diary/confirm/ConfirmDiary";
 import CreateDiary from "@/features/diary/create/CreateDiary";
 import DetailDiary from "@/features/diary/detail/DetailDiary";
 import ListDiaryTab from "@/features/diary/list/ListDiaryTab";
@@ -26,7 +27,7 @@ export default function Home() {
         },
       ]}
     >
-      <DetailDiary value={8}/>
+      <ListDiaryTab/>
     </PageContainer>
   );
 }

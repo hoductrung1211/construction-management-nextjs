@@ -8,9 +8,9 @@ import React from "react";
 import IDiary from "@/models/Diary";
 import { useRouter } from "next/navigation";
 
-export default function ListDiaryCurrent() {
+export default function ListDiaryReview() {
   const [filterValue, setFilterValue] = useState(0);
-  const [listDiariesResent, setListDiariesResent] = React.useState<IDiary[]>(
+  const [listDiariesConfirm, setListDiariesReview] = React.useState<IDiary[]>(
     []
   );
 
@@ -19,13 +19,13 @@ export default function ListDiaryCurrent() {
       const lsDiariesRecent: IDiary[] =
         (await diaryApi.getListAllDiariesByConstructionSite(
           filterValue,
-          DiaryListType.Current
+          DiaryListType.Waiting
         )) || [];
-      setListDiariesResent(lsDiariesRecent);
+      setListDiariesReview(lsDiariesRecent);
     } else {
       const lsDiariesRecent: IDiary[] =
-        (await diaryApi.getListAllDiaries(1)) || [];
-      setListDiariesResent(lsDiariesRecent);
+        (await diaryApi.getListAllDiaries(2)) || [];
+      setListDiariesReview(lsDiariesRecent);
     }
   };
 
@@ -35,7 +35,7 @@ export default function ListDiaryCurrent() {
 
   const router = useRouter();
   const handleDoubleClick = (id: number) => {
-    router.push("/construction-diaries/" + id);
+    router.push("/construction-diaries/confirm/" + id);
   };
 
   async function handleChangeFilter(value: number) {
@@ -43,15 +43,14 @@ export default function ListDiaryCurrent() {
     const lsDiariesRecent: IDiary[] =
       (await diaryApi.getListAllDiariesByConstructionSite(
         value,
-        DiaryListType.Current
+        DiaryListType.Waiting
       )) || [];
-
-    setListDiariesResent(lsDiariesRecent);
+    setListDiariesReview(lsDiariesRecent);
   }
   return (
     <div>
       <FilterDiary value={filterValue} onChangeCS={handleChangeFilter} />
-      <ListDiaries lsDiaries={listDiariesResent} handleDoubleClick={handleDoubleClick} />
+      <ListDiaries lsDiaries={listDiariesConfirm} handleDoubleClick={handleDoubleClick}/>
     </div>
   );
 }
