@@ -26,7 +26,7 @@ export default function DiaryInfo({
   lsFile: IFile[];
 }) {
 
-  const [weather, setWeather] = useState<string>();
+  const [weather, setWeather] = useState<string>("/iconweathers/sunny.png");
   function imageWeather() {
     switch (diary.mdWeather.weatherid) {
       case 1: //Nắng
@@ -100,17 +100,17 @@ export default function DiaryInfo({
                     </p>
                     <p className=" font-semibold">Tổng tích lũy</p>
                     <p>
-                      {diary.cmsProgresses.totalamountofworkdone}
+                      {diary.cmsProgresses? diary.cmsProgresses?.totalamountofworkdone : 0}
                       <span>{diary.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}</span>
                     </p>
                     <p className=" font-semibold">Khối lượng hoàn thành</p>
                     <p>
-                      {diary.cmsProgresses.amountofworkdone}
+                      {diary.amountofworkdone}
                       <span>{diary.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}</span>
                     </p>
                     <p className=" font-semibold">Khối lượng còn lại</p>
                     <p>
-                      {diary.cmsPlanTask.amountofwork - diary.cmsProgresses.amountofworkdone}
+                      {diary.cmsProgresses? diary.cmsPlanTask.amountofwork - diary.cmsProgresses?.amountofworkdone : diary.cmsPlanTask.amountofwork - 0}
                       <span>{diary.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}</span>
                     </p>
                   </div>
@@ -131,9 +131,10 @@ export default function DiaryInfo({
       <div className="grow">
         <DiaryMetaData
           planCode={diary.cmsPlanTask.cmsPlan.planidcode}
+          diaryId={diary.diaryid}
           creatorDiary={diary.mdEmployee.lastname + " " + diary.mdEmployee.firstname}
           createTime={diary.createdtime}
-          stateDiary={diary.cmsDiaryState.diarystatename}
+          stateDiary={diary.cmsDiaryState?.diarystatename}
           lsHistory={diary.cmsDiaryHistories}
         />
       </div>

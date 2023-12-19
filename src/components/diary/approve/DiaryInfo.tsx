@@ -130,6 +130,7 @@ export default function DiaryInfo({
       </div>
       <div className="grow">
         <DiaryMetaData
+          diaryId={diary.diaryid}
           planCode={diary.cmsPlanTask.cmsPlan.planidcode}
           creatorDiary={diary.mdEmployee.lastname + " " + diary.mdEmployee.firstname}
           createTime={diary.createdtime}

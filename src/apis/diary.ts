@@ -6,6 +6,8 @@ import IDiary from "@/models/Diary";
 import IDiaryCreate from "@/models/DiaryCreate";
 import { IDiaryEmployeeDetail } from "@/models/DiaryEmployee";
 import { IDiaryProductDetail } from "@/models/DiaryProduct";
+import { ISaveHistory } from "@/models/ISaveHistory";
+
 
 export const enum DiaryListType {
     Current = 3,
@@ -22,9 +24,10 @@ const diaryApi =  {
     getShift:() => request.get<IShift[]>(`diary/shifts`),
     getProgressInfo: (plantaskid: number) => request.get<IProgress>(`diary/progress?plantaskid=${plantaskid}`),
     saveDiary: (diary: IDiaryCreate) => request.post<String>(`diary/save`, diary),
-    getDiary:(id:number) => request.get<IDiary[]>(`diary/search?diaryid=${id}`),
+    getDiary:(id:number) => request.get<IDiary[]>(`diary?diaryid=${id}`),
     getLaborsDetail: (id:number) => request.get<IDiaryEmployeeDetail[]>(`diary/taskemployee/${id}`),
-    getProductsDetail: (id:number) => request.get<IDiaryProductDetail[]>(`diary/taskproduct/${id}`)
+    getProductsDetail: (id:number) => request.get<IDiaryProductDetail[]>(`diary/taskproduct/${id}`),
+    saveApprove: (history: ISaveHistory) => request.post<ISaveHistory>(`diary/approve`, history),
 }
 
 export default diaryApi;

@@ -33,7 +33,7 @@ export const constructionNavList : INavProps[] = [
         id: Navigation.Diaries,
         icon: "clipboard",
         text: "Nhật ký công trình",
-        href: "/diaries"
+        href: "/construction-diaries"
     },
 ];
 

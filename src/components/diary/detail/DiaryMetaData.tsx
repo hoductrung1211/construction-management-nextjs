@@ -33,8 +33,20 @@ export default function PlanInfo({
     <div className=" flex flex-col sticky top-20 rounded-md bg-white gap-2 p-4">
       <div className=" flex flex-col gap-2">
         <p className=" text-apple-gray">#{planCode}</p>
-        <span className=" px-3 bg-[#C7E7E5] text-[#30C1A5] rounded-3xl font-semibold w-fit">
-             {stateDiary} 
+        <span
+          className={` px-3  ${
+            stateDiary == "Chờ đối chứng"
+              ? "bg-[#CCE0F1] text-[#3498DB]"
+              : stateDiary == "Chờ duyệt"
+              ? "bg-[#EAE5A5] text-[#C9B917]"
+              : stateDiary == "Đã duyệt"
+              ? "bg-[#C7E7E5] text-[#30C1A5]"
+              : stateDiary == "Từ chối duyệt"
+              ? "bg-[#ebbfba] text-[#E74C3C]"
+              : "bg-[#ebbfba] text-[#E74C3C]"
+          } rounded-3xl font-semibold w-fit`}
+        >
+          {stateDiary}
         </span>
       </div>
       <div className=" flex flex-col gap-2">
@@ -47,8 +59,7 @@ export default function PlanInfo({
             {actionApprover != undefined && (
               <>
                 <p className=" font-semibold">Người duyệt</p>
-                {actionApprover.mdEmployee.firstname +
-                  actionApprover.mdEmployee.lastname}
+                {actionApprover.mdEmployee.firstname + actionApprover.mdEmployee.lastname}
                 <p className=" font-semibold">Ngày duyệt</p>
 
                 {actionApprover.actiontime}
@@ -61,8 +72,7 @@ export default function PlanInfo({
             {actionConfirmer != undefined && (
               <>
                 <p className=" font-semibold">Người đối chứng</p>
-                {actionConfirmer.mdEmployee.firstname +
-                  actionConfirmer.mdEmployee.lastname}
+                {actionConfirmer.mdEmployee.firstname + actionConfirmer.mdEmployee.lastname}
                 <p className=" font-semibold">Ngày đối chứng</p>
                 {actionConfirmer.actiontime}
               </>

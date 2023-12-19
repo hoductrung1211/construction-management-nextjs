@@ -3,16 +3,20 @@
 import { IPDetailProps } from "@/components/plan/detail/PlanInfo";
 import { useState } from "react";
 import { IDiaryHistory } from "@/models/DiaryHistory";
-import { Button} from "@mui/material";
+import { Button } from "@mui/material";
 import Icon from "@/components/Icon";
+import { ISaveHistory } from "@/models/ISaveHistory";
+import diaryApi from "@/apis/diary";
 
 export default function PlanInfo({
+  diaryId,
   planCode,
   creatorDiary,
   createTime,
   stateDiary,
   lsHistory,
 }: {
+  diaryId: number;
   planCode: string;
   creatorDiary: string;
   createTime: string;
@@ -28,7 +32,27 @@ export default function PlanInfo({
     (item) => item.cmsDiaryAction.diaryactionname.trim() === "Duyệt"
   )[0];
 
-  const handleSubmitConfirm = () => {}
+  const handleSubmitConfirm = () => {
+    var temp: ISaveHistory = {
+      id: diaryId,
+      actorid: 2,
+      actionid: 0,
+      description: "",
+    };
+
+    diaryApi.saveApprove(temp);
+  };
+
+  function rejectConfirm() {
+    var temp: ISaveHistory = {
+      id: diaryId,
+      actorid: 0,
+      actionid: 4,
+      description: "",
+    };
+
+    diaryApi.saveApprove(temp);
+  }
 
   return (
     <div className=" flex flex-col justify-between h-full">
@@ -49,8 +73,7 @@ export default function PlanInfo({
               {actionApprover != undefined && (
                 <>
                   <p className=" font-semibold">Người duyệt</p>
-                  {actionApprover.mdEmployee.firstname +
-                    actionApprover.mdEmployee.lastname}
+                  {actionApprover.mdEmployee.firstname + actionApprover.mdEmployee.lastname}
                   <p className=" font-semibold">Ngày duyệt</p>
 
                   {actionApprover.actiontime}
@@ -63,8 +86,7 @@ export default function PlanInfo({
               {actionConfirmer != undefined && (
                 <>
                   <p className=" font-semibold">Người đối chứng</p>
-                  {actionConfirmer.mdEmployee.firstname +
-                    actionConfirmer.mdEmployee.lastname}
+                  {actionConfirmer.mdEmployee.firstname + actionConfirmer.mdEmployee.lastname}
                   <p className=" font-semibold">Ngày đối chứng</p>
                   {actionConfirmer.actiontime}
                 </>
@@ -72,26 +94,27 @@ export default function PlanInfo({
             </div>
           )}
         </div>
-        
       </div>
       <div className="w-5/6 mx-auto flex justify-between gap-3 mb-3">
-          <Button
-            color="success"
-            className="min-w-[100px] bg-red-600 flex justify-center items-center gap-3"
-            variant="contained"
-          >
-            <Icon name="xmark" size="xl" />
-            Từ chối
-          </Button>
-          <Button
-            color="info"
-            className="min-w-[100px] bg-primary flex justify-center items-center gap-3"
-            variant="contained"
-          >
-            <Icon name="check" size="xl" />
-            Xác nhận
-          </Button>
-        </div>
+        <Button
+          color="success"
+          className="min-w-[100px] bg-red-600 flex justify-center items-center gap-3"
+          onClick={() => rejectConfirm()}
+          variant="contained"
+        >
+          <Icon name="xmark" size="xl" />
+          Từ chối
+        </Button>
+        <Button
+          color="info"
+          className="min-w-[100px] bg-primary flex justify-center items-center gap-3"
+          onClick={() => handleSubmitConfirm()}
+          variant="contained"
+        >
+          <Icon name="check" size="xl" />
+          Xác nhận
+        </Button>
+      </div>
     </div>
   );
 }
