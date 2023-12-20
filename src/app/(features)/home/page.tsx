@@ -5,11 +5,7 @@ export default function Page() {
         <PageContainer breadcrumbs={[
 			{
 				text: "Trang chủ",
-				href: "/home"
-			},
-			{
-				text: "Dự toán"
-			}
+			}, 
         ]}>
             
         </PageContainer>

@@ -1,6 +1,4 @@
-import { Navigation } from "@/configs/sidebarNavigation";
 import ApproveDiary from "@/features/diary/approve/ApproveDiary";
-import ConfirmDiary from "@/features/diary/confirm/ConfirmDiary"
 import PageContainer from "@/layouts/PageContainer";
 
 export default function Page({
@@ -14,19 +12,17 @@ export default function Page({
 }) {
     return (
         <PageContainer
-            activeNav={Navigation.CostEstimates}
             breadcrumbs={[
                 {
-                    text: "Home",
-                    href: ""
+                    text: "Trang chủ",
+                    href: "/home"
                 },
                 {
-                    text: "Construction Diaries",
-                    href: "/cost-estimates"
+                    text: "Nhật ký công trình",
+                    href: "/construction-diaries"
                 },
                 {
-                    text: "Create",
-                    href: "/cost-estimates/create"
+                    text: "Thông quá",
                 }
             ]}
         >

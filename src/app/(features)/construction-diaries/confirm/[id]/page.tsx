@@ -1,35 +1,32 @@
-import { Navigation } from "@/configs/sidebarNavigation";
 import ConfirmDiary from "@/features/diary/confirm/ConfirmDiary"
 import PageContainer from "@/layouts/PageContainer";
 
 export default function Page({
-    params:{
+    params: {
         id
     }
 }: {
     params: {
-        id:number;
+        id: number;
     }
 }) {
     return (
         <PageContainer
-            activeNav={Navigation.CostEstimates}
             breadcrumbs={[
                 {
-                    text: "Home",
-                    href: ""
+                    text: "Trang chủ",
+                    href: "/home"
                 },
                 {
-                    text: "Construction Diaries",
-                    href: "/cost-estimates"
+                    text: "Nhật ký công trình",
+                    href: "/construction-diaries"
                 },
                 {
-                    text: "Create",
-                    href: "/cost-estimates/create"
+                    text: "Xác nhận",
                 }
             ]}
         >
-            <ConfirmDiary value= {id}/>
+            <ConfirmDiary value={id} />
         </PageContainer>
     )
 }

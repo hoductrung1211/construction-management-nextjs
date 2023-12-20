@@ -1,6 +1,5 @@
-import { INavProps } from "@/layouts/NavGroup";
-
 export const enum Navigation {
+    Home,
     ConstructionSites,
     CostEstimates,
     Plans,
@@ -9,8 +8,15 @@ export const enum Navigation {
     Settings,
     Logout
 }
+export interface INavigation {
+    id: Navigation;
+    icon: string;
+    text: string;
+    href: string;
+    // role?: Role[]; // TODO
+}
 
-export const constructionNavList : INavProps[] = [
+export const constructionNavList : INavigation[] = [
     {
         id: Navigation.ConstructionSites,
         icon: "helmet-safety",
@@ -33,11 +39,11 @@ export const constructionNavList : INavProps[] = [
         id: Navigation.Diaries,
         icon: "clipboard",
         text: "Nhật ký công trình",
-        href: "/diaries"
+        href: "/construction-diaries"
     },
 ];
 
-export const userNavList: INavProps[] = [
+export const userNavList: INavigation[] = [
     {
         id: Navigation.UserProfile,
         icon: "user",

@@ -134,7 +134,7 @@ export default function ListProblem({
             </Button>
           </div>
           <TextField
-            className=" w-120"
+            className=" w-120 bg-white"
             id="outlined-multiline-static"
             placeholder="Nội dung sự cố"
             multiline

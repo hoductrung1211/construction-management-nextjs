@@ -122,8 +122,17 @@ export default function ListPicture({
               component="label"
               variant="contained"
             >
-              <Icon name="plus" className=" text-[#F2F2F7]" size="2xl" />
-              <input type="file" multiple style={{ display: "none" }} onChange={handleFileChange} />
+              <Icon
+                name="plus"
+                className=" text-[#F2F2F7]"
+                size="2xl"
+              />
+              <input
+                style={{ display: "none" }}
+                type="file"
+                multiple
+                onChange={handleFileChange}
+              />
             </Button>
           </div>
         </div>

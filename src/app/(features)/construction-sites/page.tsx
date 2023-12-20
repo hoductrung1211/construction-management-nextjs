@@ -1,4 +1,4 @@
-import CreateDiary from "@/features/diary/create/CreateDiary";
+import { Navigation } from "@/configs/sidebarNavigation";
 import PageContainer from "@/layouts/PageContainer";
 
 export default function Page() {
@@ -10,15 +10,11 @@ export default function Page() {
                     href: "/home"
                 },
                 {
-                    text: "Nhật ký công trình",
-                    href: "/construction-diaries"
+                    text: "Công trình",
                 },
-                {
-                    text: "Tạo mới",
-                }
             ]}
         >
-            <CreateDiary />
+            
         </PageContainer>
     )
 }

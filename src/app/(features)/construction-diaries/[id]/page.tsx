@@ -1,36 +1,32 @@
-import { Navigation } from "@/configs/sidebarNavigation";
 import DetailDiary from "@/features/diary/detail/DetailDiary";
-import ListDiaryTab from "@/features/diary/list/ListDiaryTab";
 import PageContainer from "@/layouts/PageContainer";
 
 export default function Page({
-    params:{
+    params: {
         id
     }
 }: {
     params: {
-        id:number;
+        id: number;
     }
 }) {
     return (
         <PageContainer
-            activeNav={Navigation.CostEstimates}
             breadcrumbs={[
                 {
-                    text: "Home",
-                    href: ""
+                    text: "Trang chủ",
+                    href: "/home"
                 },
                 {
-                    text: "Construction Diaries",
-                    href: "/cost-estimates"
+                    text: "Nhật ký công trình",
+                    href: "/construction-diaries"
                 },
                 {
-                    text: "Create",
-                    href: "/cost-estimates/create"
+                    text: "Chi tiết nhật ký",
                 }
             ]}
         >
-            <DetailDiary value= {id}/>
+            <DetailDiary value={id} />
         </PageContainer>
     )
 }
