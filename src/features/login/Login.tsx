@@ -6,8 +6,6 @@ import userImgSrc from "./assets/login_01.png";
 import { HTMLInputTypeAttribute,  useState } from "react";
 import Link from "next/link";
 import { Button, Checkbox, FormControl, FormControlLabel, TextField } from "@mui/material";
-import useAlert from "@/hooks/useAlert";
-import { isAxiosError } from "axios";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
@@ -25,7 +23,7 @@ export default function Login() {
                       src={loginImgSrc}
                       alt=""
                   />
-                  <p className="text-sm text-end">Copyright © 2023 MWG Inc. All rights reserved.</p>
+                  <p className="text-sm text-end">Bản quyền thuộc về Công ty TNHH MTV Thế Giới Di Động.</p>
               </section>
               <LoginSection />
           </div>
@@ -38,12 +36,12 @@ function LoginSection() {
     const router = useRouter();
     const [inputs, setInputs] = useState<{ [key: string]: { label: string, value: string, type: HTMLInputTypeAttribute } }>({
         "username": {
-            label: "Username",
+            label: "Tên đăng nhập",
             value: "dinhtruongson",
             type: "text"
         },
         "password": {
-            label: "Password",
+            label: "Mật khẩu",
             value: "Dinhtruongson@123",
             type: "password",
         }
@@ -52,7 +50,7 @@ function LoginSection() {
     return (
         <section className="w-5/12 p-10 flex flex-col gap-14">
             <h2 className="flex flex-col items-center gap-4 text-2xl text-center font-semibold">
-                Login
+                Đăng nhập
                 <div className="w-28 ">
                     <Image
                         className="w-full"
@@ -84,18 +82,18 @@ function LoginSection() {
                 <div className="mt-2 flex items-center justify-between">
                     <FormControlLabel
                         control={<Checkbox defaultChecked />}
-                        label="Remember password"
+                        label="Nhớ mật khẩu"
                         value={isRemembered}
                         onChange={() => setIsRemembered(!isRemembered)}
                     />
-                    <Link className="underline text-blue-400" href={""}>Forgot password</Link>
+                    <Link className="underline text-blue-400" href={""}>Quên mật khẩu</Link>
                 </div>
             </FormControl>
             <section className="mt-auto flex flex-col gap-6 ">
                 <Button
                     className="h-12 font-bold text-md"
                     variant="contained"
-                >Login</Button> 
+                >Đăng nhập</Button> 
             </section>
         </section>
     )

@@ -28,7 +28,7 @@ export default function Home() {
         },
       ]}
     >
-      <CreatePlan></CreatePlan>
+      <ListDiaryTab/>
     </PageContainer>
   );
 }
