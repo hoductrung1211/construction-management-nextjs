@@ -1,6 +1,6 @@
 'use client';
-import { Checkbox, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
-import EnhancedTableToolbar from "./EnhancedTableToolbar";
+import {  Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
+import EnhancedTableToolbar from "../../features/diary/list/DiaryTableToolbar";
 import React, { useMemo, useState } from "react";
 import EnhancedTableHead from "./EnhancedTableHead";
 import { Order, getComparator, stableSort } from "@/utils/functions/sort";

@@ -1,9 +1,7 @@
 "use client"; 
-
 import { CustomTabPanel } from "@/components/TabPanel";
 import ListDiaryCurrent from "@/components/diary/list/ListDiaryCurrent";
 import PageNumber from "@/components/diary/list/PageNumber";
-
 import { Box, Tab, Tabs } from "@mui/material";
 import ListDiaryWaitingConfirm from "@/components/diary/list/ListDiaryWaitingConfirm";
 import ListDiaryWaitingApprove from "@/components/diary/list/ListDiaryWaitingApprove";

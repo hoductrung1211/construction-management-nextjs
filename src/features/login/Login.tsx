@@ -1,5 +1,5 @@
 'use client';
-import Logo from "@/components/logo/Logo";
+import Logo from "@/components/Logo/Logo";
 import Image from "next/image";
 import loginImgSrc from "./assets//login_02.png";
 import LoginSection from "./LoginSection";

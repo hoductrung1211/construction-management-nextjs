@@ -5,7 +5,8 @@ import ListDiaryDenyApprove from "@/components/diary/list/ListDiaryDenyApprove";
 import ListDiaryDenyConfirm from "@/components/diary/list/ListDiaryDenyConfirm";
 import ListDiaryWaitingApprove from "@/components/diary/list/ListDiaryWaitingApprove";
 import ListDiaryWaitingConfirm from "@/components/diary/list/ListDiaryWaitingConfirm";
-import MainContentContainer from "@/layouts/MainContentContainer";
+import RecentDiaryTable from "@/features/diary/list/RecentDiaryTable/RecentDiaryTable";
+import MainContainer from "@/layouts/MainContainer";
 import PageContainer from "@/layouts/PageContainer";
 import { Tab, Tabs } from "@mui/material";
 import { useState } from "react";
@@ -29,7 +30,7 @@ export default function Page() {
 				}
 			]}
 		>
-			<MainContentContainer fixedHeight={true}>
+			<MainContainer fixedHeight={true}>
 				<Tabs
 					value={tabValue}
 					onChange={handleChangeTab}
@@ -43,10 +44,11 @@ export default function Page() {
 				</Tabs>
 
 				<CustomTabPanel value={tabValue} index={0}>
-					<ListDiaryCurrent />
+					<RecentDiaryTable />
 				</CustomTabPanel>
 				<CustomTabPanel value={tabValue} index={1}>
 					<ListDiaryWaitingConfirm />
+					{/* <ListDiaryCurrent /> */}
 				</CustomTabPanel>
 				<CustomTabPanel value={tabValue} index={2}>
 					<ListDiaryWaitingApprove />
@@ -57,7 +59,7 @@ export default function Page() {
 				<CustomTabPanel value={tabValue} index={4}>
 					<ListDiaryDenyApprove />
 				</CustomTabPanel>
-			</MainContentContainer>
+			</MainContainer>
 		</PageContainer>
 	)
 }

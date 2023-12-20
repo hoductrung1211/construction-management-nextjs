@@ -1,5 +1,5 @@
 'use client';
-import Logo from "@/components/logo/Logo";
+import Logo from "@/components/Logo/Logo";
 import { Avatar, Drawer, IconButton } from "@mui/material";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'; 
 import NavGroup from "./NavGroup";

@@ -39,7 +39,7 @@ export default function SelectCostEstimateSection({
     async function fetchConstructionSiteList() {
         setLoading(true);
         try {
-            const CSListResponse = await constructionSiteAPI.getListActive();
+            const CSListResponse = await constructionSiteAPI.getListActive() || [];
             setConstructionSiteList(CSListResponse);
         }
         catch (ex) {

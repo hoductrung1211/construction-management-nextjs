@@ -1,4 +1,4 @@
-export default function MainContentContainer({
+export default function MainContainer({
     children,
     fixedHeight = false
 }: {
