@@ -1,6 +1,5 @@
 import { Navigation } from "@/configs/sidebarNavigation";
 import ApproveDiary from "@/features/diary/approve/ApproveDiary";
-import ConfirmDiary from "@/features/diary/confirm/ConfirmDiary"
 import PageContainer from "@/layouts/PageContainer";
 
 export default function Page({

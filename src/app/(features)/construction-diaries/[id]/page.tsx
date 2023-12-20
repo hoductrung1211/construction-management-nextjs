@@ -1,6 +1,5 @@
 import { Navigation } from "@/configs/sidebarNavigation";
 import DetailDiary from "@/features/diary/detail/DetailDiary";
-import ListDiaryTab from "@/features/diary/list/ListDiaryTab";
 import PageContainer from "@/layouts/PageContainer";
 
 export default function Page({

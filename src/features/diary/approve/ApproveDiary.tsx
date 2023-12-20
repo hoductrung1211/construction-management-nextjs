@@ -1,6 +1,6 @@
 "use client"
 import diaryApi from "@/apis/diary";
-import DiaryInfo from "@/components/diary/confirm/DiaryInfo";
+import DiaryInfo from "@/components/diary/approve/DiaryInfo";
 import IDiary from "@/models/Diary";
 import { IDiaryEmployeeDetail } from "@/models/DiaryEmployee";
 import { IDiaryProductDetail } from "@/models/DiaryProduct";

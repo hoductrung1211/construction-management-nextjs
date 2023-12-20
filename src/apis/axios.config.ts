@@ -5,7 +5,6 @@ const axios = originAxios.create({
 });
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.headers.put["Content-Type"] = "application/json";
-axios.defaults.headers.get["Content-Type"] = "application/json";
 axios.defaults.timeout = 10000;
 
 axios.interceptors.request.use((config) => {

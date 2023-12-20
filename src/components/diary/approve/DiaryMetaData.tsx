@@ -35,7 +35,7 @@ export default function PlanInfo({
   const handleSubmitConfirm = () => {
     var temp: ISaveHistory = {
       id: diaryId,
-      actorid: 2,
+      actorid: 1,
       actionid: 3,
       description: "",
     };
@@ -46,7 +46,7 @@ export default function PlanInfo({
   function rejectConfirm() {
     var temp: ISaveHistory = {
       id: diaryId,
-      actorid: 0,
+      actorid: 1,
       actionid: 5,
       description: "",
     };
