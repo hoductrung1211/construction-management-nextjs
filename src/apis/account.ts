@@ -1,12 +1,10 @@
-import { AxiosResponse } from "axios";
-import axios from "./axios.config";
+import { IAccount } from "@/models/Account";
+import request from "./request";
 
-const responseBody = <T>(response: AxiosResponse<T>) => response.data;
-
-const request = {
-  get: <T>(url: string) => axios.get<T>(url).then(responseBody),
-  post: <T>(url: string, body: {}) =>
-    axios.post<T>(url, body).then(responseBody),
+const accountAPI = {
+  login: (username: string, password: string) => request.post<IAccount>(`/auth/login`, {username, password}),
+  signup: (body: { username: string; password: string }) =>
+    request.post<string>("/auth/signup", body),
 };
 
-export default request;
+export default accountAPI;

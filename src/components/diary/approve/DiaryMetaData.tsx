@@ -36,7 +36,7 @@ export default function PlanInfo({
     var temp: ISaveHistory = {
       id: diaryId,
       actorid: 2,
-      actionid: 0,
+      actionid: 3,
       description: "",
     };
 
@@ -47,7 +47,7 @@ export default function PlanInfo({
     var temp: ISaveHistory = {
       id: diaryId,
       actorid: 0,
-      actionid: 4,
+      actionid: 5,
       description: "",
     };
 
