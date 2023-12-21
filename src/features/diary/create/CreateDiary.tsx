@@ -81,7 +81,7 @@ export default function CreateDiary() {
       setStartTime(value);
     } else {
       setAlert({
-        severity: "error",
+        severity: "warning",
         message: "Giờ bắt đầu phải trước giờ kết thúc",
       });
     }
@@ -92,7 +92,7 @@ export default function CreateDiary() {
       setEndTime(value);
     } else {
       setAlert({
-        severity: "error",
+        severity: "warning",
         message: "Giờ kết thúc phải trước giờ bắt đầu",
       });
     }
@@ -108,7 +108,7 @@ export default function CreateDiary() {
       temp
     ) {
       setAlert({
-        severity: "error",
+        severity: "warning",
         message: "Khối lượng hoàn thành phải nhỏ hơn khối lượng còn lại!",
       });
       return;
@@ -181,19 +181,15 @@ export default function CreateDiary() {
 
   function Validate() {
     if (selectedWeather == "") {
-      setAlert({ severity: "error", message: "Chưa chọn thời tiết!!!" });
+      setAlert({ severity: "warning", message: "Chưa chọn thời tiết!!!" });
       return false;
     }
 
     if (labors.filter((item) => item.shiftid == undefined).length > 0) {
-      setAlert({ severity: "error", message: "Chưa chọn ca cho nhân công!!!" });
+      setAlert({ severity: "warning", message: "Chưa chọn ca cho nhân công!!!" });
       return false;
     }
 
-    if (products.filter((item) => item.consumptionAmount == undefined).length > 0) {
-      setAlert({ severity: "error", message: "Chưa nhập số lượng vật tư!!!" });
-      return false;
-    }
     return true;
   }
   async function handleSaveDiary() {
@@ -215,8 +211,9 @@ export default function CreateDiary() {
       }
 
       const save = await saveDiary(uploadedPicURL, uploadedPicProblemUrls);
+      setAlert({ severity: "success", message: "Lưu thành công" });
     } catch (error) {
-      throw new Error(`Error uploading images: ${error}`);
+      setAlert({ severity: "error", message: "Lưu không thành công" });
     }
   }
 
@@ -236,7 +233,11 @@ export default function CreateDiary() {
         consumptionAmount: p.consumptionAmount as number,
       };
 
-      listSaveDiaryProduct.push(saveDiaryProduct);
+      try {
+
+        listSaveDiaryProduct.push(saveDiaryProduct);
+      }
+       catch (err) {setAlert({ severity: "error", message: "API Save diary failed" });}
     });
 
     const newDiary: IDiaryCreate = {
@@ -259,7 +260,6 @@ export default function CreateDiary() {
     };
 
     await diaryApi.saveDiary(newDiary);
-    console.log(newDiary);
   }
 
   //remove child in map
