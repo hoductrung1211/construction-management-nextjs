@@ -44,11 +44,11 @@ export default function Page() {
 				</Tabs>
 
 				<CustomTabPanel value={tabValue} index={0}>
-					<RecentDiaryTable />
+					{/* <RecentDiaryTable /> */}
+					<ListDiaryCurrent />
 				</CustomTabPanel>
 				<CustomTabPanel value={tabValue} index={1}>
 					<ListDiaryWaitingConfirm />
-					{/* <ListDiaryCurrent /> */}
 				</CustomTabPanel>
 				<CustomTabPanel value={tabValue} index={2}>
 					<ListDiaryWaitingApprove />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ListPicture, { IImagesList } from "../ListPicture";
 import ListProductsDiary from "../ListProductsDiary";
 import ListProblem from "../ListProblem";
@@ -12,6 +12,7 @@ import ListLaborsDiary from "../ListLaborsDiary";
 import { IDiaryProductDetail } from "@/models/DiaryProduct";
 import IFile from "@/models/File";
 import DetailTitle from "../DetailTitle";
+import { DefaultizedPieValueType, PieChart, pieArcLabelClasses } from "@mui/x-charts";
 
 export interface IDRDetailProps {}
 export default function DiaryInfo({
@@ -51,6 +52,67 @@ export default function DiaryInfo({
     imageWeather();
   }, []);
 
+  const progressChart = useMemo(() => {
+    var data = [
+      { label: "Khối lượng hoàn thành", value: diary.amountofworkdone, color: "#FFBB28" },
+      {
+        label: "Khối lượng tích lũy",
+        value: diary.cmsProgresses ? diary.cmsProgresses.totalamountofworkdone : 0,
+        color: "#00C49F",
+      },
+      {
+        label: "Khối lượng còn lại",
+        value:
+          diary.cmsPlanTask.amountofwork -
+          (diary.cmsProgresses ? diary.cmsProgresses.totalamountofworkdone : 0) -
+          diary.amountofworkdone,
+        color: "#FF8042",
+      },
+    ];
+    const sizing = {
+      margin: { left: -100 },
+      width: 400,
+      height: 200,
+    };
+    const TOTAL = data.map((item) => item.value).reduce((a, b) => a + b, 0);
+
+    const getArcLabel = (params: DefaultizedPieValueType) => {
+      const percent = params.value / TOTAL;
+      return `${(percent * 100).toFixed(0)}%`;
+    };
+    return (
+      <div>
+        <p>{`Khối lượng kế hoạch: ${diary.cmsPlanTask.amountofwork} ${diary.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}`}</p>
+        <PieChart
+          series={[
+            {
+              outerRadius: 80,
+              data,
+              arcLabel: getArcLabel,
+            },
+          ]}
+          sx={{
+            [`& .${pieArcLabelClasses.root}`]: {
+              fill: "white",
+              fontSize: 12,
+            },
+          }}
+          {...sizing}
+          slotProps={{
+            legend: {
+              hidden: false,
+              direction: "column",
+              position: {
+                vertical: "middle",
+                horizontal: "right",
+              },
+            },
+          }}
+        />
+      </div>
+    );
+  }, [diary]);
+
   return (
     <div className=" flex gap-3 mx-6">
       <div className=" flex-none w-4/5 ">
@@ -76,7 +138,7 @@ export default function DiaryInfo({
                           height={150}
                           className=" w-28 h-28 object-cover rounded-none mb-2"
                         />
-                      )}  
+                      )}
                       <div className=" flex col-span-2 font-semibold gap-3">
                         <p>{diary.mdWeather.weathername}</p>
                         <p>
@@ -90,31 +152,7 @@ export default function DiaryInfo({
                     <p className="text-center">{diary.endtime}</p>
                   </div>
                 </div>
-                <div className="bg-[#F9FAFB] rounded-2xl">
-                  <div className=" grid grid-cols-4 m-5 gap-4">
-                    <div className="col-span-4 h-32">bar</div>
-                    <p className=" font-semibold">Khối lượng kế hoạch</p>
-                    <p>
-                      {diary.cmsPlanTask.amountofwork}
-                      <span>{diary.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}</span>
-                    </p>
-                    <p className=" font-semibold">Tổng tích lũy</p>
-                    <p>
-                      {diary.cmsProgresses.totalamountofworkdone}
-                      <span>{diary.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}</span>
-                    </p>
-                    <p className=" font-semibold">Khối lượng hoàn thành</p>
-                    <p>
-                      {diary.cmsProgresses.amountofworkdone}
-                      <span>{diary.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}</span>
-                    </p>
-                    <p className=" font-semibold">Khối lượng còn lại</p>
-                    <p>
-                      {diary.cmsPlanTask.amountofwork - diary.cmsProgresses.amountofworkdone}
-                      <span>{diary.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}</span>
-                    </p>
-                  </div>
-                </div>
+                {progressChart}
               </div>
             </div>
           </div>
@@ -131,13 +169,14 @@ export default function DiaryInfo({
       <div className="grow">
         <DiaryMetaData
           planCode={diary.cmsPlanTask.cmsPlan.planidcode}
+          diaryId={diary.diaryid}
           creatorDiary={diary.mdEmployee.lastname + " " + diary.mdEmployee.firstname}
           createTime={diary.createdtime}
-          stateDiary={diary.cmsDiaryState.diarystatename}
           lsHistory={diary.cmsDiaryHistories}
+          stateID={diary.cmsDiaryState.diarystateid}
+          stateName={diary.cmsDiaryState.diarystatename}
         />
       </div>
     </div>
   );
 }
-

@@ -82,7 +82,6 @@ export default function ConstructionSiteInfo({
   HandleLoadPlanTaskInfo,
 }: // onChangetaskWI,
 SelectCESectionProps) {
-  const defaultDate = dayjs(Date.now.toString()).locale("vi");
   const useLoading = useLoadingAnimation();
 
   const [selectedConstruction, setselectedConstruction] = useState("");
@@ -332,6 +331,7 @@ SelectCESectionProps) {
                   className="m-0"
                   value={dateOfDiary}
                   onChange={(value) => onChangeDateOfDiary(value as Dayjs)}
+                  maxDate={dayjs()}
                 />
               </LocalizationProvider>
             </div>
@@ -341,4 +341,3 @@ SelectCESectionProps) {
     </div>
   );
 }
-

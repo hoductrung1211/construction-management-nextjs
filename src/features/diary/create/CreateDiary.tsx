@@ -18,11 +18,25 @@ import { IWeather } from "@/models/Weather";
 import { uploadImage } from "@/utils/functions/uploadImage";
 import { Button, SelectChangeEvent, styled } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useMemo, useState } from "react";
+
+const VisuallyHiddenInput = styled("input")`
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  white-space: nowrap;
+  width: 1px;
+`;
 
 export default function CreateDiary() {
   const useLoading = useLoadingAnimation();
   const setAlert = useAlert();
+  const router = useRouter();
 
   const [selectedCS, setSelectedCSId] = useState("");
   const [selectedWT, setselectedWTId] = useState(""); // plan_task_id
@@ -69,7 +83,7 @@ export default function CreateDiary() {
       setStartTime(value);
     } else {
       setAlert({
-        severity: "error",
+        severity: "warning",
         message: "Giờ bắt đầu phải trước giờ kết thúc",
       });
     }
@@ -80,7 +94,7 @@ export default function CreateDiary() {
       setEndTime(value);
     } else {
       setAlert({
-        severity: "error",
+        severity: "warning",
         message: "Giờ kết thúc phải trước giờ bắt đầu",
       });
     }
@@ -90,17 +104,18 @@ export default function CreateDiary() {
   };
 
   const onChangeAmountDone = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const temp = parseInt(e.target.value);
+    var temp = parseInt(e.target.value);
     if (
       (planTask?.amountofwork as number) - (progressInfo?.totalamountofworkdone as number) <
       temp
     ) {
       setAlert({
-        severity: "error",
+        severity: "warning",
         message: "Khối lượng hoàn thành phải nhỏ hơn khối lượng còn lại!",
       });
       return;
     }
+
     if (temp > 0) setAmountDone(temp);
     else setAmountDone(0);
   };
@@ -142,7 +157,9 @@ export default function CreateDiary() {
       const weathers = (await diaryApi.getWeather()) || [];
       setWeatherList(weathers);
 
-      var progress = (await diaryApi.getProgressInfo(planTask.plantaskid as number)) as IProgress;
+      var progress = (await diaryApi
+        .getProgressInfo(planTask.plantaskid as number)
+        .catch((e) => {})) as IProgress;
       if (progress == undefined) {
         progress = {
           progressid: 0,
@@ -159,6 +176,7 @@ export default function CreateDiary() {
       const productData = await planTaskAPI.getProduct(selectedWT);
       setProducts(productData || []);
 
+      console.log(showInfo);
       setShowInfo(true);
     } catch (e) {
       console.log(e);
@@ -169,19 +187,15 @@ export default function CreateDiary() {
 
   function Validate() {
     if (selectedWeather == "") {
-      setAlert({ severity: "error", message: "Chưa chọn thời tiết!!!" });
+      setAlert({ severity: "warning", message: "Chưa chọn thời tiết!!!" });
       return false;
     }
 
     if (labors.filter((item) => item.shiftid == undefined).length > 0) {
-      setAlert({ severity: "error", message: "Chưa chọn ca cho nhân công!!!" });
+      setAlert({ severity: "warning", message: "Chưa chọn ca cho nhân công!!!" });
       return false;
     }
 
-    if (products.filter((item) => item.consumptionAmount == undefined).length > 0) {
-      setAlert({ severity: "error", message: "Chưa nhập số lượng vật tư!!!" });
-      return false;
-    }
     return true;
   }
   async function handleSaveDiary() {
@@ -203,8 +217,10 @@ export default function CreateDiary() {
       }
 
       const save = await saveDiary(uploadedPicURL, uploadedPicProblemUrls);
+      setAlert({ severity: "success", message: "Lưu thành công" });
+      router.push("/construction-diaries");
     } catch (error) {
-      throw new Error(`Error uploading images: ${error}`);
+      setAlert({ severity: "error", message: "Lưu không thành công" });
     }
   }
 
@@ -224,7 +240,11 @@ export default function CreateDiary() {
         consumptionAmount: p.consumptionAmount as number,
       };
 
-      listSaveDiaryProduct.push(saveDiaryProduct);
+      try {
+        listSaveDiaryProduct.push(saveDiaryProduct);
+      } catch (err) {
+        setAlert({ severity: "error", message: "API Save diary failed" });
+      }
     });
 
     const newDiary: IDiaryCreate = {
@@ -247,7 +267,6 @@ export default function CreateDiary() {
     };
 
     await diaryApi.saveDiary(newDiary);
-    console.log(newDiary);
   }
 
   //remove child in map
@@ -335,3 +354,61 @@ export default function CreateDiary() {
     </div>
   );
 }
+
+const initlistLabors: ILaborList = {
+  labors: [
+    {
+      isSelected: false,
+      no: 1,
+      laborCode: "#EL0001",
+      firstName: "Diễm Quỳnh",
+      lastName: "Hà",
+      role: "Công nhân",
+      shift: 8,
+    },
+    {
+      isSelected: false,
+      no: 2,
+      laborCode: "#EL0002",
+      firstName: "Hồ Hoàng Vy",
+      lastName: "Chu",
+      role: "Công nhân",
+      shift: 4,
+    },
+    {
+      isSelected: false,
+      no: 2,
+      laborCode: "#EL0003",
+      firstName: "Thị Vân Khánh",
+      lastName: "Nguyễn",
+      role: "Công nhân",
+      shift: 8,
+    },
+  ],
+};
+
+const initlistProducts: IProductList = {
+  products: [
+    {
+      no: 1,
+      pdId: "#PD0001",
+      pdName: "Xi măng",
+      pdUnit: "Bao",
+      pdAmount: 5,
+    },
+    {
+      no: 2,
+      pdId: "#PD0002",
+      pdName: "Cát",
+      pdUnit: "m3",
+      pdAmount: 100,
+    },
+    {
+      no: 3,
+      pdId: "#PD0003",
+      pdName: "Đá",
+      pdUnit: "m3",
+      pdAmount: 80,
+    },
+  ],
+};
