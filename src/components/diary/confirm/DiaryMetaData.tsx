@@ -105,7 +105,7 @@ export default function PlanInfo({
                   {actionApprover.mdEmployee.firstname + actionApprover.mdEmployee.lastname}
                   <p className=" font-semibold">Ngày duyệt</p>
 
-                  {actionApprover.actiontime}
+                  {getVNLocaleDateString(actionApprover.actiontime)}
                 </>
               )}
             </div>
@@ -117,7 +117,7 @@ export default function PlanInfo({
                   <p className=" font-semibold">Người đối chứng</p>
                   {actionConfirmer.mdEmployee.firstname + actionConfirmer.mdEmployee.lastname}
                   <p className=" font-semibold">Ngày đối chứng</p>
-                  {actionConfirmer.actiontime}
+                  {getVNLocaleDateString(actionConfirmer.actiontime)}
                 </>
               )}
             </div>

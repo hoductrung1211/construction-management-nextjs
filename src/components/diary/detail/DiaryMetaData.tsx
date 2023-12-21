@@ -5,6 +5,7 @@ import ConstructionSiteInfo from "./ConstructionSiteInfo";
 import { useState } from "react";
 import IConstructionSite from "@/models/ConstructionSite";
 import { IDiaryHistory } from "@/models/DiaryHistory";
+import { getVNLocaleDateString } from "@/utils/functions/getLocaleDateString";
 
 export default function PlanInfo({
   planCode,
@@ -55,7 +56,7 @@ export default function PlanInfo({
         <p className=" font-semibold">Người tạo</p>
         <p>{creatorDiary}</p>
         <p className=" font-semibold">Ngày tạo</p>
-        <p>{createTime}</p>
+        <p>{getVNLocaleDateString(createTime)}</p>
         {isDisplayApprover && (
           <div>
             {actionApprover != undefined && (
@@ -64,7 +65,7 @@ export default function PlanInfo({
                 {actionApprover.mdEmployee.firstname + actionApprover.mdEmployee.lastname}
                 <p className=" font-semibold">Ngày duyệt</p>
 
-                {actionApprover.actiontime}
+                {getVNLocaleDateString(actionApprover.actiontime)}
               </>
             )}
           </div>
@@ -76,7 +77,7 @@ export default function PlanInfo({
                 <p className=" font-semibold">Người đối chứng</p>
                 {actionConfirmer.mdEmployee.firstname + actionConfirmer.mdEmployee.lastname}
                 <p className=" font-semibold">Ngày đối chứng</p>
-                {actionConfirmer.actiontime}
+                {getVNLocaleDateString(actionConfirmer.actiontime)}
               </>
             )}
           </div>

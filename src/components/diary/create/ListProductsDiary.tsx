@@ -47,7 +47,7 @@ export default function ListProductsDiary({
             onClick={handleChangeIsShow}
           />
           <p className="font-semibold text-text-color">
-            Vật tư<span className="ml-4 font-thin">3</span>
+            Vật tư<span className="ml-4 font-thin">{lsproduct.length}</span>
           </p>
         </div>
       </div>

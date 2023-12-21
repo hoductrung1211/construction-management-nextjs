@@ -53,7 +53,7 @@ export default function ListLaborsDiary({
             onClick={handleChangeIsShow}
           />
           <p className="font-semibold text-text-color">
-            Nhân công<span className="ml-4 font-thin">3</span>
+            Nhân công<span className="ml-4 font-thin">{lslabor.length}</span>
           </p>
         </div>
       </header>

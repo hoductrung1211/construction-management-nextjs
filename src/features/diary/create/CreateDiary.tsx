@@ -340,14 +340,14 @@ export default function CreateDiary() {
               <Icon name="floppy-disk" size="xl" />
               Lưu
             </Button>
-            <Button
+            {/* <Button
               color="info"
               className="min-w-[100px] bg-primary flex justify-center items-center gap-3"
               variant="contained"
             >
               <Icon name="paper-plane" size="xl" />
               Gửi
-            </Button>
+            </Button> */}
           </div>
         </>
       )}

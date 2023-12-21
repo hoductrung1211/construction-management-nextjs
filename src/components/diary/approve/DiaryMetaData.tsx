@@ -9,6 +9,7 @@ import { ISaveHistory } from "@/models/ISaveHistory";
 import diaryApi from "@/apis/diary";
 import useAlert from "@/hooks/useAlert";
 import { useRouter } from "next/navigation";
+import { getVNLocaleDateString } from "@/utils/functions/getLocaleDateString";
 
 export default function PlanInfo({
   diaryId,
@@ -95,7 +96,7 @@ export default function PlanInfo({
           <p className=" font-semibold">Người tạo</p>
           <p>{creatorDiary}</p>
           <p className=" font-semibold">Ngày tạo</p>
-          <p>{createTime}</p>
+          <p>{getVNLocaleDateString(createTime)}</p>
           {isDisplayApprover && (
             <div>
               {actionApprover != undefined && (
@@ -104,7 +105,7 @@ export default function PlanInfo({
                   {actionApprover.mdEmployee.firstname + actionApprover.mdEmployee.lastname}
                   <p className=" font-semibold">Ngày duyệt</p>
 
-                  {actionApprover.actiontime}
+                  {getVNLocaleDateString(actionApprover.actiontime)}
                 </>
               )}
             </div>
@@ -116,7 +117,7 @@ export default function PlanInfo({
                   <p className=" font-semibold">Người đối chứng</p>
                   {actionConfirmer.mdEmployee.firstname + actionConfirmer.mdEmployee.lastname}
                   <p className=" font-semibold">Ngày đối chứng</p>
-                  {actionConfirmer.actiontime}
+                  {getVNLocaleDateString(actionConfirmer.actiontime)}
                 </>
               )}
             </div>
