@@ -4,8 +4,8 @@ import TableLayout from "@/components/Table/TableLayout";
 import { Order } from "@/utils/functions/sort";
 import { Table, TableContainer, TablePagination } from "@mui/material";
 import { useEffect, useState } from "react";
-import { ICurrentDiaryData, headCells } from "../constants";
-import EnhancedTableToolbar from "../DiaryTableToolbar";
+import { IDiaryData, headCells } from "../constants";
+import DiaryTableToolbar from "../DiaryTableToolbar";
 import useLoadingAnimation from "@/hooks/useLoadingAnimation";
 import useAlert from "@/hooks/useAlert";
 import TableRow from "@/components/Table/TableRow";
@@ -16,16 +16,16 @@ export default function RecentDiaryTable() {
     const setAlert = useAlert();
 
     // Data
-    const [rows, setRows] = useState<ICurrentDiaryData[]>([]);
-    const [filteredRows, setFilteredRows] = useState<ICurrentDiaryData[]>([]);
+    const [rows, setRows] = useState<IDiaryData[]>([]);
+    const [filteredRows, setFilteredRows] = useState<IDiaryData[]>([]);
     const [selectedCS, setSelectedCS] = useState("");
 
     // <EnhancedTableHead />
     const [order, setOrder] = useState<Order>('desc');
-    const [orderBy, setOrderBy] = useState<keyof ICurrentDiaryData>('diaryId');
+    const [orderBy, setOrderBy] = useState<keyof IDiaryData>('diaryId');
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
-        property: keyof ICurrentDiaryData,
+        property: keyof IDiaryData,
     ) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
@@ -66,7 +66,7 @@ export default function RecentDiaryTable() {
     return (
         <TableLayout>
             {/* Toolbar  */}
-            <EnhancedTableToolbar />
+            <DiaryTableToolbar />
 
             {/* Table  */}
             <TableContainer sx={{ maxHeight: 460 }}>

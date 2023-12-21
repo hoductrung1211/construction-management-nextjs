@@ -1,5 +1,6 @@
 'use client';
 import CreatePlan from "@/features/plan/create-rework/CreatePlan";
+import MainContainer from "@/layouts/MainContainer";
 import PageContainer from "@/layouts/PageContainer";
 
 export default function Page() {
@@ -7,15 +8,21 @@ export default function Page() {
     <PageContainer
       breadcrumbs={[
         {
-          text: "Home",
-          href: "./"
+					text: "Trang chủ",
+					href: "/home"
+				},
+				{
+          text: "Kế hoạch",
+          href: "../plans"
         },
         {
-          text: "Construction Sites"
-        }, 
+          text: "Tạo mới",
+				},
       ]}
     >
-      <CreatePlan />
+      <MainContainer>
+        <CreatePlan />
+      </MainContainer>
     </PageContainer>
   );
 }

@@ -1,6 +1,6 @@
 import { IHeadCell } from "@/components/Table/constants";
 
-export interface ICurrentDiaryData {
+export interface IDiaryData {
     diaryId: string;
     construction: string;
     diary: string;
@@ -11,7 +11,7 @@ export interface ICurrentDiaryData {
     dateTime: string;
 }
 
-export const headCells: IHeadCell<ICurrentDiaryData>[] = [
+export const headCells: IHeadCell<IDiaryData>[] = [
     {
         id: "construction",
         numeric: false,

@@ -1,1 +1,1 @@
-export default interface IPlanTaskDiary
+// export default interface IPlanTaskDiary

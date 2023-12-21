@@ -13,5 +13,3 @@ export interface IEmployee {
     userid: string,
     status: string,
 }
-
-export const listLabors: IEmployee[] = [];

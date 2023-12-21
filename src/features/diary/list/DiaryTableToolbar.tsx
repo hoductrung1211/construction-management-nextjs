@@ -52,7 +52,7 @@ export default function DiaryTableToolbar({
 	}
 
 	return (
-		<div className="h-16 px-3 flex justify-between items-center bg-content">
+		<div className="h-20 px-3 flex justify-between items-center bg-content">
 			<Autocomplete
 				className="bg-white w-96"
 				size="small"

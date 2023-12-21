@@ -22,20 +22,4 @@ export default interface IDiaryCreate{
     problem: String, 
     quantityUnit: number, 
     dateOfDiary: String,
-};
-
-// export default interface IDiary{
-//     starttime: string,//"07:00:00",
-//     endtime: string, //"17:30:00",
-//     temperature: number, //32
-//     problem: string, //"sập giàn",
-//     quantityUnit: number, //1,
-//     cmsPlanTask: number, // 1,
-//     creator: number,//1,
-//     mdWeather: number, //5,
-//     amountOfWork: number, // 10,
-//     products:IProduct[],
-//     labors:ILabor[],
-//     pictures: File[],
-//     picturesProblem: File[]
-// };
+}; 

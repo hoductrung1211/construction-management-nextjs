@@ -70,7 +70,7 @@ export default function PlanOverviewInfoLayout({
 	}
 
 	return (
-		<div className="flex flex-col gap-4 py-4 rounded-md bg-white">
+		<div className="flex flex-col gap-4 py-4 rounded-md bg-white shadow-md">
 			<h6 className="px-5 flex justify-between items-center font-semibold text-lg ">
 				Thông tin kế hoạch
 			</h6>

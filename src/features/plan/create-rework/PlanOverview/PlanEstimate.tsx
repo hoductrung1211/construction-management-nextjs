@@ -46,6 +46,7 @@ export default function PlanEstimate({
 	return (
 		<section className="w-1/3 p-5 flex flex-col gap-5 bg-content border rounded-md">
 			<TextField
+				className="bg-white"
 				label="Tên kế hoạch"
 				value={planEstimate.planName}
 				onChange={e => onChangePlanEstimate({
@@ -56,6 +57,7 @@ export default function PlanEstimate({
 
 			<div className="grid grid-cols-2 gap-4">
 				<DatePicker
+					className="bg-white"
 					label="Ngày dự kiến bắt đầu"
 					format="DD-MM-YYYY"
 					value={startDate}
@@ -68,6 +70,7 @@ export default function PlanEstimate({
 				/>
 
 				<DatePicker
+					className="bg-white"
 					label="Ngày dự kiến kết thúc"
 					format="DD-MM-YYYY"
 					value={endDate}
