@@ -49,10 +49,16 @@ interface IApprovePlan {
     description: string;
 }
 
+export const enum PlanListType {
+    Init = 1,
+    Approved = 2,
+    Rejected = 3,
+}
+
 const planAPI = {
     create: (data: ICreatePlan) => request.post("/plans/save", data),
     approve: (approve: IApprovePlan) => request.post("plans/approve", approve),
-    getList: () => request.get<IPlan[]>("/plans?"), // TODO ???
+    getList: (type: PlanListType) => request.get<IPlan[]>(`/plans?id=${type}`), // TODO ???
     getPlanWorkItemsByPlanId: (planId: number) => request.get<IPlanWorkItem[]>(`/plans/getlistbyplanid/${planId}`),
     getProductsByPlanTaskId: (planTaskId: number) => request.get<IPlanTaskProduct[]>(`/plans/plantaskproduct/${planTaskId}`),
     getLaborsByPlanTaskId: (planTaskId: number) => request.get<IPlanTaskLabor[]>(`/plans/plantasklabor/${planTaskId}`),

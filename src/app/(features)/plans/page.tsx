@@ -1,7 +1,8 @@
 'use client';
+import { PlanListType } from "@/apis/plan";
 import { CustomTabPanel } from "@/components/TabPanel";
 import CreatePlan from "@/features/plan/create-rework/CreatePlan";
-import OperatingPlanTable from "@/features/plan/list/OperatingPlanTable/OperatingPlanTable";
+import PlanTable from "@/features/plan/list/PlanTable";
 import MainContainer from "@/layouts/MainContainer";
 import PageContainer from "@/layouts/PageContainer";
 import { Tab, Tabs } from "@mui/material";
@@ -37,9 +38,14 @@ export default function Page() {
 				</Tabs>
 
 				<CustomTabPanel value={tabValue} index={0}>
-					<OperatingPlanTable />
+					<PlanTable planType={PlanListType.Approved} />
 				</CustomTabPanel>
-				 
+				<CustomTabPanel value={tabValue} index={1}>
+					<PlanTable planType={PlanListType.Init} />
+				</CustomTabPanel>
+				<CustomTabPanel value={tabValue} index={2}>
+					<PlanTable planType={PlanListType.Rejected} />
+				</CustomTabPanel>
 			</MainContainer>
 		</PageContainer>
 	)

@@ -9,6 +9,7 @@ import DiaryTableToolbar from "../DiaryTableToolbar";
 import useLoadingAnimation from "@/hooks/useLoadingAnimation";
 import useAlert from "@/hooks/useAlert";
 import TableRow from "@/components/Table/TableRow";
+import diaryApi, { DiaryListType } from "@/apis/diary";
 
 export default function RecentDiaryTable() {
     // set up page
@@ -49,8 +50,11 @@ export default function RecentDiaryTable() {
 
     async function fetchRecentDiaries() {
         setLoading(true);
-        try {
-            
+        try { // TODO
+            const diariesRes = await diaryApi.getListAllDiaries(DiaryListType.Recent);
+            // setRows(diariesRes.map(diary => ({
+            //     construction: diary.
+            // })))
         }
         catch (ex) {
             setAlert({

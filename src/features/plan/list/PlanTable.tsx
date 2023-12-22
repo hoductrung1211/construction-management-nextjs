@@ -4,13 +4,21 @@ import TableLayout from "@/components/Table/TableLayout";
 import { Order } from "@/utils/functions/sort";
 import { Table, TableContainer, TablePagination } from "@mui/material";
 import { useEffect, useState } from "react";
-import { IPlanData, headCells } from "../constants";
-import PlanTableToolbar from "../PlanTableToolbar";
+import { IPlanData, headCells } from "./constants";
+import PlanTableToolbar from "./PlanTableToolbar";
 import useLoadingAnimation from "@/hooks/useLoadingAnimation";
 import useAlert from "@/hooks/useAlert";
 import TableRow from "@/components/Table/TableRow";
+import planAPI, { PlanListType } from "@/apis/plan";
+import { getVNLocaleDateString } from "@/utils/functions/getLocaleDateString";
 
-export default function OperatingPlanTable() {
+interface IPlanTableProps {
+	planType: PlanListType
+}
+
+export default function PlanTable({
+	planType
+}: IPlanTableProps) {
 	// set up page
 	const setLoading = useLoadingAnimation();
 	const setAlert = useAlert();
@@ -50,7 +58,19 @@ export default function OperatingPlanTable() {
 	async function fetchRecentDiaries() {
 		setLoading(true);
 		try {
+			const plans = await planAPI.getList(planType);
+			
+			const convertedPlans = plans.map(plan => ({
+				construction: "",
+				createdDate: "",
+				plan: plan.planname + " " + plan.planid,
+				planId: plan.planid + "",
+				startDate: getVNLocaleDateString(plan.startdate),
+				endDate: getVNLocaleDateString(plan.enddate),
+			}));
 
+			setRows(convertedPlans);
+			setFilteredRows(convertedPlans);
 		}
 		catch (ex) {
 			setAlert({
@@ -83,6 +103,7 @@ export default function OperatingPlanTable() {
 					{filteredRows.map(row => (
 						<TableRow
 							key={row.planId}
+							href={`/plans/${row.planId}`}
 							cells={[
 								{
 									value: row.construction

@@ -25,6 +25,7 @@ export default function TableRow({
 	return (
 		<MuiTableRow
 			hover
+			className={"bg-gray-50 " + (href && " cursor-pointer") }
 			onClick={handleNavigate}
 		> 
 			{cells.map(cell => (

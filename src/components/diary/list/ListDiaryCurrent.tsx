@@ -19,12 +19,12 @@ export default function ListDiaryCurrent() {
       const lsDiariesRecent: IDiary[] =
         (await diaryApi.getListAllDiariesByConstructionSite(
           filterValue,
-          DiaryListType.Current
+          DiaryListType.Recent
         )) || [];
       setListDiariesResent(lsDiariesRecent);
     } else {
       const lsDiariesRecent: IDiary[] =
-        (await diaryApi.getListAllDiaries(DiaryListType.Current)) || [];
+        (await diaryApi.getListAllDiaries(DiaryListType.Recent)) || [];
       setListDiariesResent(lsDiariesRecent);
     }
   };
@@ -43,7 +43,7 @@ export default function ListDiaryCurrent() {
     const lsDiariesRecent: IDiary[] =
       (await diaryApi.getListAllDiariesByConstructionSite(
         value,
-        DiaryListType.Current
+        DiaryListType.Recent
       )) || [];
 
     setListDiariesResent(lsDiariesRecent);

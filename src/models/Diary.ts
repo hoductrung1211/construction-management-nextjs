@@ -1,4 +1,3 @@
-import dayjs, { Dayjs } from "dayjs";
 import IFile from "./File";
 import { IDiaryHistory } from "./DiaryHistory";
 
