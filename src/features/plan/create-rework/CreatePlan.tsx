@@ -207,7 +207,7 @@ export default function CreatePlan() {
             {costEstimateId ? (
                 <PlanWorkItemLayout
                     onClickChangeView={(newState: "list" | "gantt") => {
-                        setViewState(newState);
+                        //setViewState(newState);
                     }}
                 >
                     {viewState == "list" ? (

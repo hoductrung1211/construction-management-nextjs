@@ -65,4 +65,5 @@ export default interface IDiary {
     totalamountofworkdone: number | 0;
   };
   cmsFiles: IFile[];
+  amountofworkdone: number;
 }

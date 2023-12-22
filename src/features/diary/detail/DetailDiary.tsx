@@ -30,4 +30,3 @@ export default function DetailDiary({ value}:{value: number}){
         </div>
     )
 }
-

@@ -47,7 +47,7 @@ export default function ListDiaries({ lsDiaries,
               <p className=" w-full text-center select-none">
                 {item.cmsPlanTask.mdTask.mdQuantityUnit.quantityunitname}
               </p>
-              <p className=" w-full text-center select-none">{item.cmsProgresses?.amountofworkdone}</p>
+              <p className=" w-full text-center select-none">{item.amountofworkdone}</p>
               <p className=" w-full text-center select-none">{item.dateofdiary}</p>
             </div>
           ))}

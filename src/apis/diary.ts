@@ -6,6 +6,8 @@ import IDiary from "@/models/Diary";
 import IDiaryCreate from "@/models/DiaryCreate";
 import { IDiaryEmployeeDetail } from "@/models/DiaryEmployee";
 import { IDiaryProductDetail } from "@/models/DiaryProduct";
+import { ISaveHistory } from "@/models/ISaveHistory";
+
 
 export const enum DiaryListType {
     WaitingConfirm = 1,
@@ -16,32 +18,16 @@ export const enum DiaryListType {
 }
 
 const diaryApi =  {
-    getWeather: () =>
-        request.get<IWeather[]>(`diary/weathers`),
-    
-    getListAllDiaries: (id: DiaryListType) =>
-        request.get<IDiary[]>(`diary?id=${id}`),
-    
-    getListAllDiariesByConstructionSite: (constructionid: number, id: DiaryListType) =>
-        request.get<IDiary[]>(`diary/search?constructionid=${constructionid}&id=${id}`),
-    
-    getShift: () =>
-        request.get<IShift[]>(`diary/shifts`),
-    
-    getProgressInfo: (plantaskid: number) =>
-        request.get<IProgress>(`diary/progress?plantaskid=${plantaskid}`),
-    
-    saveDiary: (diary: IDiaryCreate) =>
-        request.post<String>(`diary/save`, diary),
-    
-    getDiary: (id: number) =>
-        request.get<IDiary[]>(`diary/search?diaryid=${id}`),
-    
-    getLaborsDetail: (id: number) =>
-        request.get<IDiaryEmployeeDetail[]>(`diary/taskemployee/${id}`),
-
-    getProductsDetail: (id: number) =>
-        request.get<IDiaryProductDetail[]>(`diary/taskproduct/${id}`)
+    getWeather: () => request.get<IWeather[]>(`diary/weathers`),
+    getListAllDiaries: (id:DiaryListType) => request.get<IDiary[]>(`diary?id=${id}`),
+    getListAllDiariesByConstructionSite: (constructionid:number, id: DiaryListType) => request.get<IDiary[]>(`diary/search?constructionid=${constructionid}&id=${id}`),
+    getShift:() => request.get<IShift[]>(`diary/shifts`),
+    getProgressInfo: (plantaskid: number) => request.get<IProgress>(`diary/progress?plantaskid=${plantaskid}`),
+    saveDiary: (diary: IDiaryCreate) => request.post<String>(`diary/save`, diary),
+    getDiary:(id:number) => request.get<IDiary[]>(`diary?diaryid=${id}`),
+    getLaborsDetail: (id:number) => request.get<IDiaryEmployeeDetail[]>(`diary/taskemployee/${id}`),
+    getProductsDetail: (id:number) => request.get<IDiaryProductDetail[]>(`diary/taskproduct/${id}`),
+    saveApprove: (history: ISaveHistory) => request.post<ISaveHistory>(`diary/approve`, history),
 }
 
 export default diaryApi;

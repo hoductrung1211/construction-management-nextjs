@@ -1,4 +1,4 @@
-import { IHeadCell } from "@/components/Table/constants";
+import { IHeadCell } from "@/components/table/constants";
 
 export interface IDiaryData {
     diaryId: string;

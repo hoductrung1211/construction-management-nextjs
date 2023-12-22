@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Icon from "../../Icon";
 import Products, { IProduct } from "./Products";
 import { IDiaryProduct } from "@/models/DiaryProduct";
-import IconButton from "@/components/IconButton";
 
 export interface IProductList {
   products: IProduct[];
@@ -38,26 +37,19 @@ export default function ListProductsDiary({
     newProduct.consumptionAmount = consumptionAmount;
     onChangeProduct(lsproduct);
   }
-
   return (
     <div className=" mt-4 bg-background-color w-full rounded-t-lg">
-      <div className="flex gap-20 justify-between items-center">
-        <div className=" flex justify-between  space-x-2">
+      <div className="flex gap-20 justify-between">
+        <div className=" flex space-x-2">
           <Icon
             className="ml-3 grid place-items-center w-8 h-8 cursor-pointer hover:text-dark "
             name={isShow ? "angle-down" : "angle-right"}
             onClick={handleChangeIsShow}
           />
           <p className="font-semibold text-text-color">
-            Vật tư<span className="ml-4">{lsproduct.length}</span>
+            Vật tư<span className="ml-4 font-thin">{lsproduct.length}</span>
           </p>
-
         </div>
-        <section className="">
-          <IconButton
-            name="rotate"
-          />
-        </section>
       </div>
       {isShow && (
         <div className="listProducts py-3 mx-3 bg-white">
